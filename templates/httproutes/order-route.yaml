@@ -15,4 +15,5 @@ spec:
     backendRefs:
     - name: {{ .Values.routes.orders.service }}
       port: {{ .Values.routes.orders.port }}
+      namespace: {{ .Values.namespaces.application }}
 

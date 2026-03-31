@@ -15,4 +15,5 @@ spec:
     backendRefs:
     - name: {{ .Values.routes.payments.service }}
       port: {{ .Values.routes.payments.port }}
+      namespace: {{ .Values.namespaces.application }}
 

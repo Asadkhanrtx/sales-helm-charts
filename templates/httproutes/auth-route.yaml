@@ -15,3 +15,4 @@ spec:
       backendRefs:
         - name: {{ .Values.routes.auth.service }}
           port: {{ .Values.routes.auth.port }}
+          namespace: {{ .Values.namespaces.application }}
