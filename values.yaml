@@ -12,6 +12,8 @@ configmaps:
   backend:
     name: backend-config
     data:
+      AUTH_SERVICE_URL: http://auth-service:3000
+      NOTIFICATION_SERVICE_URL: http://notification-service:3000
       CUSTOMER_SERVICE_URL: http://customer-service:3000
       ORDER_SERVICE_URL: http://order-service:3000
       INVOICE_SERVICE_URL: http://invoice-service:3000
