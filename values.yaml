@@ -20,7 +20,7 @@ configmaps:
   frontend:
     name: frontend-config
     data:
-      NEXT_PUBLIC_API_URL: http://sales-gateway
+      NEXT_PUBLIC_API_URL: /api/v1
 
 
 # ---------------- SECRETS ----------------
@@ -161,13 +161,20 @@ hpa:
 
 # ---------------- DATABASE ----------------
 
-database:
-  enabled: true
-  image:
-    repository: mysql
-    tag: "8.4"
-  storage:
-    size: 2Gi
+storage:
+  storageClassName: sales-storageclass
+
+  rabbitmq:
+    stsName: rabbitmq
+    volumeName: rabbitmq-pvc
+    replicaCount: 1
+    storageSize: 5Gi
+    accessModes: ReadWriteMany
+    vctName: rabbitmq-data
+    image:
+      repository: rabbitmq
+      tag: 3-management
+  
 
 # ---------------- GATEWAY ----------------
 
@@ -202,6 +209,10 @@ routes:
   payments:
     path: /api/v1/payments
     service: payment-service
+
+  notifications:
+    path: /api/v1/notifications
+    service: notification-service
 
   ui:
     path: /

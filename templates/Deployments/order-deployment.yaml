@@ -27,9 +27,9 @@ spec:
             - containerPort: {{ .Values.order.port }}
           envFrom:
             - secretRef:
-                name: backend-secret
+                name: {{ .Values.secrets.backend.name }}
             - configMapRef:
-                name: backend-config
+                name: {{ .Values.configmaps.backend.name }}
           resources:
             limits:
               memory: {{ .Values.order.resources.limits.memory }}
