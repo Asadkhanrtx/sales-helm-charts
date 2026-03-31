@@ -163,10 +163,16 @@ hpa:
 
 storage:
   storageClassName: sales-storageclass
+  provisioner: nfs.csi.k8s.io
+  parameters:
+    server: 172.31.10.228
+    share: /var/nfs/sales-microservice/test
+  reclaimPolicy: Retain
+  volumeBindingMode: Immediate
 
   rabbitmq:
     stsName: rabbitmq
-    volumeName: rabbitmq-pvc
+    volumeMountPath: /var/lib/rabbitmq
     replicaCount: 1
     storageSize: 5Gi
     accessModes: ReadWriteMany
@@ -174,6 +180,18 @@ storage:
     image:
       repository: rabbitmq
       tag: 3-management
+
+
+  mysql:
+    stsName: mysql-db
+    volumeMountPath: /var/lib/mysql
+    replicaCount: 1
+    storageSize: 5Gi
+    accessModes: ReadWriteMany
+    vctName: mysql-data
+    image:
+      repository: mysql
+      tag: 8.4
   
 
 # ---------------- GATEWAY ----------------
@@ -231,3 +249,11 @@ routes:
     path: /
     service: sales-ui-service
     port: 8000
+
+  mysql:
+    service: mysql-service
+    port: 3306
+
+  rabbitmq:
+    service: rabbitmq-service
+    port: 5672

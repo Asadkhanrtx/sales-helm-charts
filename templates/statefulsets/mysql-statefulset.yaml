@@ -1,13 +1,13 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: mysql-db
-  namespace: sales-test-ns
+  name: {{ .Values.storage.mysql.stsName }}
+  namespace: {{ .Values.namespaces.application }}
   labels:
     app: mysql
 spec:
-  serviceName: mysql-db
-  replicas: 1
+  serviceName: {{ .Values.routes.mysql.service }}
+  replicas: {{ .Values.storage.mysql.replicaCount }}
 
   selector:
     matchLabels:
@@ -21,26 +21,26 @@ spec:
     spec:
       containers:
         - name: mysql
-          image: mysql:8.4
+          image: {{ .Values.storage.mysql.image.repository }}:{{ .Values.storage.mysql.image.tag }}
 
           ports:
             - containerPort: 3306
 
           envFrom:
             - secretRef:
-                name: mysql-secret
+                name: {{ .Values.secrets.mysql.name }}
 
           volumeMounts:
             - name: mysql-data
-              mountPath: /var/lib/mysql
+              mountPath: {{ .Values.storage.mysql.volumeMountPath }}
 
   volumeClaimTemplates:
   - metadata:
-      name: mysql-data
+      name: {{ .Values.storage.mysql.vctName }}
     spec:
-      storageClassName: sales-storageclass
+      storageClassName: {{ .Values.storage.storageClassName }}
       accessModes:
-      - ReadWriteMany
+      - {{ .Values.storage.mysql.accessModes }}
       resources:
         requests:
-          storage: 5Gi
+          storage: {{ .Values.storage.mysql.storageSize }}

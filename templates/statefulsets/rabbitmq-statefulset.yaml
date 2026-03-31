@@ -1,12 +1,12 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: rabbitmq
-  namespace: sales-test-ns
+  name: {{ .Values.storage.rabbitmq.stsName }}
+  namespace: {{ .Values.namespaces.application }}
   labels:
     app: rabbitmq
 spec:
-  serviceName: rabbitmq
+  serviceName: {{ .Values.routes.rabbitmq.service }}
   replicas: 1
  
   selector:
@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: rabbitmq
-          image: rabbitmq:3-management
+          image: {{ .Values.storage.rabbitmq.image.repository }}:{{ .Values.storage.rabbitmq.image.tag }}
  
           ports:
             - containerPort: 5672
@@ -29,19 +29,19 @@ spec:
  
           envFrom:
             - secretRef:
-                name: rabbitmq-secret
+                name: {{ .Values.secrets.rabbitmq.name }}
  
           volumeMounts:
             - name: rabbitmq-data
-              mountPath: /var/lib/rabbitmq
+              mountPath: {{ .Values.storage.rabbitmq.volumeMountPath }}
  
   volumeClaimTemplates:
     - metadata:
         name: rabbitmq-data
       spec:
-        storageClassName: sales-storageclass
+        storageClassName: {{ .Values.storage.storageClassName }}
         accessModes:
-          - ReadWriteMany
+          - {{ .Values.storage.rabbitmq.accessModes }}
         resources:
           requests:
-            storage: 5Gi
+            storage: {{ .Values.storage.rabbitmq.storageSize }}
