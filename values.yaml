@@ -74,11 +74,11 @@ auth:
     tag: v1.2.2
   resources:
     requests:
+      cpu: "50m"
+      memory: "128Mi"
+    limits:
       cpu: "100m"
       memory: "256Mi"
-    limits:
-      cpu: "200m"
-      memory: "512Mi"
 
 customer:
   name: customers-deployment
@@ -89,11 +89,11 @@ customer:
     tag: v1.2.2
   resources:
     requests:
+      cpu: "50m"
+      memory: "128Mi"
+    limits:
       cpu: "100m"
       memory: "256Mi"
-    limits:
-      cpu: "200m"
-      memory: "512Mi"
 
 order:
   name: order-deployment
@@ -104,11 +104,11 @@ order:
     tag: v1.2.2
   resources:
     requests:
+      cpu: "50m"
+      memory: "128Mi"
+    limits:
       cpu: "100m"
       memory: "256Mi"
-    limits:
-      cpu: "200m"
-      memory: "512Mi"
 
 invoice:
   name: invoice-deployment
@@ -119,11 +119,11 @@ invoice:
     tag: v1.1.1
   resources:
     requests:
+      cpu: "50m"
+      memory: "128Mi"
+    limits:
       cpu: "100m"
       memory: "256Mi"
-    limits:
-      cpu: "200m"
-      memory: "512Mi"
 
 payment:
   name: payment-deployment
@@ -134,11 +134,11 @@ payment:
     tag: v1.1.1
   resources:
     requests:
+      cpu: "50m"
+      memory: "128Mi"
+    limits:
       cpu: "100m"
       memory: "256Mi"
-    limits:
-      cpu: "200m"
-      memory: "512Mi"
 
 notifications:
   name: notification-deployment
@@ -149,11 +149,11 @@ notifications:
     tag: v1.0.2
   resources:
     requests:
+      cpu: "50m"
+      memory: "128Mi"
+    limits:
       cpu: "100m"
       memory: "256Mi"
-    limits:
-      cpu: "200m"
-      memory: "512Mi"
 
 salesUi:
   name: sales-ui-deployment
@@ -164,11 +164,11 @@ salesUi:
     tag: v1.1.5
   resources:
     requests:
-      cpu: "100m"
-      memory: "512Mi"
+      cpu: "50m"
+      memory: "128Mi"
     limits:
-      cpu: "250m"
-      memory: "720Mi"
+      cpu: "100m"
+      memory: "256Mi"
 
 # ---------------- HPA ----------------
 
