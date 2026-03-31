@@ -1,8 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: payment-deployment
-  namespace: sales-test-ns
+  name: {{ .Values.payment.name }}
+  namespace: {{ .Values.namespaces.application }}
   labels:
     app: payment
 spec:

@@ -1,8 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: invoice-deployment
-  namespace: sales-test-ns
+  name: {{ .Values.invoice.name }}
+  namespace: {{ .Values.namespaces.application }}
   labels:
     app: invoice
 spec:
