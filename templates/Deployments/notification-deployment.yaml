@@ -1,3 +1,44 @@
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: {{ .Values.notifications.name }}
+#   namespace: {{ .Values.namespaces.application }}
+#   labels:
+#     app: notification
+# spec:
+#   replicas: 2
+#   strategy:
+#     type: RollingUpdate
+#     rollingUpdate:
+#       maxUnavailable: 1
+#       maxSurge: 1
+#   selector:
+#     matchLabels:
+#       app: notification-microservice
+#   template:
+#     metadata:
+#       labels:
+#         app: notification-microservice
+#     spec:
+#       containers:
+#         - name: notification-container
+#           image: {{ .Values.notifications.image.repository }}:{{ .Values.notifications.image.tag }}
+#           ports:
+#             - containerPort: {{ .Values.notifications.port }}
+#           envFrom:
+#             - secretRef:
+#                 name: notification-secret
+#             - secretRef:
+#                 name: backend-secret
+#             - configMapRef:
+#                 name: {{  .Values.configmaps.backend.name }}
+#           resources:
+#             limits:
+#               cpu: {{ .Values.notifications.resources.limits.cpu }}
+#               memory: {{ .Values.notifications.resources.limits.memory }}
+#             requests:
+#               cpu: {{ .Values.notifications.resources.requests.cpu }}
+#               memory: {{ .Values.notifications.resources.requests.memory }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -19,19 +60,35 @@ spec:
     metadata:
       labels:
         app: notification-microservice
+      annotations:
+        vault.hashicorp.com/agent-inject: "true"
+        vault.hashicorp.com/role: "backend-role"
+        vault.hashicorp.com/agent-inject-secret-config: "secret/data/notification"
+        vault.hashicorp.com/agent-inject-template-config: |
+          {{- with secret "secret/data/notification" -}}
+          SMTP_HOST={{ .Data.data.SMTP_HOST }}
+          SMTP_PORT={{ .Data.data.SMTP_PORT }}
+          SMTP_USER={{ .Data.data.SMTP_USER }}
+          SMTP_PASS={{ .Data.data.SMTP_PASS }}
+          FROM_EMAIL={{ .Data.data.FROM_EMAIL }}
+          FROM_NAME={{ .Data.data.FROM_NAME }}
+          {{- end }}
     spec:
+      serviceAccountName: backend-sa
       containers:
         - name: notification-container
           image: {{ .Values.notifications.image.repository }}:{{ .Values.notifications.image.tag }}
           ports:
             - containerPort: {{ .Values.notifications.port }}
+
+          env:
+            - name: VAULT_CONFIG_PATH
+              value: /vault/secrets/config
+
           envFrom:
-            - secretRef:
-                name: notification-secret
-            - secretRef:
-                name: backend-secret
             - configMapRef:
                 name: {{  .Values.configmaps.backend.name }}
+
           resources:
             limits:
               cpu: {{ .Values.notifications.resources.limits.cpu }}
