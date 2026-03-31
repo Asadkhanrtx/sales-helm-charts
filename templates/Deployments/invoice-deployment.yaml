@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: invoice-deployment
+  namespace: sales-test-ns
+  labels:
+    app: invoice
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: invoice-microservice
+  template:
+    metadata:
+      labels:
+        app: invoice-microservice
+    spec:
+      containers:
+      - name: invoice-container
+        image: kubectlandchill/sales-invoice-service:v1.1.0
+        ports:
+        - containerPort: 3000
+        envFrom:
+        - secretRef:
+            name: backend-secret
+        - configMapRef:
+            name: backend-config
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "200m"
+          requests:
+            memory: "256Mi"
+            cpu: "100m"

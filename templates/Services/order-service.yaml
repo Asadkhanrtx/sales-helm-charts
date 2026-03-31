@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: order-service
+  namespace: sales-test-ns
+  labels:
+    app: order
+spec:
+  type: ClusterIP
+  selector:
+    app: order-microservice
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP

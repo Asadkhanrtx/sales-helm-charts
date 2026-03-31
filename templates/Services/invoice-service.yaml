@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: invoice-service
+  namespace: sales-test-ns
+  labels:
+    app: invoice
+spec:
+  type: ClusterIP
+  selector:
+    app: invoice-microservice
+  ports:
+  - port: 3000
+    targetPort: 3000
+    protocol: TCP

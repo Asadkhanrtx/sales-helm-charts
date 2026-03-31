@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: sales-ui-service
+  namespace: sales-test-ns
+  labels:
+    app: sales-ui 
+spec:
+  type: ClusterIP
+  selector:
+    app: sales-ui
+  ports:
+    - port: 8000
+      targetPort: 3000
+      protocol: TCP

@@ -1,8 +1,0 @@
-
-service - pod cont port - service port 
-auth-service - 3000 - 3000
-customer-service - 3000 - 3000
-invoice-service - 3000 - 3000
-order-service - 3000 - 3000
-payment-service - 3000 - 3000
-frontend-service - 3000 - 8000

@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: customer-service
+  namespace: sales-test-ns
+  labels:
+    app: customers
+spec:
+  type: ClusterIP
+  selector:
+    app: customers-microservice
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+      
