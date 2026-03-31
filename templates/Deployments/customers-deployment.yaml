@@ -1,42 +1,3 @@
-# apiVersion: apps/v1
-# kind: Deployment
-# metadata:
-#   name: {{ .Values.customer.name }}
-#   namespace: {{ .Values.namespaces.application }}
-#   labels:
-#     app: customers
-# spec:
-#   replicas: {{ .Values.customer.replicaCount }}
-#   strategy:
-#     type: RollingUpdate
-#     rollingUpdate:
-#       maxUnavailable: 1
-#       maxSurge: 1
-#   selector:
-#     matchLabels:
-#       app: customers-microservice
-#   template:
-#     metadata:
-#       labels:
-#         app: customers-microservice
-#     spec:
-#       containers:
-#         - name: customers-container
-#           image: {{ .Values.customer.image.repository }}:{{ .Values.customer.image.tag }}
-#           resources:
-#             limits:
-#               memory: {{ .Values.customer.resources.limits.memory }}
-#               cpu: {{ .Values.customer.resources.limits.cpu }}
-#             requests:
-#               memory: {{ .Values.customer.resources.requests.memory }}
-#               cpu: {{ .Values.customer.resources.requests.cpu }}
-#           ports:
-#             - containerPort: {{ .Values.customer.port }}
-#           envFrom:
-#             - secretRef:
-#                 name: backend-secret
-#             - configMapRef:
-#                 name: {{ .Values.configmaps.backend.name }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -63,14 +24,14 @@ spec:
         vault.hashicorp.com/role: "backend-role"
         vault.hashicorp.com/agent-inject-secret-config: "secret/data/backend"
         vault.hashicorp.com/agent-inject-template-config: |
-          {{- with secret "secret/data/backend" -}}
-          DATABASE_URL={{ .Data.data.DATABASE_URL }}
-          JWT_SECRET_KEY={{ .Data.data.JWT_SECRET_KEY }}
-          RABBITMQ_URL={{ .Data.data.RABBITMQ_URL }}
-          ENVIRONMENT={{ .Data.data.ENVIRONMENT }}
-          ACCESS_TOKEN_EXPIRE_MINUTES={{ .Data.data.ACCESS_TOKEN_EXPIRE_MINUTES }}
-          API_URL={{ .Data.data.API_URL }}
-          {{- end }}
+          {{`{{- with secret "secret/data/backend" -}}`}}
+          DATABASE_URL={{`{{ .Data.data.DATABASE_URL }}`}}
+          JWT_SECRET_KEY={{`{{ .Data.data.JWT_SECRET_KEY }}`}}
+          RABBITMQ_URL={{`{{ .Data.data.RABBITMQ_URL }}`}}
+          ENVIRONMENT={{`{{ .Data.data.ENVIRONMENT }}`}}
+          ACCESS_TOKEN_EXPIRE_MINUTES={{`{{ .Data.data.ACCESS_TOKEN_EXPIRE_MINUTES }}`}}
+          API_URL={{`{{ .Data.data.API_URL }}`}}
+          {{`{{- end }}`}}
     spec:
       serviceAccountName: backend-sa
       containers:

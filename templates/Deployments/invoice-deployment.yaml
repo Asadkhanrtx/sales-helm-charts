@@ -1,42 +1,3 @@
-# apiVersion: apps/v1
-# kind: Deployment
-# metadata:
-#   name: {{ .Values.invoice.name }}
-#   namespace: {{ .Values.namespaces.application }}
-#   labels:
-#     app: invoice
-# spec:
-#   replicas: {{ .Values.invoice.replicaCount }}
-#   strategy:
-#     type: RollingUpdate
-#     rollingUpdate:
-#       maxUnavailable: 1
-#       maxSurge: 1
-#   selector:
-#     matchLabels:
-#       app: invoice-microservice
-#   template:
-#     metadata:
-#       labels:
-#         app: invoice-microservice
-#     spec:
-#       containers:
-#       - name: invoice-container
-#         image: {{ .Values.invoice.image.repository }}:{{ .Values.invoice.image.tag }}
-#         ports:
-#         - containerPort: {{ .Values.invoice.port }}
-#         envFrom:
-#         - secretRef:
-#             name: backend-secret
-#         - configMapRef:
-#             name: {{ .Values.configmaps.backend.name }}
-#         resources:
-#           limits:
-#             memory: {{ .Values.invoice.resources.limits.memory }}
-#             cpu: {{ .Values.invoice.resources.limits.cpu }}
-#           requests:
-#             memory: {{ .Values.invoice.resources.requests.memory }}
-#             cpu: {{ .Values.invoice.resources.requests.cpu }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -63,34 +24,34 @@ spec:
         vault.hashicorp.com/role: "backend-role"
         vault.hashicorp.com/agent-inject-secret-config: "secret/data/backend"
         vault.hashicorp.com/agent-inject-template-config: |
-          {{- with secret "secret/data/backend" -}}
-          DATABASE_URL={{ .Data.data.DATABASE_URL }}
-          JWT_SECRET_KEY={{ .Data.data.JWT_SECRET_KEY }}
-          RABBITMQ_URL={{ .Data.data.RABBITMQ_URL }}
-          ENVIRONMENT={{ .Data.data.ENVIRONMENT }}
-          ACCESS_TOKEN_EXPIRE_MINUTES={{ .Data.data.ACCESS_TOKEN_EXPIRE_MINUTES }}
-          API_URL={{ .Data.data.API_URL }}
-          {{- end }}
+          {{`{{- with secret "secret/data/backend" -}}`}}
+          DATABASE_URL={{`{{ .Data.data.DATABASE_URL }}`}}
+          JWT_SECRET_KEY={{`{{ .Data.data.JWT_SECRET_KEY }}`}}
+          RABBITMQ_URL={{`{{ .Data.data.RABBITMQ_URL }}`}}
+          ENVIRONMENT={{`{{ .Data.data.ENVIRONMENT }}`}}
+          ACCESS_TOKEN_EXPIRE_MINUTES={{`{{ .Data.data.ACCESS_TOKEN_EXPIRE_MINUTES }}`}}
+          API_URL={{`{{ .Data.data.API_URL }}`}}
+          {{`{{- end }}`}}
     spec:
       serviceAccountName: backend-sa
       containers:
-      - name: invoice-container
-        image: {{ .Values.invoice.image.repository }}:{{ .Values.invoice.image.tag }}
-        ports:
-        - containerPort: {{ .Values.invoice.port }}
+        - name: invoice-container
+          image: {{ .Values.invoice.image.repository }}:{{ .Values.invoice.image.tag }}
+          ports:
+            - containerPort: {{ .Values.invoice.port }}
 
-        env:
-          - name: VAULT_CONFIG_PATH
-            value: /vault/secrets/config
+          env:
+            - name: VAULT_CONFIG_PATH
+              value: /vault/secrets/config
 
-        envFrom:
-        - configMapRef:
-            name: {{ .Values.configmaps.backend.name }}
+          envFrom:
+            - configMapRef:
+                name: {{ .Values.configmaps.backend.name }}
 
-        resources:
-          limits:
-            memory: {{ .Values.invoice.resources.limits.memory }}
-            cpu: {{ .Values.invoice.resources.limits.cpu }}
-          requests:
-            memory: {{ .Values.invoice.resources.requests.memory }}
-            cpu: {{ .Values.invoice.resources.requests.cpu }}
+          resources:
+            limits:
+              memory: {{ .Values.invoice.resources.limits.memory }}
+              cpu: {{ .Values.invoice.resources.limits.cpu }}
+            requests:
+              memory: {{ .Values.invoice.resources.requests.memory }}
+              cpu: {{ .Values.invoice.resources.requests.cpu }}
