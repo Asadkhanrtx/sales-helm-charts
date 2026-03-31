@@ -191,29 +191,43 @@ gateway:
 
 routes:
   auth:
+    routeName: auth-route
     path: /api/v1/auth
     service: auth-service
+    port: 3000
 
   customers:
+    routeName: customer-route
     path: /api/v1/customers
     service: customer-service
+    port: 3000
 
   orders:
+    routeName: order-route
     path: /api/v1/orders
     service: order-service
+    port: 3000
 
   invoices:
+    routeName: invoice-route
     path: /api/v1/invoices
     service: invoice-service
+    port: 3000
 
   payments:
+    routeName: payment-route
     path: /api/v1/payments
     service: payment-service
+    port: 3000
 
   notifications:
+    routeName: notifications-route
     path: /api/v1/notifications
     service: notification-service
+    port: 3000
 
   ui:
+    routeName: frontend-route
     path: /
     service: sales-ui-service
+    port: 8000

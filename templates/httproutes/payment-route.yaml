@@ -1,24 +1,18 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-    name: payment-route
-    namespace: sales-test-ns
+    name: {{ .Values.routes.payments.routeName }}
+    namespace: {{ .Values.namespaces.application }}
 spec:
   parentRefs:
-  - name: sales-gateway
-    namespace: sales-gateway-ns
+  - name: {{ .Values.gateway.name }}
+    namespace: {{ .Values.namespaces.gateway }}
   rules:
   - matches:
     - path: 
         type: PathPrefix
-        value: /api/payment
-    filters:
-    - type: URLRewrite
-      urlRewrite:
-        path:
-          type: ReplacePrefixMatch
-          replacePrefixMatch: /payment
+        value: {{ .Values.routes.payments.path }}
     backendRefs:
-    - name: payment-service
-      port: 3000
+    - name: {{ .Values.routes.payments.service }}
+      port: {{ .Values.routes.payments.port }}
 
