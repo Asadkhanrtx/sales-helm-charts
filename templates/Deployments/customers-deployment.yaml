@@ -6,7 +6,7 @@ metadata:
   labels:
     app: customers
 spec:
-  replicas: 2
+  replicas: {{ .Values.customer.replicaCount }}
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -22,18 +22,18 @@ spec:
     spec:
       containers:
         - name: customers-container
-          image: kubectlandchill/sales-customer-service:v1.1.0
+          image: {{ .Values.customer.image.repository }}:{{ .Values.customer.image.tag }}
           resources:
             limits:
-              memory: "512Mi"
-              cpu: "200m"
+              memory: {{ .Values.customer.resources.limits.memory }}
+              cpu: {{ .Values.customer.resources.limits.cpu }}
             requests:
-              memory: "256Mi"
-              cpu: "100m"
+              memory: {{ .Values.customer.resources.requests.memory }}
+              cpu: {{ .Values.customer.resources.requests.cpu }}
           ports:
-            - containerPort: 3000
+            - containerPort: {{ .Values.customer.port }}
           envFrom:
             - secretRef:
-                name: backend-secret
+                name: {{ .Values.secrets.backend.name }}
             - configMapRef:
-                name: backend-config
+                name: {{ .Values.configmaps.backend.name }}

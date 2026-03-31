@@ -6,7 +6,7 @@ metadata:
   labels:
     app: invoice
 spec:
-  replicas: 2
+  replicas: {{ .Values.invoice.replicaCount }}
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -22,9 +22,9 @@ spec:
     spec:
       containers:
       - name: invoice-container
-        image: kubectlandchill/sales-invoice-service:v1.1.0
+        image: {{ .Values.invoice.image.repository }}:{{ .Values.invoice.image.tag }}
         ports:
-        - containerPort: 3000
+        - containerPort: {{ .Values.invoice.port }}
         envFrom:
         - secretRef:
             name: backend-secret
@@ -32,8 +32,8 @@ spec:
             name: backend-config
         resources:
           limits:
-            memory: "512Mi"
-            cpu: "200m"
+            memory: {{ .Values.invoice.resources.limits.memory }}
+            cpu: {{ .Values.invoice.resources.limits.cpu }}
           requests:
-            memory: "256Mi"
-            cpu: "100m"
+            memory: {{ .Values.invoice.resources.requests.memory }}
+            cpu: {{ .Values.invoice.resources.requests.cpu }}

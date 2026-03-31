@@ -6,7 +6,7 @@ metadata:
   labels:
     app: order
 spec:
-  replicas: 2
+  replicas: {{ .Values.order.replicaCount }}
   strategy:
     type: RollingUpdate
     rollingUpdate: 
@@ -22,9 +22,9 @@ spec:
     spec:
       containers:
         - name: order-container
-          image: kubectlandchill/sales-order-service:v1.1.3
+          image: {{ .Values.order.image.repository }}:{{ .Values.order.image.tag }}
           ports:
-            - containerPort: 3000
+            - containerPort: {{ .Values.order.port }}
           envFrom:
             - secretRef:
                 name: backend-secret
@@ -32,8 +32,8 @@ spec:
                 name: backend-config
           resources:
             limits:
-              memory: "512Mi"
-              cpu: "200m"
+              memory: {{ .Values.order.resources.limits.memory }}
+              cpu: {{ .Values.order.resources.limits.cpu }}
             requests:
-              memory: "256Mi"
-              cpu: "100m"
+              memory: {{ .Values.order.resources.requests.memory }}
+              cpu: {{ .Values.order.resources.requests.cpu }}

@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: frontend-config
-  namespace: sales-test-ns
+  name: {{ .Values.configmaps.frontend.name }}
+  namespace: {{ .Values.namespaces.application }}
 data:
-  NEXT_PUBLIC_API_URL: http://sales-gateway
+  NEXT_PUBLIC_API_URL: {{ .Values.configmaps.frontend.data.NEXT_PUBLIC_API_URL }}

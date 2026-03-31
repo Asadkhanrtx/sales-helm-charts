@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: backend-config
-  namespace: sales-test-ns
+  name: {{ .Values.configmaps.backend.name }}
+  namespace: {{ .Values.namespaces.application }}
 data:
-  CUSTOMER_SERVICE_URL: http://customer-service:3000
-  ORDER_SERVICE_URL: http://order-service:3000
-  INVOICE_SERVICE_URL: http://invoice-service:3000
+  CUSTOMER_SERVICE_URL: {{ .Values.configmaps.backend.data.CUSTOMER_SERVICE_URL }}
+  ORDER_SERVICE_URL: {{ .Values.configmaps.backend.data.ORDER_SERVICE_URL }}
+  INVOICE_SERVICE_URL: {{ .Values.configmaps.backend.data.INVOICE_SERVICE_URL }}

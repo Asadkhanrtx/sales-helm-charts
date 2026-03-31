@@ -6,7 +6,7 @@ metadata:
   labels:
     app: sales-ui 
 spec:
-  replicas: 2
+  replicas: {{ .Values.salesUi.replicaCount }}
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -22,18 +22,18 @@ spec:
     spec:
       containers:
         - name: sales-ui-container
-          image: kubectlandchill/sales-invoice-ui:v1.1.3
+          image: {{ .Values.salesUi.image.repository }}:{{ .Values.salesUi.image.tag }}
           ports:
-            - containerPort: 3000
+            - containerPort: {{ .Values.salesUi.port }}
           resources:
             requests:
-              cpu: "100m"
-              memory: "512Mi"
+              cpu: {{ .Values.salesUi.resources.requests.cpu }}
+              memory: {{ .Values.salesUi.resources.requests.memory }}
             limits:
-              cpu: "250m"
-              memory: "720Mi"
+              cpu: {{ .Values.salesUi.resources.limits.cpu }}
+              memory: {{ .Values.salesUi.resources.limits.memory }}
           envFrom:
             - secretRef:
-                name: backend-secret
+                name: {{ .Values.secrets.frontend.name }}
             - configMapRef:
-                name: backend-config
+                name: {{ .Values.configmaps.frontend.name }}

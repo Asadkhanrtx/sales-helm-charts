@@ -6,7 +6,7 @@ metadata:
   labels:
     app: payment
 spec:
-  replicas: 2
+  replicas: {{ .Values.payment.replicaCount }}
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -22,16 +22,16 @@ spec:
     spec:
       containers:
         - name: payment-container
-          image: kubectlandchill/sales-payment-service:v1.1.0
+          image: {{ .Values.payment.image.repository }}:{{ .Values.payment.image.tag }}
           ports:
-            - containerPort: 3000
+            - containerPort: {{ .Values.payment.port }}
           resources:
             limits:
-              memory: "512Mi"
-              cpu: "200m"
+              memory: {{ .Values.payment.resources.limits.memory }}
+              cpu: {{ .Values.payment.resources.limits.cpu }}
             requests:
-              memory: "256Mi"
-              cpu: "100m"
+              memory: {{ .Values.payment.resources.requests.memory }}
+              cpu: {{ .Values.payment.resources.requests.cpu }}
           envFrom:
             - secretRef:
                 name: backend-secret

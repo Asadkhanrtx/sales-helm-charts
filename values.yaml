@@ -6,6 +6,51 @@ namespaces:
   application: sales-test-ns
   gateway: sales-gateway-ns
 
+# ---------------- CONFIGMAPS ----------------
+
+configmaps:
+  backend:
+    name: backend-config
+    data:
+      CUSTOMER_SERVICE_URL: http://customer-service:3000
+      ORDER_SERVICE_URL: http://order-service:3000
+      INVOICE_SERVICE_URL: http://invoice-service:3000
+      PAYMENT_SERVICE_URL: http://payment-service:3000
+
+  frontend:
+    name: frontend-config
+    data:
+      NEXT_PUBLIC_API_URL: http://sales-gateway
+
+
+# ---------------- SECRETS ----------------
+
+secrets:
+
+  backend:
+    name: backend-secret
+    data:
+      DATABASE_URL: mysql+pymysql://salesuser:salespassword@mysql-db:3306/sales_db
+      JWT_SECRET_KEY: djnjenjnejnjdennekwnkndekwnkjndejkwnjkdnekwjndjkwnekjdnekjwndkjnwekndkwenkjdnwekjncdjnjnjdn
+      ENVIRONMENT: production
+      ACCESS_TOKEN_EXPIRE_MINUTES: "360"
+      RABBITMQ_URL: amqp://salesuser:salespassword@rabbitmq:5672/
+      API_URL: /api/v1
+
+    mysql:
+      name: mysql-secret
+      data:
+        MYSQL_ROOT_PASSWORD: rootpassword
+        MYSQL_DATABASE: sales_db
+        MYSQL_USER: salesuser
+        MYSQL_PASSWORD: salespassword
+
+    rabbitmq:
+      name: rabbitmq-secret
+      data:
+        RABBITMQ_DEFAULT_USER: salesuser
+        RABBITMQ_DEFAULT_PASS: salespassword
+
 # ---------------- SERVICES ----------------
 
 auth:
