@@ -1,8 +1,0 @@
-global:
-  environment: dev
-
-auth:
-  replicaCount: 1
-
-hpa:
-  enabled: false
