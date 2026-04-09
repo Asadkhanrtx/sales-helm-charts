@@ -1,0 +1,20 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: {{ .Values.routes.invoices.routeName }}
+  namespace: {{ .Values.namespaces.application }}
+spec:
+  parentRefs:
+  - name: {{ .Values.gateway.gatewayName }}
+    namespace: {{ .Values.namespaces.gateway }}
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: {{ .Values.routes.invoices.path }}
+    backendRefs:
+    - name: {{ .Values.routes.invoices.service }}
+      port: {{ .Values.routes.invoices.port }}
+      namespace: {{ .Values.namespaces.application }}
+
+      

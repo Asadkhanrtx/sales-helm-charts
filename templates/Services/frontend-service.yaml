@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.routes.ui.service }}
+  namespace: {{ .Values.namespaces.application }}
+  labels:
+    app: sales-ui 
+spec:
+  type: ClusterIP
+  selector:
+    app: sales-ui
+  ports:
+    - port: 8000
+      targetPort: 3000
+      protocol: TCP

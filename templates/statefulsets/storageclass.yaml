@@ -1,0 +1,10 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: {{ .Values.storage.storageClassName }}
+provisioner: {{ .Values.storage.provisioner }}
+parameters:
+  server: {{ .Values.storage.parameters.server }}
+  share: {{ .Values.storage.parameters.share }}
+reclaimPolicy: {{ .Values.storage.reclaimPolicy }}
+volumeBindingMode: {{ .Values.storage.volumeBindingMode }}

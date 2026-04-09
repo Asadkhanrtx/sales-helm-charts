@@ -1,0 +1,56 @@
+replicaCount: 2
+
+image:
+  repository: kubectlandchill/sales-order-service
+  tag: v1.1.3
+  pullPolicy: IfNotPresent
+
+containerPort: 3000
+
+service:
+  type: ClusterIP
+  port: 3000
+
+resources:
+  limits:
+    cpu: "200m"
+    memory: "512Mi"
+  requests:
+    cpu: "100m"
+    memory: "256Mi"
+
+config:
+  CUSTOMER_SERVICE_URL: http://customer-service:3000
+  ORDER_SERVICE_URL: http://order-service:3000
+  INVOICE_SERVICE_URL: http://invoice-service:3000
+
+secret:
+  enabled: true
+  data:
+    DATABASE_URL: mysql+pymysql://salesuser:salespassword@mysql-db:3306/sales_db
+    JWT_SECRET_KEY: ""
+    ENVIRONMENT: production
+    ACCESS_TOKEN_EXPIRE_MINUTES: "360"
+    RABBITMQ_URL: amqp://salesuser:salespassword@rabbitmq:5672/
+    API_URL: /api/v1
+
+existingSecret: ""
+
+serviceAccount:
+  create: false
+  name: ""
+
+namespaceOverride: ""
+
+httpRoute:
+  enabled: true
+
+  parentRefs:
+    - name: sales-gateway
+      namespace: sales-gateway-ns
+
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /api/v1/orders

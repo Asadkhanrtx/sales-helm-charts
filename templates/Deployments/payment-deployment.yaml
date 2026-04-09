@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.payment.name }}
+  namespace: {{ .Values.namespaces.application }}
+  labels:
+    app: payment
+spec:
+  replicas: {{ .Values.payment.replicaCount }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: payment-microservice
+  template:
+    metadata:
+      labels:
+        app: payment-microservice
+    spec:
+      containers:
+        - name: payment-container
+          image: {{ .Values.payment.image.repository }}:{{ .Values.payment.image.tag }}
+          ports:
+            - containerPort: {{ .Values.payment.port }}
+          resources:
+            limits:
+              memory: {{ .Values.payment.resources.limits.memory }}
+              cpu: {{ .Values.payment.resources.limits.cpu }}
+            requests:
+              memory: {{ .Values.payment.resources.requests.memory }}
+              cpu: {{ .Values.payment.resources.requests.cpu }}
+          envFrom:
+            - secretRef:
+                name: backend-secret
+            - configMapRef:
+                name: {{ .Values.configmaps.backend.name }}

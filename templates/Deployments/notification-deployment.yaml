@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.notifications.name }}
+  namespace: {{ .Values.namespaces.application }}
+  labels:
+    app: notification
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: notification-microservice
+  template:
+    metadata:
+      labels:
+        app: notification-microservice
+    spec:
+      containers:
+        - name: notification-container
+          image: {{ .Values.notifications.image.repository }}:{{ .Values.notifications.image.tag }}
+          ports:
+            - containerPort: {{ .Values.notifications.port }}
+          envFrom:
+            - secretRef:
+                name: notification-secret
+            - secretRef:
+                name: backend-secret
+            - configMapRef:
+                name: {{  .Values.configmaps.backend.name }}
+          resources:
+            limits:
+              cpu: {{ .Values.notifications.resources.limits.cpu }}
+              memory: {{ .Values.notifications.resources.limits.memory }}
+            requests:
+              cpu: {{ .Values.notifications.resources.requests.cpu }}
+              memory: {{ .Values.notifications.resources.requests.memory }}

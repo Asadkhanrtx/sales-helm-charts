@@ -1,0 +1,57 @@
+global:
+  environment: uat
+
+namespaces:
+  application: sales-test-ns
+  gateway: sales-gateway-ns
+
+auth:
+  replicaCount: 2
+  image:
+    repository: kubectlandchill/auth
+    tag: uat
+
+customer:
+  replicaCount: 2
+  image:
+    repository: kubectlandchill/customer
+    tag: uat
+
+order:
+  replicaCount: 2
+  image:
+    repository: kubectlandchill/order
+    tag: uat
+
+invoice:
+  replicaCount: 2
+  image:
+    repository: kubectlandchill/invoice
+    tag: uat
+
+payment:
+  replicaCount: 2
+  image:
+    repository: kubectlandchill/payment
+    tag: uat
+
+salesUi:
+  replicaCount: 2
+  image:
+    repository: kubectlandchill/sales-invoice-ui
+    tag: uat
+  port: 3000
+
+hpa:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 5
+  cpuUtilization: 70
+
+resources:
+  requests:
+    cpu: "100m"
+    memory: "256Mi"
+  limits:
+    cpu: "300m"
+    memory: "512Mi"

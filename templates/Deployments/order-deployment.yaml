@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.order.name }}
+  namespace: {{ .Values.namespaces.application }}
+  labels:
+    app: order
+spec:
+  replicas: {{ .Values.order.replicaCount }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate: 
+      maxUnavailable: 1
+      maxSurge: 1
+  selector:
+      matchLabels:
+        app: order-microservice
+  template:
+    metadata:
+      labels:
+        app: order-microservice
+    spec:
+      containers:
+        - name: order-container
+          image: {{ .Values.order.image.repository }}:{{ .Values.order.image.tag }}
+          ports:
+            - containerPort: {{ .Values.order.port }}
+          envFrom:
+            - secretRef:
+                name: backend-secret
+            - configMapRef:
+                name: {{ .Values.configmaps.backend.name }}
+          resources:
+            limits:
+              memory: {{ .Values.order.resources.limits.memory }}
+              cpu: {{ .Values.order.resources.limits.cpu }}
+            requests:
+              memory: {{ .Values.order.resources.requests.memory }}
+              cpu: {{ .Values.order.resources.requests.cpu }}

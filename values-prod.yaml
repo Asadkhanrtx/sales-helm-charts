@@ -1,0 +1,8 @@
+global:
+  environment: prod
+
+auth:
+  replicaCount: 3
+
+hpa:
+  enabled: true
