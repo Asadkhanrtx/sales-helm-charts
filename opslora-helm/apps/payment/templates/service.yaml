@@ -4,12 +4,13 @@ metadata:
   name: {{ include "payment.fullname" . }}
   labels:
     {{- include "payment.labels" . | nindent 4 }}
+
 spec:
-  type: {{ .Values.service.type }}
-  ports:
-    - port: {{ .Values.service.port }}
-      targetPort: http
-      protocol: TCP
-      name: http
+  type: ClusterIP
   selector:
     {{- include "payment.selectorLabels" . | nindent 4 }}
+
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: {{ .Values.containerPort }}
+      protocol: TCP
