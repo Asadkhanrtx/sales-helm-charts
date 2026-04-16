@@ -44,8 +44,7 @@ deploy() {
   local release="$1" chart="$2" ns="$3"
   info "Deploying $release  →  $chart  (ns: $ns)"
   helm upgrade --install "$release" "$chart" \
-    --namespace "$ns" \
-    --atomic
+    --namespace "$ns"
   echo ""
 }
 
