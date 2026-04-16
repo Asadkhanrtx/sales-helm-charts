@@ -46,7 +46,7 @@ deploy() {
   helm upgrade --install "$release" "$chart" \
     --namespace "$ns" \
     # --wait \
-    --timeout 3m \
+    # --timeout 3m \
     --atomic
   echo ""
 }
