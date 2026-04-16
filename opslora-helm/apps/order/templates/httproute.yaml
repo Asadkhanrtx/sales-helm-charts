@@ -1,25 +1,24 @@
-{{- if .Values.httpRoute.enabled }}
-{{- $fullName := include "order.fullname" . }}
-
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: {{ $fullName }}-route
-  namespace: {{ .Values.namespaceOverride | default .Release.Namespace }}
+  name: {{ include "order.fullname" . }}
+  labels:
+    {{- include "order.labels" . | nindent 4 }}
 
 spec:
   parentRefs:
-    {{- range .Values.httpRoute.parentRefs }}
-    - name: {{ .name }}
-      namespace: {{ .namespace }}
-    {{- end }}
+    - name: {{ .Values.gateway.name }}
+      namespace: {{ .Values.gateway.namespace }}
+
+  hostnames:
+    - {{ .Values.gateway.host }}
 
   rules:
-    {{- range .Values.httpRoute.rules }}
     - matches:
-        {{- toYaml .matches | nindent 8 }}
+        - path:
+            type: PathPrefix
+            value: /api/v1/order
+
       backendRefs:
-        - name: {{ $fullName }}
-          port: {{ $.Values.service.port }}
-    {{- end }}
-{{- end }}
+        - name: {{ include "order.fullname" . }}
+          port: {{ .Values.service.port }}
