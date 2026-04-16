@@ -67,7 +67,7 @@ echo ""
 # ── Wave -3: Namespace + StorageClass ─────────────────────────────────────
 info "── Wave 1/3: Namespace & Storage ──"
 deploy opslora-namespace  "$CHARTS/infra/app-namespace"  kube-system
-deploy opslora-gateway-namespace  "$CHARTS/infra/gateway"  kube-system
+deploy opslora-gateway-namespace  "$CHARTS/infra/gateway-namespace"  kube-system
 deploy opslora-storage    "$CHARTS/infra/storage"         "$APP_NS"
 
 # ── Wave -2: Gateway + Databases ──────────────────────────────────────────
