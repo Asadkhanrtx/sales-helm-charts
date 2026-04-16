@@ -1,7 +1,7 @@
 storageClass:
   name: sales-storageclass
   provisioner: nfs.csi.k8s.io
-  server: 172.31.10.228
-  share: /var/nfs/sales-microservice/test
+  server: 13.235.171.204
+  share: /var/nfs/sales-microservice/prod
   reclaimPolicy: Retain
   volumeBindingMode: Immediate
