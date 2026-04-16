@@ -4,5 +4,9 @@ image: rabbitmq:3-management
 
 secretName: rabbitmq-secret
 
+secrets:
+  RABBITMQ_DEFAULT_PASS: "PLACEHOLDER_RABBITMQ_DEFAULT_PASS"
+  RABBITMQ_DEFAULT_USER: "PLACEHOLDER_RABBITMQ_DEFAULT_USER"
+
 storageClass: sales-storageclass
 storageSize: 5Gi

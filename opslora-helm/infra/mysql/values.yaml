@@ -4,5 +4,11 @@ image: mysql:8.4
 
 secretName: mysql-secret
 
+secrets:
+  MYSQL_DATABASE: "PLACEHOLDER_MYSQL_DATABASE"
+  MYSQL_PASSWORD: "PLACEHOLDER_MYSQL_PASSWORD"
+  MYSQL_ROOT_PASSWORD: "PLACEHOLDER_MYSQL_ROOT_PASSWORD"
+  MYSQL_USER: "PLACEHOLDER_MYSQL_USER"
+
 storageClass: sales-storageclass
 storageSize: 5Gi

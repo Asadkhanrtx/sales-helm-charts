@@ -17,6 +17,14 @@ gateway:
 
 secretName: payments-secret
 
+secrets:
+  DATABASE_URL: "Ag...."
+  JWT_SECRET_KEY: "Ag...."
+  ENVIRONMENT: "Ag...."
+  ACCESS_TOKEN_EXPIRE_MINUTES: "Ag...."
+  API_URL: "Ag...."
+  RABBITMQ_URL: "Ag...."
+
 config:
   INVOICE_SERVICE_URL: "http://opslora-invoice:3000"
 
