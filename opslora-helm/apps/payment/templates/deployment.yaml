@@ -48,6 +48,8 @@ spec:
           envFrom:
             - secretRef:
                 name: {{ .Values.secretName }}
+            - configMapRef:
+                name: {{ include "payment.fullname" . }}-config
 
           resources:
             {{- toYaml .Values.resources | nindent 12 }}

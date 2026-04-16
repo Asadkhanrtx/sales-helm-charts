@@ -48,13 +48,15 @@ spec:
           envFrom:
             - secretRef:
                 name: {{ .Values.secretName }}
+            - configMapRef:
+                name: {{ include "order.fullname" . }}-config
 
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
 
           livenessProbe:
             httpGet:
-              path: /api/v1/customer/health
+              path: /api/v1/order/health
               port: {{ .Values.containerPort }}
             initialDelaySeconds: 10
             periodSeconds: 15
@@ -63,7 +65,7 @@ spec:
 
           readinessProbe:
             httpGet:
-              path: /api/v1/customer/health
+              path: /api/v1/order/health
               port: {{ .Values.containerPort }}
             initialDelaySeconds: 5
             periodSeconds: 10

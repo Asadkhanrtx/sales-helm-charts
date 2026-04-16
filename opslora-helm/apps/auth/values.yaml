@@ -17,6 +17,10 @@ gateway:
 
 secretName: auth-secret
 
+serviceAccount:
+  create: true
+  name: ""
+
 
 resources:
   limits:

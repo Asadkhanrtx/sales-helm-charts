@@ -17,6 +17,10 @@ gateway:
 
 secretName: customer-secret
 
+serviceAccount:
+  create: true
+  name: ""
+
 
 resources:
   limits:

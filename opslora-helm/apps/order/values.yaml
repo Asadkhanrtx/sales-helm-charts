@@ -2,7 +2,7 @@ replicaCount: 2
 
 image:
   repository: kubectlandchill/sales-order-service
-  tag: v1.2.2
+  tag: "v1.2.2"
   pullPolicy: IfNotPresent
 
 containerPort: 3000
@@ -16,6 +16,13 @@ gateway:
   host: test-argo.opslora.com
 
 secretName: order-secret
+
+serviceAccount:
+  create: true
+  name: ""
+
+config:
+  CUSTOMER_SERVICE_URL: "http://opslora-customer:3000"
 
 resources:
   limits:

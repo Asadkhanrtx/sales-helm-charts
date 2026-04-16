@@ -13,6 +13,11 @@ rabbitmq:
 
 secretName: notification-secret
 
+serviceAccount:
+  create: true
+  name: ""
+
+
 resources:
   limits:
     cpu: "200m"
