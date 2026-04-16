@@ -1,0 +1,10 @@
+apiVersion: v2
+name: gateway
+description: Gateway API resource for Opslora platform
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
+
+annotations:
+  artifacthub.io/description: "Kubernetes Gateway using kgateway (Envoy)"
+  artifacthub.io/license: Apache-2.0
