@@ -54,7 +54,7 @@ service:
   # This sets the service type more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
   type: ClusterIP
   # This sets the ports more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports
-  port: 8000
+  port: 80
 
 # This block is for setting up the ingress for more information can be found here: https://kubernetes.io/docs/concepts/services-networking/ingress/
 ingress:
@@ -84,7 +84,7 @@ httpRoute:
     namespace: opslora-gateway-ns
     sectionName: http
   hostnames:
-  - test-argo.opslora.com
+  - test-opslora.opslora.com
   rules:
   - matches:
     - path:
@@ -122,21 +122,11 @@ resources: {}
 livenessProbe:
   httpGet:
     path: /
-    port: 8000
-  initialDelaySeconds: 15
-  periodSeconds: 20
-  timeoutSeconds: 3
-  failureThreshold: 3
-
+    port: http
 readinessProbe:
   httpGet:
     path: /
-    port: 8000
-  initialDelaySeconds: 5
-  periodSeconds: 10
-  timeoutSeconds: 2
-  successThreshold: 1
-  failureThreshold: 3
+    port: http
 
 # This section is for setting up autoscaling more information can be found here: https://kubernetes.io/docs/concepts/workloads/autoscaling/
 autoscaling:
