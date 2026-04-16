@@ -1,38 +1,24 @@
-{{- if .Values.httpRoute.enabled -}}
-{{- $fullName := include "customer.fullname" . -}}
-{{- $svcPort := .Values.service.port -}}
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: {{ $fullName }}
+  name: {{ include "customer.fullname" . }}
   labels:
     {{- include "customer.labels" . | nindent 4 }}
-  {{- with .Values.httpRoute.annotations }}
-  annotations:
-    {{- toYaml . | nindent 4 }}
-  {{- end }}
+
 spec:
   parentRefs:
-    {{- with .Values.httpRoute.parentRefs }}
-      {{- toYaml . | nindent 4 }}
-    {{- end }}
-  {{- with .Values.httpRoute.hostnames }}
+    - name: {{ .Values.gateway.name }}
+      namespace: {{ .Values.gateway.namespace }}
+
   hostnames:
-    {{- toYaml . | nindent 4 }}
-  {{- end }}
+    - {{ .Values.gateway.host }}
+
   rules:
-    {{- range .Values.httpRoute.rules }}
-    {{- with .matches }}
     - matches:
-      {{- toYaml . | nindent 8 }}
-    {{- end }}
-    {{- with .filters }}
-      filters:
-      {{- toYaml . | nindent 8 }}
-    {{- end }}
+        - path:
+            type: PathPrefix
+            value: /api/v1/customer
+
       backendRefs:
-        - name: {{ $fullName }}
-          port: {{ $svcPort }}
-          weight: 1
-    {{- end }}
-{{- end }}
+        - name: {{ include "customer.fullname" . }}
+          port: {{ .Values.service.port }}
