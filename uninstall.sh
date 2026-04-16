@@ -43,6 +43,7 @@ uninstall opslora-order        "$APP_NS"
 uninstall opslora-customer     "$APP_NS"
 uninstall opslora-auth         "$APP_NS"
 
+
 # Databases + gateway
 info "── Step 2/3: Gateway & Databases ──"
 uninstall opslora-rabbitmq  "$APP_NS"
@@ -53,6 +54,7 @@ uninstall opslora-gateway   "$GW_NS"
 info "── Step 3/3: Storage & Namespace ──"
 uninstall opslora-storage    "$APP_NS"
 uninstall opslora-namespace  "kube-system"
+uninstall opslora-gateway-namespace  "kube-system"
 
 info "════════════════════════════════════════════════════"
 info " Uninstall complete."
