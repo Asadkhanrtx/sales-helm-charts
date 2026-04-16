@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "payments.fullname" . }}
+  name: {{ include "payment.fullname" . }}
   labels:
-    {{- include "payments.labels" . | nindent 4 }}
+    {{- include "payment.labels" . | nindent 4 }}
 
 spec:
   replicas: {{ .Values.replicaCount }}
@@ -16,16 +16,16 @@ spec:
 
   selector:
     matchLabels:
-      {{- include "auth.selectorLabels" . | nindent 6 }}
+      {{- include "payment.selectorLabels" . | nindent 6 }}
 
   template:
     metadata:
       labels:
-        {{- include "auth.selectorLabels" . | nindent 8 }}
+        {{- include "payment.selectorLabels" . | nindent 8 }}
 
     spec:
       automountServiceAccountToken: false
-      serviceAccountName: {{ include "auth.serviceAccountName" . }}
+      serviceAccountName: {{ include "payment.serviceAccountName" . }}
 
       affinity:
         podAntiAffinity:
@@ -34,7 +34,7 @@ spec:
               podAffinityTerm:
                 labelSelector:
                   matchLabels:
-                    {{- include "auth.selectorLabels" . | nindent 20 }}
+                    {{- include "payment.selectorLabels" . | nindent 20 }}
                 topologyKey: kubernetes.io/hostname
 
       containers:
@@ -54,7 +54,7 @@ spec:
 
           livenessProbe:
             httpGet:
-              path: /api/v1/auth/health
+              path: /api/v1/payments/health
               port: {{ .Values.containerPort }}
             initialDelaySeconds: 10
             periodSeconds: 15
@@ -63,7 +63,7 @@ spec:
 
           readinessProbe:
             httpGet:
-              path: /api/v1/auth/health
+              path: /api/v1/payments/health
               port: {{ .Values.containerPort }}
             initialDelaySeconds: 5
             periodSeconds: 10
