@@ -1,8 +1,8 @@
 replicaCount: 2
 
 image:
-  repository: kubectlandchill/sales-order-service
-  tag: "v1.2.2"
+  repository: kubectlandchill/opslora-order-service-test
+  tag: "71f44b8"
   pullPolicy: IfNotPresent
 
 containerPort: 3000

@@ -1,8 +1,8 @@
 replicaCount: 2
 
 image:
-  repository: kubectlandchill/sales-payment-service
-  tag: "v1.1.1"   
+  repository: kubectlandchill/opslora-payment-service-test
+  tag: "732c021"   
   pullPolicy: IfNotPresent
 
 containerPort: 3000

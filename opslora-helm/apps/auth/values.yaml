@@ -1,8 +1,8 @@
 replicaCount: 2
 
 image:
-  repository: kubectlandchill/sales-auth-service
-  tag: "v1.2.2"   
+  repository: kubectlandchill/opslora-auth-service-test
+  tag: "2972740"   
   pullPolicy: IfNotPresent
 
 containerPort: 3000
