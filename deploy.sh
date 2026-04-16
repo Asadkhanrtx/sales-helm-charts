@@ -74,8 +74,8 @@ deploy opslora-mysql     "$CHARTS/infra/mysql"     "$APP_NS"
 deploy opslora-rabbitmq  "$CHARTS/infra/rabbitmq"  "$APP_NS"
 
 info "Waiting for MySQL and RabbitMQ to be ready..."
-kubectl rollout status statefulset/mysql-db  -n "$APP_NS" --timeout=120s || warn "mysql not ready yet — continuing anyway"
-kubectl rollout status statefulset/rabbitmq  -n "$APP_NS" --timeout=120s || warn "rabbitmq not ready yet — continuing anyway"
+kubectl rollout status statefulset/mysql-db  -n "$APP_NS" --timeout=20s || warn "mysql not ready yet — continuing anyway"
+kubectl rollout status statefulset/rabbitmq  -n "$APP_NS" --timeout=20s || warn "rabbitmq not ready yet — continuing anyway"
 echo ""
 
 # ── Wave 0: Application services ──────────────────────────────────────────
