@@ -24,10 +24,21 @@ spec:
         {{- include "auth.selectorLabels" . | nindent 8 }}
 
     spec:
+      automountServiceAccountToken: false
       serviceAccountName: {{ include "auth.serviceAccountName" . }}
 
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    {{- include "auth.selectorLabels" . | nindent 20 }}
+                topologyKey: kubernetes.io/hostname
+
       containers:
-        - name: auth
+        - name: auth-container
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
 
@@ -36,12 +47,19 @@ spec:
 
           envFrom:
             - secretRef:
-                name: {{ default (printf "%s-secret" (include "auth.fullname" .)) .Values.existingSecret }}
-            - configMapRef:
-                name: {{ include "auth.fullname" . }}-config
+                name: {{ .Values.secretName }}
 
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+
+          livenessProbe:
+            httpGet:
+              path: /api/v1/auth/health
+              port: {{ .Values.containerPort }}
+            initialDelaySeconds: 10
+            periodSeconds: 15
+            timeoutSeconds: 2
+            failureThreshold: 3
 
           readinessProbe:
             httpGet:
@@ -49,10 +67,6 @@ spec:
               port: {{ .Values.containerPort }}
             initialDelaySeconds: 5
             periodSeconds: 10
-
-          livenessProbe:
-            httpGet:
-              path: /api/v1/auth/health
-              port: {{ .Values.containerPort }}
-            initialDelaySeconds: 15
-            periodSeconds: 20
+            timeoutSeconds: 2
+            successThreshold: 1
+            failureThreshold: 3

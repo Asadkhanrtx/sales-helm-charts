@@ -6,13 +6,11 @@ metadata:
     {{- include "auth.labels" . | nindent 4 }}
 
 spec:
-  type: {{ .Values.service.type }}
-
+  type: ClusterIP
   selector:
     {{- include "auth.selectorLabels" . | nindent 4 }}
 
   ports:
-    - name: http
-      port: {{ .Values.service.port }}
+    - port: {{ .Values.service.port }}
       targetPort: {{ .Values.containerPort }}
       protocol: TCP
