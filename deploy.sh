@@ -52,10 +52,10 @@ deploy() {
 }
 
 # ── Pre-create namespaces (idempotent) ────────────────────────────────────
-info "Creating namespaces..."
-kubectl create namespace "$APP_NS" --dry-run=client -o yaml | kubectl apply -f -
-kubectl create namespace "$GW_NS"  --dry-run=client -o yaml | kubectl apply -f -
-echo ""
+# info "Creating namespaces..."
+# kubectl create namespace "$APP_NS" --dry-run=client -o yaml | kubectl apply -f -
+# kubectl create namespace "$GW_NS"  --dry-run=client -o yaml | kubectl apply -f -
+# echo ""
 
 # ──────────────────────────────────────────────────────────────────────────
 echo ""
