@@ -45,12 +45,17 @@ deploy() {
   info "Deploying $release  →  $chart  (ns: $ns)"
   helm upgrade --install "$release" "$chart" \
     --namespace "$ns" \
-    --create-namespace \
     --wait \
     --timeout 3m \
     --atomic
   echo ""
 }
+
+# ── Pre-create namespaces (idempotent) ────────────────────────────────────
+info "Creating namespaces..."
+kubectl create namespace "$APP_NS" --dry-run=client -o yaml | kubectl apply -f -
+kubectl create namespace "$GW_NS"  --dry-run=client -o yaml | kubectl apply -f -
+echo ""
 
 # ──────────────────────────────────────────────────────────────────────────
 echo ""
