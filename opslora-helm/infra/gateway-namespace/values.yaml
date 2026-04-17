@@ -1,5 +1,2 @@
-name: opslora-gateway
-
 namespace: opslora-gateway-ns
 
-gatewayClassName: kgateway
