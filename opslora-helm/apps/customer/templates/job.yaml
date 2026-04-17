@@ -13,7 +13,7 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
 
-          command: ["sh", "-c", "alembic upgrade head"]
+          command: ["alembic", "upgrade", "head"]
 
           envFrom:
             - secretRef:
