@@ -2,25 +2,19 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: {{ include "customer.fullname" . }}-migrate
+
 spec:
   template:
     spec:
       restartPolicy: OnFailure
+
       containers:
         - name: migrate
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command: ["/bin/sh", "-c"]
-          args:
-            - |
-              echo "Waiting for MySQL..."
-              until nc -z mysql-db 3306; do
-                echo "MySQL not ready yet..."
-                sleep 2
-              done
-              echo "MySQL is ready!"
-              echo "Creating tables..."
-              python -m app.init_db
+
+          command: ["python", "-m", "app.init_db"]
+
           envFrom:
             - secretRef:
                 name: {{ .Values.secretName }}
