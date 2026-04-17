@@ -10,8 +10,6 @@ spec:
     - name: {{ .Values.gateway.name }}
       namespace: {{ .Values.gateway.namespace }}
 
-  hostnames:
-    - {{ .Values.gateway.host }}
 
   rules:
     - matches:

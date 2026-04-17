@@ -13,7 +13,7 @@ service:
 gateway:
   name: opslora-gateway
   namespace: opslora-gateway-ns
-  host: test-argo.opslora.com
+
 
 secretName: auth-secret
 
