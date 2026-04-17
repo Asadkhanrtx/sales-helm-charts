@@ -1,0 +1,79 @@
+replicaCount: 3
+
+image:
+  repository: kubectlandchill/opslora-notification-service-prod
+  tag: "1.0.0"
+  pullPolicy: IfNotPresent
+
+rabbitmq:
+  host: rabbitmq
+  port: 5672
+
+secretName: notification-secret
+
+pod:
+  automountServiceAccountToken: false
+
+serviceAccount:
+  create: true
+  name: ""
+
+strategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxUnavailable: 0
+    maxSurge: 1
+
+affinity:
+  enabled: true
+  rabbitmqPodAffinity:
+    enabled: true
+    weight: 50
+    topologyKey: kubernetes.io/hostname
+    labelKey: app
+    labelValues:
+      - rabbitmq
+  podAntiAffinity:
+    enabled: true
+    type: preferredDuringSchedulingIgnoredDuringExecution
+    weight: 100
+    topologyKey: kubernetes.io/hostname
+
+resources:
+  limits:
+    cpu: "500m"
+    memory: "512Mi"
+    ephemeral-storage: "1Gi"
+  requests:
+    cpu: "200m"
+    memory: "256Mi"
+    ephemeral-storage: "500Mi"
+
+probes:
+  startup:
+    enabled: false
+    path: /health
+    periodSeconds: 5
+    timeoutSeconds: 2
+    failureThreshold: 12
+  readiness:
+    enabled: false
+    path: /health
+    periodSeconds: 5
+    timeoutSeconds: 2
+    failureThreshold: 3
+  liveness:
+    enabled: false
+    path: /health
+    periodSeconds: 10
+    timeoutSeconds: 2
+    failureThreshold: 3
+
+secrets:
+  FROM_EMAIL: "..."
+  FROM_NAME: "..."
+  RABBITMQ_URL: "..."
+  SMTP_HOST: "..."
+  SMTP_PASS: "..."
+  SMTP_PORT: "..."
+  SMTP_USER: "..."

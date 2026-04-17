@@ -1,0 +1,88 @@
+replicaCount: 2
+
+image:
+  repository: kubectlandchill/opslora-invoice-service-test
+  tag: "e477782"
+  pullPolicy: IfNotPresent
+
+containerPort: 3000
+
+service:
+  port: 3000
+
+gateway:
+  name: opslora-gateway
+  namespace: opslora-gateway-ns
+
+global:
+  host: opslora.com
+
+pod:
+  automountServiceAccountToken: false
+
+secretName: invoice-secret
+
+secrets:
+  ACCESS_TOKEN_EXPIRE_MINUTES: "AgCJYNWGwwh9w8DmGsnIP0EeXy/vTxWYeX86TW5F6vcg3N0a/U9S/xwtIw6TMkC7l65X4+POSZm1jRpKXWh3ZPZsZRfovgHSAB4pF7FWN66fqwtW+op7wChfIpSMiDQ0bqYzN/5r8/Ghk3bmQM1Evldww9ncwTkGkrg3Q9Qtd+UvYVvE5Z+fafDUHBdi5r2lYWL6txiHDEstomW+r29jHvxCwVeeWMCdPFc4dTy4v/gbuzswaRZs9coac3vkL3Nq2oH1G1wiv5zaZrpE2uhkYRnTtY5uzBmZPIl2G/WSeHT+CpNl56nnt+rjP0/HBJDewsRXfg8Ht0NebT5yau4IssXM8x+dXCd8lt54E21iYIA4cUUBqN9D+128VaodK8e6ht+hwIgpabPbXE/ZeaKMW1Ih8KE0Z+bmv6p16BRgRUieCc9ugehMyFOVkLwyHFnfvQBI/yILc53TZNe2ra4YotkDNwtlD3TlsRrsdL7KAarG3q2FV2qmPjec+WqUOBV/8jqJcOOoQBSeXNmUB9QnEzLtyJ+JhgKpFobnFeaKvvy3oojODKPpdimuYpyb7s9M8fTGGxBY9u7QLB0gtOW39UTb6xH646a+BM6ssFE8xb8pxsScDMZ11VjGsKaqxA8KiiC8HiQy7TuCgTf+exHDmxXSIu/AqH6/8sOrUOnTqsfQdQXrh+NSa+pvsr4GH22TfJPfnSI="
+  API_URL: "AgAlvbS6k/hNKCZ/pfKSMhlNGCL1v/s1CGHOBQPaJveG9mhqgDe07SY7Wq3Sx7pIlsTV7mA0HH+oFAoKAC1J/Rff29clQXmi97cbkRk2DNFOAdh+OEEypU6dUIYotXmC18FntwJm9NvbEQg3HKu8ywJ/795iw5MfTN3Ik6pc+3DzO8QkwYAoWqpN/mxNghzNT1GInRROnoTK1XkqhHvIKMZJvjUCoSQ49m0kM3H9NPrcMXdE1tZZQ5NYCSJWnc6dMPAGd7QpyabAgJPeORv//Wf90RpgwAT7Doki7M0XiO/mXoUWPY3zkZm4f2+bgS9LqEDv6PuDKM5ti2h9hnCRIPy8gPlSSk/RiWptFwuPf5ctV/BuTTfrXQ6Rdm7wlAgCFZOUCcFdI6Zjqpt4Tl8st5+hGy7EzNH0XpmNu+ZnfZQadvTMYTQVpM0XRBsl38u2C7ry9nKdewt4xAnJfXvLscRjYKt4j6clZF7Ym7f+ZV9JXG45+tDsayEMDMSdn8y/EdVy7bxRfjLZURuPliFP8yH1i7qLkSP6c2o+/YVAQIC0siW6WlJ1nAWnep+AtEBcw48E6P5Pj0LdeRmYmaDfBelkb8WlzZoiELzrOePrfZvoJnnnWhAyEF7S5CRksHwznHpailELzy2f7F1FItl5FEviIupTc+F3neaqwsESQX/2JFy8yBw7DAUaJyLNp7mrC0kEpJj+L+Zo"
+  DATABASE_URL: "AgBueUk+c2FJeMlajv9fMlOfi1e3iGotpggToXR6fWkJdywdAWzQSJiSHXyZSroskQlaQ57I2tztEKgA0mfkZSAHcxmRsEkrVFHv9yCeLlOVt3NCIc625UktIUdVSnyBLWhkcZWlgH1unkttwyohgRLxrqD4Ph8IpvzFxSTq319p24JKTZ/lBHU8n+Zzi+jsa+fwDoI6zT8pj6p/mFmNzpH0xQUVtuPUYH/p1cPXe6QTdfMQad3RfnNiV59jWksREvoHNsEIyvRbwDJZvcGSZmYvoiBpg8qtNPSS/6AVgchnFqhEgq4k70zpR07gnb95Xk7qReL8/mtjAbJkimlIUNsjVlizymTaWaK8svE/90HDlWszwC9J/yYD7wKqsrOKmBG3lo9dm+o314pjCYcVLeVN54puumg+ODDZSwuI7SDIUnExDvQBli7730nYD12PFug/LAD/fDngFgm4ljkJWXJ899MK1wfloXecUrPYRMpTOhVt+eAECtePyhoTIwg2CUW4ex9sfgL9eJWIcM/Kyc7H7+ESnMnjEXx6Ib8YRZnpJHTE9eq0CkMYlbE55/r6mPlF5JZAiSVmRnEkjEuN0lZvzNb4331Eri5VAHW9ywzrbJ981AMQxeYKrRTNqqC3fjqT0AYLZfDvrSXfdvHsuQKOf60R4oQ4G9k08pGck07DK8PlH/Xu1bqDAUuQ4eMg0lpeVWV2zp6vT8YZmYoQmEDmbmtorizOxA5eO487wxe8QLJ1su7/C4Itrn1MHsmk2KR801LP9mewdw7j7Pulnw=="
+  ENVIRONMENT: "AgBb/Aa2uvzW9FoQCHqTmlxHpitn/mBdeIk/GwbA3ber+NnZD1ai6fA2uhwQLkx8UBngstZM0Uzb5kqOGMLfuScvpng9LaKRTI2TUs/lR5ghdIvigZQKqoVpXNO2aMrELsy1xABJyI7QI0VFlSptxZH0Y2azujY8aqVRBWC2d1TohsVNu4nFEm1e/crDM+UtcqQRULy4tLjXGPvfEwu0J9OgyNG4mjSf6D7+i8VWkQBOvASi0ZgbiTkQVIu3VCK58x3D8SIwBJnndt7XqC6kPhjdVFg+husgYzQPtVyHUMCeOgcu6L11/Um6UGA3XQyOPXwZ3QTMymGC4FWN1vaYOIezJFKqAAUp9G6Na69i3z4QKsbzHY4gk0GdfyGKxW3n9wBzA1JKA6ylMD34piZMFrv/ET5R+E0nzOvp1c7t4LYyKtHegv7Iw614sjE7D+6RfBw+jJJQlWOIqL0+Qh8olNOKPCyuZJFZrHNxeB6W8q+S4IlrMW4B9Ah/VjLAtqNrSCE35hRspN/sQaeqvfIHw/Ajx1JfGg0U/gnQlnsD5ifd8qrjOWbYG7qubmzd45XArC+6kk9AMY5ndADYBes0yGV9A+O1lqCN+axdD/GfeRAWFlJWQCTVipcTeVmMNyp1V6GFvXNPSt+dP/2K8Sp7t0CfmuaNdfr+vvyBo+Q/kpXIEYKOc1LiWUC0sGJNM5YX/RRI04CgPRgyjXc3"
+  JWT_SECRET_KEY: "AgA1WjCf49blzTGDB8VragC2qBxSVtnZ7lMPkJtPJ29B1l8o9JjmCbiNFmArqFQTjMPqgtepnIlsfMeZ7RQ4eOiTfHwkE1I+5N7NxNv/GfakX34LlgtU7so06dwc0pYzCMLBQ4KamQoT+USvwMEcHZUajMRA2yWN9LRFJh/zqIrBJp6Pu8lHPuxNNMGOGvL8RPbTVKKT4TXx3ekvCneY+xDK3tRSGKXNgrxia+wyCn8zC630V4QtlSqAjfP3X0PfbDpOBtse+Vd2LOosBbwaA4ZOgpmn6pZeo4RnePPTG0CLjnxpsYgnJ70Gl4IZfVVBi4opB//dtqmPoRM3e83u5WMGNqW/yA49rP0Mv7fHnMk5DzjPRBzGmeruLHINeMyzdt5OHgj8bXrIf+tuWimGcglf+Yi1j9yQbFPsiaFmJFePmck+zfFGEQs3d620mmwHKwn6YOSq/3hvI/rCxQ9vuQiq0DH0aw1X7P+0Zij6us4Xxerz9Br96E0caRYPcIe2LCW411YoJJfs9eWnY2e0o5TRiAflGxJume4ofr1S4tU93Tbb0vgIYSPqpJTkTmxz9Ntc250nR3dp6K85k8PTpgNziwMTisDYVMb0Gc75ebYUQK2297LbOj2XXmUgueEUmKRwLPUCTO6i/7UAFtlGHHX9Pn2TcH0D67DcY0aqsZsIsTnWuoW9U2cf9W0c6EC5ETnu+7xlwR0HsmFS5dQh6g5tcJf2OCEPGxI6A0at7mSiITXazbm3B9hWdi1j18oA3sE04EHINvYDt99VVcq216u42IR3pZKhYmVA2fX2nQg4NQM4HVSVQ7/RP7vx"
+  RABBITMQ_URL: "AgC3NSVDIDUdnFBSicKE7dL4HPa/BnkdbpYSkFwOMcm3EN7q3pEaaLY8Thuuo7gK6b+vQLo6IVd0yHcG6vwc5dL/FFUqUfAQwzNBUJN+/xBegdKd4E37yIdE/kz0PgR78nWyAD8Mw4nQBRMhC1Za5XIHWO3/dfw5q6NyDFj8B3iecjL2dKL5SxUhfhlRWqirGkaypIS7sNGAQkHzUDxs5ozpwsznghLGQ/U+ojO7vkSFr7zdwuSsGQECAmMey4AyFW89FuNcuGDLdpoQSNQxxYAhkqN1IvtFhd+Xw3vwyH4LC92QNcTerj7szCHbLXjg+kl0uanm/cz4S7qjiTn8GMdVZjYxKPwkaPi6bvqVVaJhF5h3JfGZA49+eARUPG71t5miOnTHRC3lRf5TsYHBhHu4QhxlYo684AcBXYvLIHIadMl7sFkio0PDASRXjBb6MEdbpMkKTDbD7+bvKX9ulQ10LuPK6vcHI+/IYXK97Ys2pErx5OS7dZzMzxTivsJV4tjqSXKFwapUlcLhAeq1aYqmoDeMcdj1wzzQE2EhR9YcM9fmFJIOQ9Avn5xaVwknPUxKm7MBk4e9RBFoN9lsAMnyyHkSLVETWrPlj/mrP4+BJPa6F2HVgQAojmDSl68CsoMzJEyxqUyei2dYja/26sJ7yKAYmqHmM1iKhoXbZRJQRAoRYx4G42IDjrCJDT2ZhKcTKvoLP1Bg/b/IBxbrKxoS+SxKIneeo3YGBCmQLHihrvh8qggiu7tlPHN74Ls="
+
+config:
+  ORDER_SERVICE_URL: "http://opslora-order:3000"
+
+serviceAccount:
+  create: true
+  name: ""
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+
+strategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxUnavailable: 1
+    maxSurge: 1
+
+affinity:
+  enabled: true
+  podAntiAffinity:
+    enabled: true
+    type: preferredDuringSchedulingIgnoredDuringExecution
+    weight: 100
+    topologyKey: kubernetes.io/hostname
+
+resources:
+  limits:
+    cpu: "200m"
+    memory: "300Mi"
+    ephemeral-storage: "500Mi"
+  requests:
+    cpu: "100m"
+    memory: "150Mi"
+    ephemeral-storage: "250Mi"
+
+probes:
+  startup:
+    enabled: false
+    path: /api/v1/invoices/health
+    periodSeconds: 5
+    timeoutSeconds: 2
+    failureThreshold: 12
+  readiness:
+    enabled: true
+    path: /api/v1/invoices/health
+    periodSeconds: 5
+    timeoutSeconds: 2
+    failureThreshold: 3
+  liveness:
+    enabled: true
+    path: /api/v1/invoices/health
+    periodSeconds: 10
+    timeoutSeconds: 2
+    failureThreshold: 3

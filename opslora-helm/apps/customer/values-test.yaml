@@ -1,0 +1,79 @@
+replicaCount: 2
+
+image:
+  repository: kubectlandchill/opslora-customer-service-test
+  tag: "f204706"   
+  pullPolicy: IfNotPresent
+
+containerPort: 3000
+
+service:
+  port: 3000
+
+gateway:
+  name: opslora-gateway
+  namespace: opslora-gateway-ns
+
+global:
+  host: opslora.com
+
+pod:
+  automountServiceAccountToken: false
+
+secretName: customer-secret
+
+secrets:
+  ACCESS_TOKEN_EXPIRE_MINUTES: "AgAZ+y82mB7N/SErUC64HF4Q+47T1zudikMM5QfrlfxyWuisH5EM3bbzHIUiH3sndWZNk3wcVMx0VfD6PIfcNZTkl+FVQm6N1/u7VXlgU8eX13i8c2rwdLt393VFpBEjMlMUvW83F3lZ2BC49QOypaPVCErhYN5TtJfHocERSAX69YeiWjM5RCeepi7nuZNVbQAfFGK33LWPBPovFLwUI9oCylIREyTgHU2zpryq6fkVW32udQx9YwRdeP/R2+c6wQAbBq+++P0HM3WGho12rpLMub18MapIxFYBJQoSio0JVaVqqQCSbwk66tSOezqHFQWAzkzT2mt+z+V65OEgUJhGOJYAivVFvc9+25/M79DMo3nlUGyZZIuQI2oUqZSp9Y6pEnJCbwOw95itWyFYnQrlKVasnBjGgUCUDxyUrME18pxebASnRJdNbVByj3uT3Ad9uD/7/NzYoTqoACuwboRHOWA+Xt0WIdLNczwShSpIz9VtVhL/LFK1ttraQBa6ZaScImzZzU0KFHgCGXZBFvAC91T/G5mwTkL0vUYN1HBw0+IbXaqHp6IOAagVJy3tsnM/0HZAOsfEYa8sJDN41799f0EsExAm0rE5U/ZP5MlyPDNs1bV9HOsWuEFOGlVlClY04LOKpB0OiR+GQwrmAOXV1Y+V16LFbFHhLqlRzt0H+inUUKoRjBV6ONb3IHk7rv7Esno="
+  API_URL: "AgCqRswrZFmd/KPciqqdzO79dzzKWoBjcybzVMeQYsrISbRttb58dtoJfn9PBi8CYqLJ+9KHstitDF+5PytJxX4tH89qHv13gXJooYd9nYAnJx5sof83UKO+Ki0r99eZS5oOo4AmPsW7Y04I3dqUZXUFIzzZIYBMSRzvyA6qsFVUlMQL5lTJcT3GGQfwMmiErKzvNOpkfIRJK3vPymbbwaKDAhIisfZM+ymkvP+ESxd3KVn7uhRTK8R/p3Zg1czegUcnsvOHDgFaSw/k/07ZIIFihLnk2kMQGg9/ONW7we2koRQLvZymrBItVHZD/txiDbxiA0um+ymIM99SyULjQ3U+hciHUluzoZ0BPM/rZf4UerVvhAurXGCz0xWuWzukrRZ2yPEgXZDJeXprOkw0CL1MlBwDWBkimRzN8wYeljFWwqYZtDckQvl4urigpq8g+ExUEbhFwnIdwL2KNzN9+gmr4k+RrOgsG18Tt6FuGnu5C74LZ54o8GERr8QyPGID6oWYuE33IkshT5Ve2pb+WMQrhogXVVTHlHMmRgZAcBDnY8kYtjSx5eiOSOEdH4l9sASirb8z4EwdXVioWy5/Pg9WqYUW9RqmG8zFMrdl9QcmH195qL211FEG/elITDegPo85LKicoOzRc4OTVs9gxbvnsR38gTIKsJx1vJRTo1HusrnWTxyeDtRaE1CvP2+4CaHiAIGTVcxP"
+  DATABASE_URL: "AgAmpcLou7uH7DMsQ/oRG9iUfnAnUHJLMJ3R5TocInhoIBz8SLfhQxUB/r+qPlUjwXb9BKt2TMFno8hik7kUdSdplcA6r1zF4Acls3TNIUfkkSoTUwNNymOaDs39LNIsQ5DXDHLOBW5o2v2W2K/nX9gmQ7Gn3R1t6Nz2d2tN3GybxCWzC13SmJnaK2W924Cz6nox9c9f6dRQgjSrcV2FTHC7sP5GIoBfkUgxA8Z0ON7ajuNIvGfcGeKRPOxvnPlY00Zbu+3U/P1swxeMk17dAqdlqB2fmaR8ybCAPgKUSd/lLjxz0nyvR3wU8etg9F56a+KeSzltTQkB16BL+DcRoUPtfWkN2IhZhXCz7+3DhKA3+gtqD0y/pBTN/TGD0vq8sn7O2tDMNMl+UzRoLjN6vaRrl+JhyqmRE/n6j3ja+Zt7THBVmxqYdig2I577bb+wOCFfOY4uV1plTOZLLcFWTjJQzm4MpI7A5bTWQ/OW0TUPRK4ZIARzZJQL9OGQ757UvMlYmDOk+BT9kWrYbfQ0Jg8as9ySn4J52anYqoK6dg//fAJ2cVclo/hdwwV81Gx10IC2z8SkG3j4zbRTYMgW4KGsGbfvOthy5MYzFTq0CcHBACdm/TfwMkHJec6jvQOPk/L96YoOC+lywIO38KXrQSf+F8tg6iuZ2PsLPms69Hx4YqLi6ERnKlbqon0gGfNgq2ibam8nxUvkAgkoSHSTJueHInUPeUE0NPxQOqn6D61okkI+ckChimsDlNTTY8Z/1Q4lEHGVyLiAykBCbD8Xtg=="
+  ENVIRONMENT: "AgCEvIHHvphehCXypH6CdfkeQQ8gv/lF2S9kwxVhTbGG//SghIKKqJeI18kMh1YLA1ETfco0TUhYIV3pB3wNPN3KYT+GoshqXGkcJABWz9nPsSqzKkeTwRbcmX/B61o6lL+UmumuIJQ8KwdvM+eWeyyGJvcpTofKLtIPM7hyDNm6Hcp7BuM+PlhMxtRoxPxMJcm5HbjyUCnpv4OdbVpLE6hedwndqoEZwX4LUbYZzLzcNtdwxKaPI0ITPz7UafJutXEr7D9psJb9sBneqOiedzE88h2qypcf8OYmzomHevUfnKVgU2gbKIpx5DYsv5D0BOY6WvkI9tAsrZk/hvsZlT9/+CAMZIC//wL/HR+qXFy64uuLxerngQswY2kDvU+2MrXvU4RavilmkQG7QrGdpzvVsfSLUb/bBddhnirkv/x0Fb225Gb1ESLxg9Zq/iXJ1ca/dNLyHJEK9onwXEkvqXdEgGUZ5zVYogGL3lpG2UZbvV5xaYxqZGp3/z4zHGB8tdHqIm5iaCjB1rH0JgWKgIwrNXg8IcVMJKvagoLT8a7E8esHvHpHt6XPepcQ4ve7Nrql5v+S8YhDZTtt2P72lCinSlV+P9l41as+20XeCy0Nv134LvHO2PNUIGEXPMzG/jMyOjIgp1P5X6zFO892eDtEfMaq44vsJxcqynkn/fd5EFvzZpIo2d5kOkUknCMhwvJW1vxicwAEOH1r"
+  JWT_SECRET_KEY: "AgB65EqdVf3SZZ/obp8IpZcThLx8paGbOtk1+dnQRLa5+0QqOEZuFF0TZNp6UmBfR+XcmhtDeIYiqNKFlCWjrAY0oR2KnMQZAMNKfNiSKevHAhWjvXN6XnA0BzdhnelwqRxlgyvJe4bameRyyU0Xpo3VeP8STz+PusrmYVRotLvRMpW1HPwFFZW3rFH6zPto/wg43TdKBI4u+e3NXIU8WDkn2UKv9ceVYnTbdLOu+s9UPC33ChwPqW2erY9jinhVLtGvljzVP50ZIRcSJ9IeKJCA61HQUbzdk2JL6NXMdOWqCQowMewKvuTuunIh3rbpCDJHY+gbUiL6ccmR8Ctijbh70RzxHjdwNOht4vvwsKXFm9mhn7H4jwsQOz2ZIOhelri/ZTU5IYvZbwRqj3TuWn7hcucB55QpoVCSJLvZLJSmm9fMZDVjW0zjLdGphzQSFxxM2UmQOIF7YyTc+LWhasAcH5uVl0FKVQzUWq03tEY+icHtBNU3DYviIXF82jCI2a8CVEEzpHJX+dZVr9pfBg6bwU8upBlVaSzjzpdwkOakdifHu5q0/052Frbr7wkgnP1z+X+aU2V3YOJI65d3G/ijoTiX1ja3enni6f2cMhvPoIWThGTz+SBwu7e3x07RPvIjRxNqTVnjb/cYWCTTz1UoXBQeVoJnXcrEm3U3fYsxSg9il65JQjhc61xWD1tOcrjzNiRoxrCogW7QcD/0YV7K4CGbFwF5fjNAlFtN3tBIuyoLIweSs4emh51+sLef7LgNU64CPfB4/wNTZTbW9e5lQL+GLrGsRdsX9TvxncKgRTzXhlHH6/uwNFHh"
+  RABBITMQ_URL: "AgBrGZQBBunDb7iiWNJIIE84hC3fZm8M7Iiqn0XLYplW0jf4se2u34PbjwpTQXBoPDTH5xI/jU12aGjsKBnISJR/dmkRSr6To9hyIi/2KdWEVFibtMBW85DZLa1ZqsUfV6kxqj2f1xpobSeO8Fn6tAB5pcljNVriw0kgy7OW+B5I2oMezZAPMBkn5aRGbuBx6Pj/f1ExK+NWAz089aD5eXt2TuMRwFuN/qfWpqapTo8NmhoNcv6jIPtrxyh1g26idAAP/RhvoBMZ/PLhCmJGklbii07I5ggk7vZNza4JrgxOEXejpugNPY3VTRcQ4mgjijINfq7DHuf8efkGe15KNg054C5AfOH+lFCyb5xlXRxu8UAh2kZSTeyx6I8xXTjCnipbr5cMcgS8hCsVrM3Ufr10rYAK3uW6XfQGZSqVewjOsafxHx0TsNL/j5HcO6RqELF+BvGla0pj/NKZouSuE+TchSOpLGCD4dKZYAnlpnikyp41Tp5tYD7f5FCqC9Vr056cxVVn9f4Y4+YsfccbvxqyT2eUtT0wmYY/LKkgQnRv7T2SN7oydusYq7Cbx3mjmE0B1qzib0M0PKVzKz8B1ug5s7PPQvW+sUYxEa0LiOX+v4eSjc5p2HwpEev+Gbg7sHfIzLwJdsL7rBhAfwqnPJMt1pBH93gvu0pLJ8eq2OLhLdVjez0lzvLnwvLcxwN5Xt3h8ceY1/KjemvWnxlTjEQdrbVYKxHlg3s9sj8+7UmvsV6WDrAEjsAkMo9wVEU="
+
+serviceAccount:
+  create: true
+  name: ""
+
+strategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxUnavailable: 1
+    maxSurge: 1
+
+affinity:
+  enabled: true
+  podAntiAffinity:
+    enabled: true
+    type: preferredDuringSchedulingIgnoredDuringExecution
+    weight: 100
+    topologyKey: kubernetes.io/hostname
+
+resources:
+  limits:
+    cpu: "200m"
+    memory: "300Mi"
+    ephemeral-storage: "500Mi"
+  requests:
+    cpu: "100m"
+    memory: "150Mi"
+    ephemeral-storage: "250Mi"
+
+probes:
+  startup:
+    enabled: false
+    path: /api/v1/customers/health
+    periodSeconds: 5
+    timeoutSeconds: 2
+    failureThreshold: 12
+  readiness:
+    enabled: true
+    path: /api/v1/customers/health
+    periodSeconds: 5
+    timeoutSeconds: 2
+    failureThreshold: 3
+  liveness:
+    enabled: true
+    path: /api/v1/customers/health
+    periodSeconds: 10
+    timeoutSeconds: 2
+    failureThreshold: 3
