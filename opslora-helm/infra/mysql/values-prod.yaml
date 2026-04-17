@@ -1,0 +1,14 @@
+name: mysql-db
+
+image: mysql:8.4
+
+secretName: mysql-secret
+
+secrets:
+  MYSQL_DATABASE: "..."
+  MYSQL_PASSWORD: "..."
+  MYSQL_ROOT_PASSWORD: "..."
+  MYSQL_USER: "..."
+
+storageClass: sales-storageclass
+storageSize: 20Gi
