@@ -2,7 +2,7 @@ replicaCount: 2
 
 image:
   repository: kubectlandchill/opslora-invoice-service-test
-  tag: "5828f1b"
+  tag: "e477782"
   pullPolicy: IfNotPresent
 
 containerPort: 3000

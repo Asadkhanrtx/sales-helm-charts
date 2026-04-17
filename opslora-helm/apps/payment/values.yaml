@@ -2,7 +2,7 @@ replicaCount: 2
 
 image:
   repository: kubectlandchill/opslora-payment-service-test
-  tag: "732c021"   
+  tag: "2e30ec4"   
   pullPolicy: IfNotPresent
 
 containerPort: 3000
