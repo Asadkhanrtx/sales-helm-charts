@@ -2,7 +2,7 @@ replicaCount: 2
 
 image:
   repository: kubectlandchill/opslora-customer-service-test
-  tag: "79f7756"   
+  tag: "8e9916f"   
   pullPolicy: IfNotPresent
 
 containerPort: 3000
