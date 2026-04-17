@@ -84,7 +84,7 @@ httpRoute:
     namespace: opslora-gateway-ns
     sectionName: http
   hostnames:
-  - test-opslora.opslora.com
+  - opslora.com
   rules:
   - matches:
     - path:
