@@ -22,16 +22,6 @@ pod:
 
 secretName: auth-secret
 
-route:
-  hostnames:
-    - opslora.com
-  path:
-    type: PathPrefix
-    value: /api/v1/auth
-  backend:
-    name: ""
-    port: 3000
-
 secrets:
   ACCESS_TOKEN_EXPIRE_MINUTES: "AgAKgaDAo/5U71VIe6I7s2IqA4f6BMnD0sg/9LqWpm67kUchoVkd1MYSMmIA5GMIBgS6TcerorvZVuamSQZFBrT3z5DU/NRhMIamWfyFUl2mf2DYyBYQfWmAtNtqE8pflf3d3rJLE2hlwSSLYYz9WTBKrZfSNOpeOfGCEz5vj/dA+XSR40BGweiVnNWgx12phBP5cNYSqh+W13dPl3807j9BQa6cJpxWW/177ywu4lLxilepdY5qKGE+7lc6H0d5hyVMAaEqPuxYEraMSFnFA3ob0+KGqaju4v7oGNU54d5nleHOn0D9KdvYMRvqso09xLbf2LlyJSJS0RyESEuGfSRG1C1e0MDwQd8TuPEG/9eohD65ybBvkOGm3TpZi591Q/YYdQw3uavYYdeF+WYHlMo3+qIY8QuL60H6cBaSCNnlB2UtKFUSPyQ+Q4+y+fVAhfXyImIdEM4Lrywy6w1w9Q2rOn68yP7cPA2Vg5gx5jsgywsUllLIn5gl/5qelb9/oJgatREXqDI/bkVB7TKnmNte/Bq2KpHJaFDPykFG9QXSHiN4dbmrHGvbvEV9MzqFFejAQOK/DxAItv94t7uYnRpt6H15c61+EATp3FRZraCthQ3x195AufpW8DVeHnNtzIERQFr9PfZ6FATV4UDt8DdcLBxzVfoYI3NLPUNs/Bzd7YYHluFuVyif+5x0RP2co7Xo9RQ="
   API_URL: "AgBvoQ9yNb++U23dtX7VazpKjCz0QWMxXDUaINa+kAkb0ZUIDweAfanEe5zaFV1Seb1CaicmdFzqEF9ZkN0Htvr4gbWU8iYYyTsOwwgnqQuHs7HSdeokRhXniFSov+1q81aT4yyjzYXflnVPJ+OMaq2z/t2d5HWtF2HxrbvETabbOk04JqaIvzBLvLlzjxO56FBD1XG+98VZkiPq80eP6EjYbCWffsx4w7ct116VwOKLNZjZToKCYAFl/cD8RdNoMsbv8vqlF3YqR6jTFXpIF6nOOKA7yvbVhp37whJlWuny7DVI9U+JTz9SlvbnxRY/5nHxUZ5wf3++EcQY3Uu8Kuo0sApS9c0k811HdyH++kn4OJopuVCtqmZeD2T0cEdv6zvSKu+DzbBUc6MIuXQdeVb09Fc3vdHtP3DzFUi4bZS1tBYUhR66OE0r7u+vE24dFe3nNBmHGAk7lh76RoEfQ9yUqw1vD5TYhoodDfmJZeeX7TyZz01LPI8RTa65p05H9KDFIGvlUCeEKp85uJBdTXlk533IUaZHOw6xtHvrxqtwLO1ljhM6VZ6f+IaMG6a28wEe4oc1Gwi/ZxKrRn3KjqsY8CuEWLwiONtJdhWsRCccC+nnO1DtZ6L9T71IrE9GUw3LVzBjGYbmAuteQzRd6qJeZp/nnwO4H4sjhyhPBKYb8EsgjXgBHrewXXlsuWC3i7esXJD1P8Ar"
@@ -43,7 +33,6 @@ secrets:
 serviceAccount:
   create: true
   name: ""
-
 
 
 strategy:
