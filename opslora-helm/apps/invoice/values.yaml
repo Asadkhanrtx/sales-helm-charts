@@ -13,7 +13,9 @@ service:
 gateway:
   name: opslora-gateway
   namespace: opslora-gateway-ns
-  host: test-argo.opslora.com
+
+global:
+  host: opslora.com
 
 secretName: invoice-secret
 

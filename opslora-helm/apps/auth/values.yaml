@@ -14,6 +14,8 @@ gateway:
   name: opslora-gateway
   namespace: opslora-gateway-ns
 
+global:
+  host: opslora.com
 
 secretName: auth-secret
 
