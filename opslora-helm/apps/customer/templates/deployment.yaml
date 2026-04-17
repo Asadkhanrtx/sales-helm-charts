@@ -54,7 +54,7 @@ spec:
 
           livenessProbe:
             httpGet:
-              path: /api/v1/customer/health
+              path: /api/v1/customers/health
               port: {{ .Values.containerPort }}
             initialDelaySeconds: 30
             periodSeconds: 15
@@ -63,7 +63,7 @@ spec:
 
           readinessProbe:
             httpGet:
-              path: /api/v1/customer/health
+              path: /api/v1/customers/health
               port: {{ .Values.containerPort }}
             initialDelaySeconds: 30
             periodSeconds: 15
