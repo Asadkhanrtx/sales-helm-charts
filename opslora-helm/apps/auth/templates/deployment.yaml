@@ -52,21 +52,26 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
 
-          livenessProbe:
-            httpGet:
-              path: /api/v1/auth/health
-              port: {{ .Values.containerPort }}
-            initialDelaySeconds: 30
-            periodSeconds: 15
-            timeoutSeconds: 2
-            failureThreshold: 5
+          # startupProbe:
+          #   httpGet:
+          #     path: /api/v1/auth/health
+          #     port: {{ .Values.containerPort }}
+          #   periodSeconds: 5
+          #   timeoutSeconds: 2
+          #   failureThreshold: 12  
 
           readinessProbe:
             httpGet:
               path: /api/v1/auth/health
               port: {{ .Values.containerPort }}
-            initialDelaySeconds: 30
+            periodSeconds: 5
+            timeoutSeconds: 2
+            failureThreshold: 3
+
+          livenessProbe:
+            httpGet:
+              path: /api/v1/auth/health
+              port: {{ .Values.containerPort }}
             periodSeconds: 10
             timeoutSeconds: 2
-            successThreshold: 1
-            failureThreshold: 5
+            failureThreshold: 3
