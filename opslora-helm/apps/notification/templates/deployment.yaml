@@ -63,22 +63,3 @@ spec:
 
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-
-          livenessProbe:
-            httpGet:
-              path: /api/notification/health
-              port: {{ .Values.containerPort }}
-            initialDelaySeconds: 15
-            periodSeconds: 20
-            timeoutSeconds: 2
-            failureThreshold: 3
-
-          readinessProbe:
-            httpGet:
-              path: /api/notification/health
-              port: {{ .Values.containerPort }}
-            initialDelaySeconds: 5
-            periodSeconds: 10
-            timeoutSeconds: 2
-            successThreshold: 1
-            failureThreshold: 3
