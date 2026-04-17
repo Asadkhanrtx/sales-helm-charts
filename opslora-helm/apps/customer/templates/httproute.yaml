@@ -9,14 +9,19 @@ spec:
   parentRefs:
     - name: {{ .Values.gateway.name }}
       namespace: {{ .Values.gateway.namespace }}
+
+  {{- $defaultHost := .Values.global.host }}
+  {{- $hostnames := .Values.route.hostnames | default (list $defaultHost) }}
   hostnames:
-    - {{ .Values.global.host }}
+    {{- range $hostnames }}
+    - {{ . | quote }}
+    {{- end }}
   rules:
     - matches:
         - path:
-            type: PathPrefix
-            value: /api/v1/customers
+            type: {{ .Values.route.path.type }}
+            value: {{ .Values.route.path.value }}
 
       backendRefs:
-        - name: {{ include "customer.fullname" . }}
-          port: {{ .Values.service.port }}
+        - name: {{ .Values.route.backend.name | default (include "customer.fullname" .) }}
+          port: {{ .Values.route.backend.port | default .Values.service.port }}

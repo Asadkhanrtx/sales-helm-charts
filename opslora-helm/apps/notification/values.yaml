@@ -13,6 +13,9 @@ rabbitmq:
 
 secretName: notification-secret
 
+pod:
+  automountServiceAccountToken: false
+
 secrets:
   FROM_EMAIL: "AgB0bdv4TyHQuUaD5LXIMOoy/jdUA/q/Q/H2D3/C/LJIDwnoH1mPaT/LIjI1Po6o48PxS/v0c3Cg3RtHpZfSDRcrbyeInvo36CRL3586QQ8cNlen44+OAquvrQifx3hQczuzrdr2+lt8xsQ2HAlO2XodviHo0wKB6wiXc+3VePNmO4llxSgWIyvaV8bPYbg6rnyTXN6perjHt5Aam2/htRstUEEc9FnkxeZYHY00XO9V/FOqzL9gilIbtTpJobk8+Vdw2XfAQjq4Ln6rDLSwzc8BhLUNGTJxnmbhnC8i63PVK6lOsvJkCYNOXM5Gd4WLHDDKv0QoWT1DWW+yhQI8UD/ApIqszBAFTFLyX9E0RqdcJE9OcRQIFuykJkeT2bp6EcYmZp/VuniZhn0FGCx0Guyu3KvB6pWkFBosHj1vA4YvG/U+dsYfCbES7jHlzoXRl+o/L+JVnQuOlvkSuijlund+mCIB1Hg9GG9NVsc8tpOpQ0xWLEySaiS+jnwI3K2jS7oSzw5CKbDBtijYsMwb4Rxpp0oh20/zFHFSGEty0/o70MAxXeJgeC542H6EelZh8O0QaSvDxwihNvO70ruirY4Ep176PdN70yL76WF2bQ743KzpKOpLIrfmvFFiGlusm8R1iPtmx7GLXOxKDnpcJmIiacu1bUM7xfUVV/G4s0KX/Re+2q7DZB+a7buwZMFFvxfm4rOoGctf86IK+I/0Kk9HDp/8eOY4I+Q="
   FROM_NAME: "AgBn1QYpOVXn+XcF8t32b9g17bhjENhfQGntRRHdvjzjEGsHFiGPtfu0Nc7Svt/BaNf8+8r1gvzHyG4gVWqzKrrFN/Lpk4DHBNs8RKoAV260YQSP4WxBZhZ45Op5PxaChzSvrj4cSWOoQfN6scI7ZkLsJv2RoyVbAf8v+x+iSyNU8zAkAvjYQztzRU3Kvsz76GvBfePzeSeyHCy91jQfBxOcpbDPcKSsIy6ejb2zWSKUf9434fejmFSlIFRh9L4xUchZU5K+19+LnFmvm7K+g0N3rC92qKym2nkvHwdmc71E7lD/JQ1IKJvx+QgZ3yKCnqICZMK4YOT9zhawrpRAyrJyRdkFVKs8TbtGi6uRKooDuKbOuQOl/KKtRt2q0CRsDKyd0JHfKQHzUzVugCsmxx6LH2j30RYrpwHOTMcnDzK3OCUeYqbEd+2hEgIBmGqtZgmXel1rsTMmpYmMumua1mw+ulQuM2qUua/hCF8LyOc9zsFevCtoo3JY649o8ACITTaAT6txtGXqE1P75OWbUoTEbglA8v1BoTJ6Bs/dEYiZ1/uiBKhZoxS9ujqB+984ATsaxy5sLKsQBoaiCFa2vRHdAm/z3ArWUhQRdQYLQpVhlrzhIIlLyXaNFpMXd5PTakErojBm58neziNoT8UhJksaEij0tA1b7k8p8BkQOyl/5D2p3Fku4srawjNntaQkHzYhPBrnY7Fu"
@@ -26,6 +29,27 @@ serviceAccount:
   create: true
   name: ""
 
+strategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxUnavailable: 1
+    maxSurge: 1
+
+affinity:
+  enabled: true
+  rabbitmqPodAffinity:
+    enabled: true
+    weight: 50
+    topologyKey: kubernetes.io/hostname
+    labelKey: app
+    labelValues:
+      - rabbitmq
+  podAntiAffinity:
+    enabled: true
+    type: preferredDuringSchedulingIgnoredDuringExecution
+    weight: 100
+    topologyKey: kubernetes.io/hostname
+
 
 resources:
   limits:
@@ -36,3 +60,23 @@ resources:
     cpu: "100m"
     memory: "150Mi"
     ephemeral-storage: "250Mi"
+
+probes:
+  startup:
+    enabled: false
+    path: /health
+    periodSeconds: 5
+    timeoutSeconds: 2
+    failureThreshold: 12
+  readiness:
+    enabled: false
+    path: /health
+    periodSeconds: 5
+    timeoutSeconds: 2
+    failureThreshold: 3
+  liveness:
+    enabled: false
+    path: /health
+    periodSeconds: 10
+    timeoutSeconds: 2
+    failureThreshold: 3

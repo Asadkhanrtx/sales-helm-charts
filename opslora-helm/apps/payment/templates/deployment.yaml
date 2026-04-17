@@ -9,10 +9,10 @@ spec:
   replicas: {{ .Values.replicaCount }}
 
   strategy:
-    type: RollingUpdate
+    type: {{ .Values.strategy.type }}
     rollingUpdate:
-      maxUnavailable: 1
-      maxSurge: 1
+      maxUnavailable: {{ .Values.strategy.rollingUpdate.maxUnavailable }}
+      maxSurge: {{ .Values.strategy.rollingUpdate.maxSurge }}
 
   selector:
     matchLabels:
@@ -24,18 +24,20 @@ spec:
         {{- include "payment.selectorLabels" . | nindent 8 }}
 
     spec:
-      automountServiceAccountToken: false
+      automountServiceAccountToken: {{ .Values.pod.automountServiceAccountToken }}
       serviceAccountName: {{ include "payment.serviceAccountName" . }}
 
+      {{- if and .Values.affinity.enabled .Values.affinity.podAntiAffinity.enabled }}
       affinity:
         podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: 100
+          {{ .Values.affinity.podAntiAffinity.type }}:
+            - weight: {{ .Values.affinity.podAntiAffinity.weight }}
               podAffinityTerm:
                 labelSelector:
                   matchLabels:
                     {{- include "payment.selectorLabels" . | nindent 20 }}
-                topologyKey: kubernetes.io/hostname
+                topologyKey: {{ .Values.affinity.podAntiAffinity.topologyKey }}
+      {{- end }}
 
       containers:
         - name: payment-container
@@ -54,26 +56,32 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
 
-          # startupProbe:
-          #   httpGet:
-          #     path: /api/v1/invoices/health
-          #     port: {{ .Values.containerPort }}
-          #   periodSeconds: 5
-          #   timeoutSeconds: 2
-          #   failureThreshold: 12  
+          {{- if .Values.probes.startup.enabled }}
+          startupProbe:
+            httpGet:
+              path: {{ .Values.probes.startup.path }}
+              port: {{ .Values.containerPort }}
+            periodSeconds: {{ .Values.probes.startup.periodSeconds }}
+            timeoutSeconds: {{ .Values.probes.startup.timeoutSeconds }}
+            failureThreshold: {{ .Values.probes.startup.failureThreshold }}
+          {{- end }}
 
+          {{- if .Values.probes.readiness.enabled }}
           readinessProbe:
             httpGet:
-              path: /api/v1/payments/health
+              path: {{ .Values.probes.readiness.path }}
               port: {{ .Values.containerPort }}
-            periodSeconds: 5
-            timeoutSeconds: 2
-            failureThreshold: 3
+            periodSeconds: {{ .Values.probes.readiness.periodSeconds }}
+            timeoutSeconds: {{ .Values.probes.readiness.timeoutSeconds }}
+            failureThreshold: {{ .Values.probes.readiness.failureThreshold }}
+          {{- end }}
 
+          {{- if .Values.probes.liveness.enabled }}
           livenessProbe:
             httpGet:
-              path: /api/v1/payments/health
+              path: {{ .Values.probes.liveness.path }}
               port: {{ .Values.containerPort }}
-            periodSeconds: 10
-            timeoutSeconds: 2
-            failureThreshold: 3
+            periodSeconds: {{ .Values.probes.liveness.periodSeconds }}
+            timeoutSeconds: {{ .Values.probes.liveness.timeoutSeconds }}
+            failureThreshold: {{ .Values.probes.liveness.failureThreshold }}
+          {{- end }}

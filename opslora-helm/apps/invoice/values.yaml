@@ -17,7 +17,20 @@ gateway:
 global:
   host: opslora.com
 
+pod:
+  automountServiceAccountToken: false
+
 secretName: invoice-secret
+
+route:
+  hostnames:
+    - opslora.com
+  path:
+    type: PathPrefix
+    value: /api/v1/invoices
+  backend:
+    name: ""
+    port: 3000
 
 secrets:
   ACCESS_TOKEN_EXPIRE_MINUTES: "AgCJYNWGwwh9w8DmGsnIP0EeXy/vTxWYeX86TW5F6vcg3N0a/U9S/xwtIw6TMkC7l65X4+POSZm1jRpKXWh3ZPZsZRfovgHSAB4pF7FWN66fqwtW+op7wChfIpSMiDQ0bqYzN/5r8/Ghk3bmQM1Evldww9ncwTkGkrg3Q9Qtd+UvYVvE5Z+fafDUHBdi5r2lYWL6txiHDEstomW+r29jHvxCwVeeWMCdPFc4dTy4v/gbuzswaRZs9coac3vkL3Nq2oH1G1wiv5zaZrpE2uhkYRnTtY5uzBmZPIl2G/WSeHT+CpNl56nnt+rjP0/HBJDewsRXfg8Ht0NebT5yau4IssXM8x+dXCd8lt54E21iYIA4cUUBqN9D+128VaodK8e6ht+hwIgpabPbXE/ZeaKMW1Ih8KE0Z+bmv6p16BRgRUieCc9ugehMyFOVkLwyHFnfvQBI/yILc53TZNe2ra4YotkDNwtlD3TlsRrsdL7KAarG3q2FV2qmPjec+WqUOBV/8jqJcOOoQBSeXNmUB9QnEzLtyJ+JhgKpFobnFeaKvvy3oojODKPpdimuYpyb7s9M8fTGGxBY9u7QLB0gtOW39UTb6xH646a+BM6ssFE8xb8pxsScDMZ11VjGsKaqxA8KiiC8HiQy7TuCgTf+exHDmxXSIu/AqH6/8sOrUOnTqsfQdQXrh+NSa+pvsr4GH22TfJPfnSI="
@@ -41,6 +54,20 @@ autoscaling:
   maxReplicas: 100
   targetCPUUtilizationPercentage: 80
 
+strategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxUnavailable: 1
+    maxSurge: 1
+
+affinity:
+  enabled: true
+  podAntiAffinity:
+    enabled: true
+    type: preferredDuringSchedulingIgnoredDuringExecution
+    weight: 100
+    topologyKey: kubernetes.io/hostname
+
 resources:
   limits:
     cpu: "200m"
@@ -50,3 +77,23 @@ resources:
     cpu: "100m"
     memory: "150Mi"
     ephemeral-storage: "250Mi"
+
+probes:
+  startup:
+    enabled: false
+    path: /api/v1/invoices/health
+    periodSeconds: 5
+    timeoutSeconds: 2
+    failureThreshold: 12
+  readiness:
+    enabled: true
+    path: /api/v1/invoices/health
+    periodSeconds: 5
+    timeoutSeconds: 2
+    failureThreshold: 3
+  liveness:
+    enabled: true
+    path: /api/v1/invoices/health
+    periodSeconds: 10
+    timeoutSeconds: 2
+    failureThreshold: 3

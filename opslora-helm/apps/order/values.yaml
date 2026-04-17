@@ -17,7 +17,20 @@ gateway:
 global:
   host: opslora.com
 
+pod:
+  automountServiceAccountToken: false
+
 secretName: order-secret
+
+route:
+  hostnames:
+    - opslora.com
+  path:
+    type: PathPrefix
+    value: /api/v1/orders
+  backend:
+    name: ""
+    port: 3000
 
 secrets:
   ACCESS_TOKEN_EXPIRE_MINUTES: "AgAPCAXnACYV0VgA5Sc8LXliJbppJbIZ9x1j8jUFvut7LcI4eNTJvx7gvTc9fd7CStf9PGQFw+oPfgPCml1kdkqC/rrUX9GZBnBhXgKMs9SM8tI0VI5aBQctWAVlCqIQlWv8HiBZER0oMnKTMO0FQDTlDTWogQpO10MDnEjG2pqo+qbSN061OsEnwBorPUgH+1oIf5TGE5Pe288ZX4+StteCcedFNPmoIsyJONQ4D1JXmah5mGIWv0/wK6vqcxcKDTk7NaSpLkIxeVbESFAhXnQ6u8O9Whchf9VjKwhUk3cgqGfGkdspM7bKxcQgL7mAeOueFwt9yF0E1ndsLXOZ1mWKRqSbgSm2HGJZyVnLSykks50XFspOjrbJFNQtvc5KlaUMFD9kdaqJrJHa63hxfoiKnAiHQNWzhbS1FgZHFv5DeWrBENQFoVgfJVjsoStBBSmMqGYC/U7+sawyLBN5SloRMfeitMnZSJi+Kkvyn6Ys82s6/eFtqQAID3Yvmr76OoXNNBw5pi95aPdsdhaJJKrOriLqR/8rsrHcfv+aLIYs+z/t1BFfWjxqqCd7J2Iis1IjphuSJixJd9vXkqn4vfL2AhURIS4Pw/JI4kFtxxh4jyeWBaDcRNYNnNaMWak3trT0UwNhCo+GWFF6FobqqkYWhVBjhuKMVrRhw+8ihbijualV5tcoiiTIBt7bhaUu9cDu2l8="
@@ -35,6 +48,20 @@ serviceAccount:
 config:
   CUSTOMER_SERVICE_URL: "http://opslora-customer:3000"
 
+strategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxUnavailable: 1
+    maxSurge: 1
+
+affinity:
+  enabled: true
+  podAntiAffinity:
+    enabled: true
+    type: preferredDuringSchedulingIgnoredDuringExecution
+    weight: 100
+    topologyKey: kubernetes.io/hostname
+
 resources:
   limits:
     cpu: "200m"
@@ -44,5 +71,25 @@ resources:
     cpu: "100m"
     memory: "150Mi"
     ephemeral-storage: "250Mi"
+
+probes:
+  startup:
+    enabled: false
+    path: /api/v1/orders/health
+    periodSeconds: 5
+    timeoutSeconds: 2
+    failureThreshold: 12
+  readiness:
+    enabled: true
+    path: /api/v1/orders/health
+    periodSeconds: 5
+    timeoutSeconds: 2
+    failureThreshold: 3
+  liveness:
+    enabled: true
+    path: /api/v1/orders/health
+    periodSeconds: 10
+    timeoutSeconds: 2
+    failureThreshold: 3
 
 

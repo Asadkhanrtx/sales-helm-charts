@@ -17,7 +17,20 @@ gateway:
 global:
   host: opslora.com
 
+pod:
+  automountServiceAccountToken: false
+
 secretName: payment-secret
+
+route:
+  hostnames:
+    - opslora.com
+  path:
+    type: PathPrefix
+    value: /api/v1/payments
+  backend:
+    name: ""
+    port: 3000
 
 secrets:
   ACCESS_TOKEN_EXPIRE_MINUTES: "AgBurs+E6q9eV7X5vr4GrrWynnJH9ab8xo4ieDfp7rYhSJZQJEXObYYM9gxk42kRzAtivJXWlSS/QCDeaMOcQ8kvetS3nt2HT3IuPgc6r4VG9YxlX3U0Rxu52hOe+CeDTDpmuLMHoZI+MFQvqOxZD8mBU8kdDfTqajNu2KG9zYRzV7mCnUWQKthBZIx5yGJhufDNVtQav71UOMrtwL/IKx+K3ws8ah623Yau5FF64PkP/tXSXd5IEJqiagBHy07em8DxAH8zWxXlopJbIeKyFoTojXepYAuP+pWs8ySfBvkHafa2KFX2uxqL1X+/Ey1QZbam1wutj9HxvdjBKzcz+oGp1dGEwGBnCofYk6Xis8DYeKj7yi0IR1ADD2FQmtGC/P7JtQ4zlRunuNgwOA8QHynuVmnCAA+G6XFvdaZdS4YkAA72/isfpq9OsbOYlbbhJkAQvg7gSKERVv1r2QIL3tvOK1zPUqHysKaDSmL736ycWmRO6G6q8KaWn6TQDvB2lv6bOldix/RcyNUmwDILViEAVCO2b9ZCuP165UyWUpFjYWkk7EslWqtWnBEcvMNxBcHhsgP0QELvJLRmcaCWgtvP7PFmlMJcuB1QqknUBC/NvaKB25533D19U6zLSz6vPc19AWY0t1kGxrnkcHpimdx2+zCHPZDdpnXGj9ND7zQtnX16bm+Vv7KwqQqyhS3K3EmuuzI="
@@ -41,6 +54,20 @@ autoscaling:
   maxReplicas: 10
   targetCPUUtilizationPercentage: 80
 
+strategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxUnavailable: 1
+    maxSurge: 1
+
+affinity:
+  enabled: true
+  podAntiAffinity:
+    enabled: true
+    type: preferredDuringSchedulingIgnoredDuringExecution
+    weight: 100
+    topologyKey: kubernetes.io/hostname
+
 
 resources:
   limits:
@@ -51,3 +78,23 @@ resources:
     cpu: "100m"
     memory: "150Mi"
     ephemeral-storage: "250Mi"
+
+probes:
+  startup:
+    enabled: false
+    path: /api/v1/payments/health
+    periodSeconds: 5
+    timeoutSeconds: 2
+    failureThreshold: 12
+  readiness:
+    enabled: true
+    path: /api/v1/payments/health
+    periodSeconds: 5
+    timeoutSeconds: 2
+    failureThreshold: 3
+  liveness:
+    enabled: true
+    path: /api/v1/payments/health
+    periodSeconds: 10
+    timeoutSeconds: 2
+    failureThreshold: 3
