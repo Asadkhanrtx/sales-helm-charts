@@ -52,3 +52,18 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+httpRoute:
+  enabled: true
+  annotations: {}
+  parentRefs:
+  - name: opslora-gateway
+    namespace: opslora-gateway-ns
+    sectionName: http
+  hostnames:
+  - test-opslora.opslora.com
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
