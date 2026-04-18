@@ -68,3 +68,19 @@ affinity:
     - weight: 100
       podAffinityTerm:
         topologyKey: kubernetes.io/hostname
+
+
+httpRoute:
+  enabled: true
+  annotations: {}
+  parentRefs:
+  - name: opslora-gateway
+    namespace: opslora-gateway-ns
+    sectionName: http
+  hostnames:
+  - opslora.com
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
