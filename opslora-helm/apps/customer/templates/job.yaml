@@ -1,8 +1,10 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  generateName: {{ include "customer.fullname" . }}-migrate
-
+  name: {{ include "customer.fullname" . }}-migrate
+  annotations:
+    argocd.argoproj.io/hook: PreSync
+    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation
 spec:
   template:
     spec:
