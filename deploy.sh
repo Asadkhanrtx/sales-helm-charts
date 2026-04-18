@@ -24,8 +24,9 @@ case "$ENVIRONMENT" in
   *) error "Invalid environment '$ENVIRONMENT'. Use: dev | test | prod" ;;
 esac
 
-APP_NS="opslora-${ENVIRONMENT}-app-ns"
-GW_NS="opslora-${ENVIRONMENT}-gateway-ns"
+# Keep namespaces fixed as per architecture
+APP_NS="opslora-app-ns"
+GW_NS="opslora-gateway-ns"
 
 command -v helm >/dev/null 2>&1 || error "helm not found in PATH"
 command -v kubectl >/dev/null 2>&1 || error "kubectl not found in PATH"
@@ -40,7 +41,7 @@ get_values_args() {
 
   [[ -f "$base" ]] && args+=("-f" "$base")
 
-  if [[ "$ENVIRONMENT" != "dev" && -f "$env_file" ]]; then
+  if [[ -f "$env_file" ]]; then
     args+=("-f" "$env_file")
   fi
 
