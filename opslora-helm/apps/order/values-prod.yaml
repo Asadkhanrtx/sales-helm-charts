@@ -26,6 +26,16 @@ strategy:
     maxUnavailable: 0
     maxSurge: 1
 
+route:
+  hostnames:
+    - test-opslora.opslora.com
+  path:
+    type: PathPrefix
+    value: /api/v1/orders
+  backend:
+    name: ""
+    port: 3000
+
 affinity:
   enabled: true
   podAntiAffinity:
