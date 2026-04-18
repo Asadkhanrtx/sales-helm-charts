@@ -15,7 +15,7 @@ gateway:
   namespace: opslora-gateway-ns
 
 global:
-  - test-opslora.opslora.com
+  host: test-opslora.opslora.com
 
 pod:
   automountServiceAccountToken: false
