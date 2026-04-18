@@ -1,7 +1,7 @@
 replicaCount: 3
 
 image:
-  repository: kubectlandchill/opslora-customer-service-prod
+  repository: ghcr.io/kube-pod404/opslora-customer-service
   tag: "1.0.0"
   pullPolicy: IfNotPresent
 

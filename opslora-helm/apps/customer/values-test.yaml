@@ -1,6 +1,6 @@
 replicaCount: 2
 image:
-  repository: kubectlandchill/opslora-customer-service-test
+  repository: ghcr.io/kube-pod404/opslora-customer-service
   tag: "a1857c1"
   pullPolicy: IfNotPresent
 containerPort: 3000
