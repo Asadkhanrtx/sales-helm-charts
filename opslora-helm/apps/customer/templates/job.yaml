@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ include "customer.fullname" . }}-migrate
+  generateName: {{ include "customer.fullname" . }}-migrate
 
 spec:
   template:
