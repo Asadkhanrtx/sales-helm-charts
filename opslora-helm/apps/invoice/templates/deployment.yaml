@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "invoice.fullname" . }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
   labels:
     {{- include "invoice.labels" . | nindent 4 }}
 

@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "payment.fullname" . }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
   labels:
     {{- include "payment.labels" . | nindent 4 }}
 

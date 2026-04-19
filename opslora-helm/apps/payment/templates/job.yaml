@@ -1,7 +1,9 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ include "payment.fullname" . }}-migrate
+  name: {{ include "payment.fullname" . }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"-migrate
 
 spec:
   template:
