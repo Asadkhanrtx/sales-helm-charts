@@ -18,7 +18,7 @@ spec:
         - values-test.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: default
+    namespace: opslora-gateway-ns
   syncPolicy:
     automated:
       prune: true
