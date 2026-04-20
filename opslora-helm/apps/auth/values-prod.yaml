@@ -1,77 +1,54 @@
+fullname: auth-service
+
 replicaCount: 3
 
 image:
-  repository: ghcr.io/kube-pod404/opslora-auth-service
-  tag: "405ca40"
-  pullPolicy: IfNotPresent
+  tag: "1.2.2"
 
-global:
-  host: opslora.com
+serviceAccount:
+  name: auth-sa
+
+gateway:
+  name: main-gateway
+  namespace: infra
 
 route:
   hostnames:
-    - opslora.com
-  path:
-    type: PathPrefix
-    value: /api/v1/auth
-  backend:
-    name: ""
-    port: 3000
+    - auth.example.com
 
-secretName: auth-secret
-
-serviceAccount:
-  create: true
-  name: ""
-
-pod:
-  automountServiceAccountToken: false
+resources:
+  requests:
+    cpu: 250m
+    memory: 256Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
 
 strategy:
   type: RollingUpdate
   rollingUpdate:
-    maxUnavailable: 0
+    maxUnavailable: 0   # critical for zero downtime
     maxSurge: 1
+
+probes:
+  startup:
+    failureThreshold: 10
+
+  readiness:
+    failureThreshold: 3
+
+  liveness:
+    failureThreshold: 3
+
+pod:
+  automountServiceAccountToken: false  # security best practice
 
 affinity:
   enabled: true
   podAntiAffinity:
-    enabled: true
     type: preferredDuringSchedulingIgnoredDuringExecution
     weight: 100
     topologyKey: kubernetes.io/hostname
-
-resources:
-  limits:
-    cpu: "500m"
-    memory: "512Mi"
-    ephemeral-storage: "1Gi"
-  requests:
-    cpu: "200m"
-    memory: "256Mi"
-    ephemeral-storage: "500Mi"
-
-probes:
-  startup:
-    enabled: false
-    path: /api/v1/auth/health
-    periodSeconds: 5
-    timeoutSeconds: 2
-    failureThreshold: 12
-
-  readiness:
-    enabled: true
-    path: /api/v1/auth/health
-    periodSeconds: 5
-    timeoutSeconds: 2
-    failureThreshold: 3
-
-  liveness:
-    enabled: true
-    path: /api/v1/auth/health
-    periodSeconds: 10
-    timeoutSeconds: 2
-    failureThreshold: 3
 
 secrets:
   ACCESS_TOKEN_EXPIRE_MINUTES: "AgBu4vpLvKBb/cHMtOgV1WPZTuAAXTVkN/dFltTm+kpVsIofoe4UtqvRlvGCar/Yffnlsuupxlg5BcDK+dcyLNsOsVA8er3yNsfGye66krVrWruG973UjZrchUgF+BARTbimdlTI4gwRDgVaL32DynWINv5oTfE/lZmk7CnNilUZuGh8wsmFHdmHIZW4bspOKLQ8UZu1vKD/kvJ40/BFLY+TK41QV4y9k415mT1THiriQAH5M0/8wEZxEzSpnUQp6XNX2QoudD/1QtoQv8ZhfR5bvPCdPwSVJHFCw7c3b5oS/njWToN3fm0dvEl6CAoL9w5pbFhA20IDpfeIBglaG3Va68g+6Fle+68TXZlEFtC0E3ZuwA34xtJmLUB0QLDmcANlrQMQ8iF+kV53ad0K2gAopb652MTLU8eGTlp7zLUcAJdIz7Z5pinqNbaMfId1yCs4tHQMahc7BSjSOiCPo7IquoKsHyl4lo3WB0HLgX0N6o1a8DpEdcNmScdIT7LYrxqjrJ6WhtAKhLJs7OWSLA/9khCXvTY4Hc4lkk+gZzVXC8cTJIhgUdcS610TBWUUe1mso2zGOjGyYeqo30rV2iRfRA4Ytv3DBM7+euxMAaNBTaw6zNfrR7KK4OSXRnjpzrqJfsfcFSB7FfVN9Xvs2mgyNI6okGVYdsbmB8cgBksTxwO7YPpgkBmDbkREJLgpHb1aH4I="

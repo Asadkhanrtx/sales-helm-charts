@@ -1,16 +1,16 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "auth.fullname" . }}
+  name: {{ .Values.service.name }}
   annotations:
     argocd.argoproj.io/sync-wave: "2"
   labels:
-    {{- include "auth.labels" . | nindent 4 }}
+    {{- toYaml .Values.service.labels | nindent 4 }}
 
 spec:
   type: ClusterIP
   selector:
-    {{- include "auth.selectorLabels" . | nindent 4 }}
+    {{- toYaml .Values.service.selectorLabels | nindent 4 }}
 
   ports:
     - port: {{ .Values.service.port }}

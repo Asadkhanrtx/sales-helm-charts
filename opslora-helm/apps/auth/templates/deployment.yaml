@@ -1,11 +1,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "auth.fullname" . }}
+  name: {{ .Values.fullname }}
   annotations:
     argocd.argoproj.io/sync-wave: "1"
   labels:
-    {{- include "auth.labels" . | nindent 4 }}
+    {{- toYaml .Values.labels | nindent 4 }}
 
 spec:
   replicas: {{ .Values.replicaCount }}
@@ -18,28 +18,16 @@ spec:
 
   selector:
     matchLabels:
-      {{- include "auth.selectorLabels" . | nindent 6 }}
+      {{- toYaml .Values.selectorLabels | nindent 6 }}
 
   template:
     metadata:
       labels:
-        {{- include "auth.selectorLabels" . | nindent 8 }}
+        {{- toYaml .Values.selectorLabels | nindent 8 }}
 
     spec:
       automountServiceAccountToken: {{ .Values.pod.automountServiceAccountToken }}
-      serviceAccountName: {{ include "auth.serviceAccountName" . }}
-
-      {{- if and .Values.affinity.enabled .Values.affinity.podAntiAffinity.enabled }}
-      affinity:
-        podAntiAffinity:
-          {{ .Values.affinity.podAntiAffinity.type }}:
-            - weight: {{ .Values.affinity.podAntiAffinity.weight }}
-              podAffinityTerm:
-                labelSelector:
-                  matchLabels:
-                    {{- include "auth.selectorLabels" . | nindent 20 }}
-                topologyKey: {{ .Values.affinity.podAntiAffinity.topologyKey }}
-      {{- end }}
+      serviceAccountName: {{ .Values.serviceAccount.name }}
 
       containers:
         - name: auth-container
