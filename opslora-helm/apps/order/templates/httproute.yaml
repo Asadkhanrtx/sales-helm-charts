@@ -25,5 +25,5 @@ spec:
             value: {{ .Values.route.path.value }}
 
       backendRefs:
-        - name: {{ .Values.route.backend.name | default (include "order.fullname" .) }}
+        - name: {{ .Values.fullName }}
           port: {{ .Values.route.backend.port | default .Values.service.port }}

@@ -1,3 +1,6 @@
+name: notification
+fullName: notification-service
+
 replicaCount: 2
 
 image:
