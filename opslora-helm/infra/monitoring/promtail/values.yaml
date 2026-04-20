@@ -1,10 +1,9 @@
 promtail:
+  loki:
+    serviceName: loki-write 
+    servicePort: 3100
+
   config:
-    enabled: true
-
-    snippets:
-      extraScrapeConfigs: ""
-
     clients:
       - url: http://loki-write.monitoring.svc.cluster.local:3100/loki/api/v1/push
 
@@ -20,14 +19,6 @@ promtail:
         pipeline_stages:
           - cri: {}
 
-          - json:
-              expressions:
-                level: level
-                message: message
-
-          - labels:
-              level:
-
         relabel_configs:
           - source_labels: [__meta_kubernetes_namespace]
             target_label: namespace
@@ -39,9 +30,6 @@ promtail:
             target_label: container
 
           - source_labels: [__meta_kubernetes_pod_label_app_kubernetes_io_name]
-            target_label: service
-
-          - source_labels: [__meta_kubernetes_pod_name]
             target_label: service
 
           - replacement: opslora
