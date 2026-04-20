@@ -1,3 +1,6 @@
+name: order 
+fullName: order-service
+
 replicaCount: 2
 
 image:
