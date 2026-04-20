@@ -1,7 +1,7 @@
 replicaCount: 2
 
 image:
-  repository: kubectlandchill/opslora-frontend-service-test
+  repository: ghcr.io/kube-pod404/opslora-frontend-service
   pullPolicy: IfNotPresent
   tag: "5ff299e"
 
