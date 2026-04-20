@@ -16,19 +16,67 @@ loki:
           prefix: loki_index_
           period: 24h
 
+  # 🔴 CRITICAL: disable scheduler usage completely
+  frontend:
+    scheduler_address: ""
+
 singleBinary:
   enabled: true
   replicas: 1
 
   persistence:
-    enabled: false   # 🔴 disable PVCs completely
+    enabled: false
 
   extraVolumes:
     - name: loki-storage
       hostPath:
-        path: /tmp/loki   # or /var/lib/loki
+        path: /tmp/loki
         type: DirectoryOrCreate
 
   extraVolumeMounts:
     - name: loki-storage
       mountPath: /var/loki
+
+# 🔴 HARD DISABLE all distributed components
+backend:
+  enabled: false
+
+read:
+  enabled: false
+
+write:
+  enabled: false
+
+ingester:
+  enabled: false
+
+querier:
+  enabled: false
+
+queryFrontend:
+  enabled: false
+
+queryScheduler:
+  enabled: false
+
+distributor:
+  enabled: false
+
+compactor:
+  enabled: false
+
+indexGateway:
+  enabled: false
+
+ruler:
+  enabled: false
+
+# Optional: disable extras
+gateway:
+  enabled: false
+
+lokiCanary:
+  enabled: false
+
+monitoring:
+  enabled: false
