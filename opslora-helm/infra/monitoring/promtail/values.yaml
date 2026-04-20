@@ -1,52 +1,56 @@
 promtail:
-  promtail:
-    config:
-      clients:
-        - url: http://loki-write.monitoring.svc.cluster.local:3100/loki/api/v1/push
+  config:
+    enabled: true
 
-      positions:
-        filename: /run/promtail/positions.yaml
+    snippets:
+      extraScrapeConfigs: ""
 
-      scrape_configs:
-        - job_name: kubernetes-pods
+    clients:
+      - url: http://loki-write.monitoring.svc.cluster.local:3100/loki/api/v1/push
 
-          kubernetes_sd_configs:
-            - role: pod
+    positions:
+      filename: /run/promtail/positions.yaml
 
-          pipeline_stages:
-            - cri: {}
+    scrape_configs:
+      - job_name: kubernetes-pods
 
-            - json:
-                expressions:
-                  level: level
-                  message: message
+        kubernetes_sd_configs:
+          - role: pod
 
-            - labels:
-                level:
+        pipeline_stages:
+          - cri: {}
 
-          relabel_configs:
-            - source_labels: [__meta_kubernetes_namespace]
-              target_label: namespace
+          - json:
+              expressions:
+                level: level
+                message: message
 
-            - source_labels: [__meta_kubernetes_pod_name]
-              target_label: pod
+          - labels:
+              level:
 
-            - source_labels: [__meta_kubernetes_pod_container_name]
-              target_label: container
+        relabel_configs:
+          - source_labels: [__meta_kubernetes_namespace]
+            target_label: namespace
 
-            - source_labels: [__meta_kubernetes_pod_label_app_kubernetes_io_name]
-              target_label: service
+          - source_labels: [__meta_kubernetes_pod_name]
+            target_label: pod
 
-            - source_labels: [__meta_kubernetes_pod_name]
-              target_label: service
+          - source_labels: [__meta_kubernetes_pod_container_name]
+            target_label: container
 
-            - replacement: opslora
-              target_label: cluster
+          - source_labels: [__meta_kubernetes_pod_label_app_kubernetes_io_name]
+            target_label: service
 
-            - action: replace
-              source_labels:
-                - __meta_kubernetes_pod_uid
-                - __meta_kubernetes_pod_container_name
-              separator: /
-              target_label: __path__
-              replacement: /var/log/pods/*$1/*.log
+          - source_labels: [__meta_kubernetes_pod_name]
+            target_label: service
+
+          - replacement: opslora
+            target_label: cluster
+
+          - action: replace
+            source_labels:
+              - __meta_kubernetes_pod_uid
+              - __meta_kubernetes_pod_container_name
+            separator: /
+            target_label: __path__
+            replacement: /var/log/pods/*$1/*.log
