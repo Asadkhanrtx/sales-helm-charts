@@ -1,9 +1,10 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ include "invoice.fullname" . }}
+  name: {{ include "invoice.fullname" . }}-migrate
   annotations:
-    argocd.argoproj.io/sync-wave: "0"-migrate
+    argocd.argoproj.io/sync-wave: "0"
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
 
 spec:
   template:
