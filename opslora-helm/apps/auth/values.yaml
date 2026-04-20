@@ -1,3 +1,5 @@
+namespace: opslora-app-ns
+
 name: auth
 fullname: auth-service
 
@@ -15,35 +17,35 @@ serviceAccount:
 replicaCount: 2
 
 image:
-  repository: your-docker-repo/auth
-  tag: "1.2.2"
+  repository: ghcr.io/kube-pod404/opslora-auth-service
+  tag: "1.0.0"
   pullPolicy: IfNotPresent
 
-containerPort: 8000
+containerPort: 3000
 
 secretName: auth-secret
 
 service:
   name: auth-service
-  port: 80
+  port: 3000
   labels:
     app: auth
   selectorLabels:
     app: auth
 
 gateway:
-  name: main-gateway
-  namespace: infra
+  name: opslora-gateway
+  namespace: opslora-gateway-ns
 
 route:
   hostnames:
-    - auth.example.com
+    - opslora.com
   path:
     type: PathPrefix
-    value: /auth
+    value: /
   backend:
-    name: ""   
-    port: 80
+    name: auth-service
+    port: 3000
 
 strategy:
   type: RollingUpdate
@@ -57,24 +59,21 @@ pod:
 affinity:
   enabled: false
 
-probes:
-  startup:
-    enabled: true
-    path: /health
-    periodSeconds: 10
-    timeoutSeconds: 2
-    failureThreshold: 10
+resources: {} 
 
+probes:
   readiness:
     enabled: true
-    path: /health
+    path: /api/v1/auth/health
+    initialDelaySeconds: 5
     periodSeconds: 10
     timeoutSeconds: 2
     failureThreshold: 3
 
   liveness:
     enabled: true
-    path: /health
+    path: /api/v1/auth/health
+    initialDelaySeconds: 10
     periodSeconds: 10
     timeoutSeconds: 2
     failureThreshold: 3

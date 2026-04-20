@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "customer.fullname" . }}
+  name: {{ .Values.name }}-deployment
   annotations:
     argocd.argoproj.io/sync-wave: "1"
   labels:
