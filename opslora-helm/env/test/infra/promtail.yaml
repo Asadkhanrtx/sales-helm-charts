@@ -10,7 +10,7 @@ spec:
 
   source:
     repoURL: https://github.com/KUBE-POD404/opslora-helm-charts.git
-    targetRevision: refactor/opslora-helm
+    targetRevision: test/opslora-helm-test
     path: opslora-helm/infra/monitoring/promtail
 
   destination:
@@ -21,6 +21,9 @@ spec:
     automated:
       prune: true
       selfHeal: true
+    managedNamespaceMetadata:
+      labels:
+        shared-gateway: "true"
     syncOptions:
       - CreateNamespace=true
       - ServerSideApply=true
