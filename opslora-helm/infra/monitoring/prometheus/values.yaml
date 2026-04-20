@@ -4,9 +4,9 @@ kube-prometheus-stack:
     adminPassword: admin
 
     additionalDataSources:
-    - name: Loki
-      type: loki
-      url: http://loki.monitoring:3100
+      - name: Loki
+        type: loki
+        url: http://loki.monitoring.svc.cluster.local:3100
 
     service:
       type: ClusterIP
@@ -17,3 +17,25 @@ kube-prometheus-stack:
 
   alertmanager:
     enabled: true
+
+httpRoute:
+  enabled: true
+  name: prometheus-grafana-route
+
+  gateway:
+    name: opslora-gateway
+    namespace: opslora-gateway-ns
+
+  hostname: test-prometheus.opslora.com
+
+  path:
+    type: PathPrefix
+    value: /
+
+  urlRewrite:
+    enabled: false
+    replacePrefixMatch: /
+
+  backend:
+    name: prometheus-stack-grafana
+    port: 80
