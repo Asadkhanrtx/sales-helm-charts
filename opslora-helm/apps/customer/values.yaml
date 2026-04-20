@@ -1,3 +1,6 @@
+name: customer
+fullname: customer-service
+
 replicaCount: 2
 
 
