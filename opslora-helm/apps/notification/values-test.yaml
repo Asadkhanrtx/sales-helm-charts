@@ -1,6 +1,6 @@
 replicaCount: 2
 image:
-  repository: kubectlandchill/opslora-notification-service-test
+  repository: ghcr.io/kube-pod404/opslora-notification-service
   tag: "ee6e871"
   pullPolicy: IfNotPresent
 containerPort: 3000

@@ -1,7 +1,7 @@
 replicaCount: 3
 
 image:
-  repository: kubectlandchill/opslora-notification-service-prod
+  repository: ghcr.io/kube-pod404/opslora-notification-service
   tag: "1.0.0"
   pullPolicy: IfNotPresent
 

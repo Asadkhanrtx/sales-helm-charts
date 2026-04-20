@@ -1,0 +1,19 @@
+kube-prometheus-stack:
+  grafana:
+    enabled: true
+    adminPassword: admin
+
+    additionalDataSources:
+    - name: Loki
+      type: loki
+      url: http://loki.monitoring:3100
+
+    service:
+      type: ClusterIP
+
+  prometheus:
+    prometheusSpec:
+      serviceMonitorSelectorNilUsesHelmValues: false
+
+  alertmanager:
+    enabled: true
