@@ -10,7 +10,7 @@ singleBinary:
   persistence:
     enabled: true
     size: 10Gi
-    # set this if you have a working storage class
+
     storageClass: sales-storageclass
 
   extraVolumes: []
