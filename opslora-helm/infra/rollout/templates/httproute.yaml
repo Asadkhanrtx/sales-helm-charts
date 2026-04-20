@@ -1,0 +1,19 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: argo-rollouts-dashboard-route
+  namespace: argo-rollouts
+  labels:
+    shared-gateway: "true"
+spec:
+  parentRefs:
+    - name: opslora-gateway
+      namespace: opslora-gateway-ns
+
+  hostnames:
+    - rollouts.opslora.com
+
+  rules:
+    - backendRefs:
+        - name: argo-rollouts-dashboard
+          port: 3100

@@ -1,7 +1,7 @@
 replicaCount: 2
 image:
   repository: ghcr.io/kube-pod404/opslora-invoice-service
-  tag: "558f256"
+  tag: "920bd25"
   pullPolicy: IfNotPresent
 containerPort: 3000
 service:

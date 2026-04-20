@@ -11,11 +11,11 @@ spec:
   source:
     repoURL: https://github.com/KUBE-POD404/opslora-helm-charts.git
     targetRevision: main
-    path: opslora-helm/infra/monitoring/promtail
+    path: opslora-helm/infra/rollout
 
   destination:
     server: https://kubernetes.default.svc
-    namespace: monitoring
+    namespace: argo-rollouts
 
   syncPolicy:
     automated:

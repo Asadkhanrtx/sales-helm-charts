@@ -1,6 +1,9 @@
-deploymentMode: SingleBinary
-
 loki:
+  deploymentMode: Distributed
+
+  global:
+    storageClass: sales-storageclass
+
   auth_enabled: false
 
   commonConfig:
@@ -16,60 +19,100 @@ loki:
           prefix: loki_index_
           period: 24h
 
-  storage:
-    type: filesystem
+  storage_config:
+    filesystem:
+      directory: /var/loki/chunks
 
-singleBinary:
-  replicas: 1
-  persistence:
+  compactor:
+    working_directory: /var/loki/compactor
+
+  limits_config:
+    retention_period: 168h
+
+  backend:
     enabled: true
-    size: 10Gi
-    storageClass: sales-storageclass
+    replicas: 1
+    persistence:
+      enabled: true
+      storageClass: sales-storageclass
+      storageClassName: sales-storageclass
+      accessModes:
+        - ReadWriteMany
+      size: 10Gi
 
-# Zero out all non-single-binary components
-backend:
-  replicas: 0
-read:
-  replicas: 0
-write:
-  replicas: 0
-ingester:
-  replicas: 0
-querier:
-  replicas: 0
-queryFrontend:
-  replicas: 0
-queryScheduler:
-  replicas: 0
-distributor:
-  replicas: 0
-compactor:
-  replicas: 0
-indexGateway:
-  replicas: 0
-bloomPlanner:
-  replicas: 0
-bloomBuilder:
-  replicas: 0
-bloomGateway:
-  replicas: 0
+  write:
+    enabled: true
+    replicas: 1
+    persistence:
+      enabled: true
+      storageClass: sales-storageclass
+      storageClassName: sales-storageclass
+      accessModes:
+        - ReadWriteMany
+      size: 10Gi
 
-chunksCache:
-  enabled: false
+  read:
+    enabled: true
+    replicas: 1
+    persistence:
+      enabled: true
+      storageClass: sales-storageclass
+      storageClassName: sales-storageclass
+      accessModes:
+        - ReadWriteMany
+      size: 10Gi
 
-resultsCache:
-  enabled: false
+  ingester:
+    enabled: true
+    replicas: 1
+    persistence:
+      enabled: true
+      storageClass: sales-storageclass
+      storageClassName: sales-storageclass
+      accessModes:
+        - ReadWriteMany
+      size: 20Gi
 
-gateway:
-  enabled: false
+  distributor:
+    enabled: true
 
-lokiCanary:
-  enabled: false
+  querier:
+    enabled: true
 
-test:
-  enabled: false
+  queryFrontend:
+    enabled: true
 
-monitoring:
-  enabled: false
-  selfMonitoring:
+  queryScheduler:
+    enabled: true
+
+  compactor:
+    enabled: true
+    persistence:
+      enabled: true
+      storageClass: sales-storageclass
+      storageClassName: sales-storageclass
+      accessModes:
+        - ReadWriteMany
+      size: 10Gi
+
+  indexGateway:
+    enabled: true
+    persistence:
+      enabled: true
+      storageClass: sales-storageclass
+      storageClassName: sales-storageclass
+      accessModes:
+        - ReadWriteMany
+      size: 10Gi
+
+  singleBinary:
+    enabled: false
+
+  gateway:
+    enabled: false
+
+  lokiCanary:
+    enabled: false
+
+  monitoring:
     enabled: false

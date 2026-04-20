@@ -2,7 +2,7 @@ replicaCount: 3
 
 image:
   repository: ghcr.io/kube-pod404/opslora-auth-service
-  tag: "1.0.0"
+  tag: "405ca40"
   pullPolicy: IfNotPresent
 
 global:

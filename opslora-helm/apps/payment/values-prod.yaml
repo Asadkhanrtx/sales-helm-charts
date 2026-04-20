@@ -2,7 +2,7 @@ replicaCount: 3
 
 image:
   repository: ghcr.io/kube-pod404/opslora-payment-service
-  tag: "1.0.0"   
+  tag: "565c043"   
   pullPolicy: IfNotPresent
 
 global:
