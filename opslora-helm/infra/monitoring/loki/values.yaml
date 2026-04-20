@@ -17,19 +17,18 @@ loki:
           period: 24h
 
 singleBinary:
-  enabled: true   # 🔴 THIS is often required in newer charts
+  enabled: true
   replicas: 1
-  persistence:
-    enabled: true
-    storageClass: sales-storageclass
-    accessModes:
-      - ReadWriteMany
-    size: 10Gi
 
-# 🔴 Explicitly disable distributed mode
-backend:
-  enabled: false
-read:
-  enabled: false
-write:
-  enabled: false
+  persistence:
+    enabled: false   # 🔴 disable PVCs completely
+
+  extraVolumes:
+    - name: loki-storage
+      hostPath:
+        path: /tmp/loki   # or /var/lib/loki
+        type: DirectoryOrCreate
+
+  extraVolumeMounts:
+    - name: loki-storage
+      mountPath: /var/loki
