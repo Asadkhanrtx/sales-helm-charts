@@ -1,6 +1,6 @@
 replicaCount: 2
 image:
-  repository: kubectlandchill/opslora-payment-service-test
+  repository: ghcr.io/kube-pod404/opslora-payment-service
   tag: "ad4ac81"
   pullPolicy: IfNotPresent
 containerPort: 3000

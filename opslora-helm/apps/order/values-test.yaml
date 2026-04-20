@@ -1,6 +1,6 @@
 replicaCount: 2
 image:
-  repository: kubectlandchill/opslora-order-service-test
+  repository: ghcr.io/kube-pod404/opslora-order-service
   tag: "46284ae"
   pullPolicy: IfNotPresent
 containerPort: 3000

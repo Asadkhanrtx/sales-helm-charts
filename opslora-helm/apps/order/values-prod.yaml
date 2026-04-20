@@ -1,7 +1,7 @@
 replicaCount: 3
 
 image:
-  repository: kubectlandchill/opslora-order-service-prod
+  repository: ghcr.io/kube-pod404/opslora-order-service
   tag: "1.0.0"
   pullPolicy: IfNotPresent
 

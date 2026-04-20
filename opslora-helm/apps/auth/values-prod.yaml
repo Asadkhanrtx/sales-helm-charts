@@ -1,7 +1,7 @@
 replicaCount: 3
 
 image:
-  repository: kubectlandchill/opslora-auth-service-prod
+  repository: ghcr.io/kube-pod404/opslora-auth-service
   tag: "1.0.0"
   pullPolicy: IfNotPresent
 

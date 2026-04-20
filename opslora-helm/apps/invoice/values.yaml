@@ -1,7 +1,7 @@
 replicaCount: 2
 
 image:
-  repository: kubectlandchill/opslora-invoice-service-test
+  repository: ghcr.io/kube-pod404/opslora-invoice-service
   tag: "e477782"
   pullPolicy: IfNotPresent
 

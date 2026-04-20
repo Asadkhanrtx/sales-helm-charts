@@ -1,6 +1,6 @@
 replicaCount: 2
 image:
-  repository: kubectlandchill/opslora-auth-service-test
+  repository: ghcr.io/kube-pod404/opslora-auth-service
   tag: "405ca40"
   pullPolicy: IfNotPresent
 containerPort: 3000
