@@ -1,5 +1,5 @@
 name: customer
-fullname: customer-service
+fullName: customer-service
 
 replicaCount: 2
 
