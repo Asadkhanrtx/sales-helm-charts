@@ -4,7 +4,6 @@ loki:
   global:
     storageClass: sales-storageclass
 
-
   auth_enabled: false
 
   commonConfig:
@@ -16,7 +15,7 @@ loki:
 
     lifecycler:
       ring:
-        replication_factor: 
+        replication_factor: 1   
 
     persistence:
       enabled: true
@@ -51,10 +50,6 @@ loki:
 
   limits_config:
     retention_period: 168h
-
-  # =========================
-  # STATEFUL COMPONENTS
-  # =========================
 
   backend:
     enabled: true
@@ -95,10 +90,6 @@ loki:
         - ReadWriteMany
       size: 10Gi
 
-  # =========================
-  # STATELESS COMPONENTS
-  # =========================
-
   distributor:
     enabled: true
 
@@ -110,10 +101,6 @@ loki:
 
   queryScheduler:
     enabled: true
-
-  # =========================
-  # DISABLE UNUSED
-  # =========================
 
   singleBinary:
     enabled: false
