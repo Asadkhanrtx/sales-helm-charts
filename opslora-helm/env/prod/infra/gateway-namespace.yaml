@@ -1,31 +1,27 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: auth-service-test
+  name: gateway-namespace-test
   namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-5"
 spec:
   project: default
-
   source:
     repoURL: https://github.com/KUBE-POD404/opslora-helm-charts.git
     targetRevision: main
-    path: opslora-helm/apps/auth
+    path: opslora-helm/infra/gateway-namespace
     helm:
-      releaseName: auth-service-test
+      releaseName: gateway-namespace-test
       valueFiles:
         - values.yaml
         - values-prod.yaml
-    
   destination:
     server: https://kubernetes.default.svc
-    namespace: opslora-app-ns
-
+    namespace: default
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
-      allowEmpty: false
     syncOptions:
       - CreateNamespace=true
-      - PrunePropagationPolicy=foreground
-      - PruneLast=true

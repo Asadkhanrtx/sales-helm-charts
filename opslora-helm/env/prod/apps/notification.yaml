@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: auth-service-test
+  name: notification-service-test
   namespace: argocd
 spec:
   project: default
@@ -9,13 +9,13 @@ spec:
   source:
     repoURL: https://github.com/KUBE-POD404/opslora-helm-charts.git
     targetRevision: main
-    path: opslora-helm/apps/auth
+    path: opslora-helm/apps/notification
     helm:
-      releaseName: auth-service-test
+      releaseName: notification-service-test
       valueFiles:
         - values.yaml
         - values-prod.yaml
-    
+
   destination:
     server: https://kubernetes.default.svc
     namespace: opslora-app-ns
