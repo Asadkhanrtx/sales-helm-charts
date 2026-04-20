@@ -1,39 +1,33 @@
 fullname: auth-service
 
-replicaCount: 3
+replicaCount: 2
 
 image:
-  tag: "1.2.2"
+  tag: "1.0.0"
 
 serviceAccount:
   name: auth-sa
 
-gateway:
-  name: main-gateway
-  namespace: infra
-
 route:
   hostnames:
-    - auth.example.com
+    - opslora.com
 
 resources:
   requests:
-    cpu: 250m
-    memory: 256Mi
+    cpu: 100m
+    memory: 150Mi
+    ephemeral-storage: 300Mi
   limits:
-    cpu: 500m
-    memory: 512Mi
+    cpu: 200m     
+    memory: 300Mi
+    ephemeral-storage: 500Mi
 
 strategy:
-  type: RollingUpdate
   rollingUpdate:
-    maxUnavailable: 0   # critical for zero downtime
+    maxUnavailable: 0
     maxSurge: 1
 
 probes:
-  startup:
-    failureThreshold: 10
-
   readiness:
     failureThreshold: 3
 
@@ -41,7 +35,7 @@ probes:
     failureThreshold: 3
 
 pod:
-  automountServiceAccountToken: false  # security best practice
+  automountServiceAccountToken: false
 
 affinity:
   enabled: true

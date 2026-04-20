@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Values.fullname }}
+  namespace: {{ .Values.namespace }}
   annotations:
     argocd.argoproj.io/sync-wave: "1"
   labels:
@@ -29,6 +30,18 @@ spec:
       automountServiceAccountToken: {{ .Values.pod.automountServiceAccountToken }}
       serviceAccountName: {{ .Values.serviceAccount.name }}
 
+      {{- if .Values.affinity.enabled }}
+      affinity:
+        podAntiAffinity:
+          {{ .Values.affinity.podAntiAffinity.type }}:
+            - weight: {{ .Values.affinity.podAntiAffinity.weight }}
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    {{- toYaml .Values.selectorLabels | nindent 20 }}
+                topologyKey: {{ .Values.affinity.podAntiAffinity.topologyKey }}
+      {{- end }}
+
       containers:
         - name: auth-container
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -44,14 +57,15 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
 
-          {{- if .Values.probes.startup.enabled }}
-          startupProbe:
+          {{- if .Values.probes.liveness.enabled }}
+          livenessProbe:
             httpGet:
-              path: {{ .Values.probes.startup.path }}
+              path: {{ .Values.probes.liveness.path }}
               port: {{ .Values.containerPort }}
-            periodSeconds: {{ .Values.probes.startup.periodSeconds }}
-            timeoutSeconds: {{ .Values.probes.startup.timeoutSeconds }}
-            failureThreshold: {{ .Values.probes.startup.failureThreshold }}
+            initialDelaySeconds: {{ .Values.probes.liveness.initialDelaySeconds }}
+            periodSeconds: {{ .Values.probes.liveness.periodSeconds }}
+            timeoutSeconds: {{ .Values.probes.liveness.timeoutSeconds }}
+            failureThreshold: {{ .Values.probes.liveness.failureThreshold }}
           {{- end }}
 
           {{- if .Values.probes.readiness.enabled }}
@@ -59,17 +73,9 @@ spec:
             httpGet:
               path: {{ .Values.probes.readiness.path }}
               port: {{ .Values.containerPort }}
+            initialDelaySeconds: {{ .Values.probes.readiness.initialDelaySeconds }}
             periodSeconds: {{ .Values.probes.readiness.periodSeconds }}
             timeoutSeconds: {{ .Values.probes.readiness.timeoutSeconds }}
+            successThreshold: {{ .Values.probes.readiness.successThreshold }}
             failureThreshold: {{ .Values.probes.readiness.failureThreshold }}
-          {{- end }}
-
-          {{- if .Values.probes.liveness.enabled }}
-          livenessProbe:
-            httpGet:
-              path: {{ .Values.probes.liveness.path }}
-              port: {{ .Values.containerPort }}
-            periodSeconds: {{ .Values.probes.liveness.periodSeconds }}
-            timeoutSeconds: {{ .Values.probes.liveness.timeoutSeconds }}
-            failureThreshold: {{ .Values.probes.liveness.failureThreshold }}
           {{- end }}
