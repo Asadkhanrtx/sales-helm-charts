@@ -21,7 +21,7 @@ httpRoute:
     name: opslora-gateway
     namespace: opslora-gateway-ns
 
-  hostname: test-k8s-dashboard.opslora.com
+  hostname: k8s.opslora.com
 
   path:
     type: PathPrefix
