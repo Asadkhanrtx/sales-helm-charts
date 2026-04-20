@@ -37,7 +37,7 @@ httpRoute:
     name: opslora-gateway
     namespace: opslora-gateway-ns
 
-  hostname: test-grafana.opslora.com
+  hostname: grafana.opslora.com
 
   path:
     type: PathPrefix
