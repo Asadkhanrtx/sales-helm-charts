@@ -4,7 +4,7 @@ image:
   repository: ghcr.io/kube-pod404/opslora-frontend-service
 
   pullPolicy: IfNotPresent
-  tag: "1.0.0"
+  tag: "5d1873d"
 
 imagePullSecrets: []
 nameOverride: ""

@@ -1,0 +1,5 @@
+apiVersion: v2
+name: argo-rollout-app
+description: Argo Rollouts Blue-Green App
+version: 0.1.0
+appVersion: "1.0"
