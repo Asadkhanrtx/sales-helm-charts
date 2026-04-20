@@ -1,4 +1,4 @@
-deploymentMode: SingleBinary
+deploymentMode: Distributed
 
 loki:
   auth_enabled: false
@@ -16,62 +16,92 @@ loki:
           prefix: loki_index_
           period: 24h
 
-  # 🔴 CRITICAL: disable scheduler usage completely
-  frontend:
-    scheduler_address: ""
+  storage_config:
+    filesystem:
+      directory: /var/loki/chunks
 
-singleBinary:
+  compactor:
+    working_directory: /var/loki/compactor
+
+  limits_config:
+    retention_period: 168h  # 7 days
+
+  server:
+    http_listen_port: 3100
+
+# ✅ Shared persistence using NFS dynamic provisioning
+persistence:
+  enabled: true
+  storageClass: sales-storageclass
+  accessModes:
+    - ReadWriteMany
+  size: 50Gi
+
+# 🔥 Core distributed components
+
+distributor:
   enabled: true
   replicas: 1
 
-  persistence:
-    enabled: false
-
-  extraVolumes:
-    - name: loki-storage
-      hostPath:
-        path: /tmp/loki
-        type: DirectoryOrCreate
-
-  extraVolumeMounts:
-    - name: loki-storage
-      mountPath: /var/loki
-
-# 🔴 HARD DISABLE all distributed components
-backend:
-  enabled: false
-
-read:
-  enabled: false
-
-write:
-  enabled: false
-
 ingester:
-  enabled: false
+  enabled: true
+  replicas: 1
+  persistence:
+    enabled: true
+    storageClass: sales-storageclass
+    accessModes:
+      - ReadWriteMany
+    size: 20Gi
 
 querier:
-  enabled: false
+  enabled: true
+  replicas: 1
 
 queryFrontend:
-  enabled: false
+  enabled: true
+  replicas: 1
 
 queryScheduler:
-  enabled: false
-
-distributor:
-  enabled: false
+  enabled: true
 
 compactor:
-  enabled: false
+  enabled: true
+  persistence:
+    enabled: true
+    storageClass: sales-storageclass
+    accessModes:
+      - ReadWriteMany
+    size: 10Gi
 
 indexGateway:
+  enabled: true
+  replicas: 1
+  persistence:
+    enabled: true
+    storageClass: sales-storageclass
+    accessModes:
+      - ReadWriteMany
+    size: 10Gi
+
+# 🔴 Required logical groupings for chart
+
+read:
+  enabled: true
+  replicas: 1
+
+write:
+  enabled: true
+  replicas: 1
+
+backend:
+  enabled: true
+  replicas: 1
+
+# ❌ Disable single binary
+singleBinary:
   enabled: false
 
-ruler:
-  enabled: false
-
-# Optional: disable extras
+# ❌ Disable extras
 gateway:
   enabled: false
 
