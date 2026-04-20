@@ -16,60 +16,20 @@ loki:
           prefix: loki_index_
           period: 24h
 
-  storage:
-    type: filesystem
-
 singleBinary:
+  enabled: true   # 🔴 THIS is often required in newer charts
   replicas: 1
   persistence:
     enabled: true
-    size: 10Gi
     storageClass: sales-storageclass
+    accessModes:
+      - ReadWriteMany
+    size: 10Gi
 
-# Zero out all non-single-binary components
+# 🔴 Explicitly disable distributed mode
 backend:
-  replicas: 0
+  enabled: false
 read:
-  replicas: 0
+  enabled: false
 write:
-  replicas: 0
-ingester:
-  replicas: 0
-querier:
-  replicas: 0
-queryFrontend:
-  replicas: 0
-queryScheduler:
-  replicas: 0
-distributor:
-  replicas: 0
-compactor:
-  replicas: 0
-indexGateway:
-  replicas: 0
-bloomPlanner:
-  replicas: 0
-bloomBuilder:
-  replicas: 0
-bloomGateway:
-  replicas: 0
-
-chunksCache:
   enabled: false
-
-resultsCache:
-  enabled: false
-
-gateway:
-  enabled: false
-
-lokiCanary:
-  enabled: false
-
-test:
-  enabled: false
-
-monitoring:
-  enabled: false
-  selfMonitoring:
-    enabled: false
