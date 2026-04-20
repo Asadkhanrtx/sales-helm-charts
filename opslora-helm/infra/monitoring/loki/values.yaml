@@ -24,42 +24,58 @@ loki:
     working_directory: /var/loki/compactor
 
   limits_config:
-    retention_period: 168h  # 7 days
+    retention_period: 168h
 
-  server:
-    http_listen_port: 3100
+# 🔥 CRITICAL: persistence must be defined PER component
 
-# ✅ Shared persistence using NFS dynamic provisioning
-persistence:
-  enabled: true
-  storageClass: sales-storageclass
-  accessModes:
-    - ReadWriteMany
-  size: 50Gi
-
-# 🔥 Core distributed components
-
-distributor:
+backend:
   enabled: true
   replicas: 1
+  persistence:
+    enabled: true
+    storageClassName: sales-storageclass   # ✅ FIX
+    accessModes:
+      - ReadWriteMany
+    size: 10Gi
+
+write:
+  enabled: true
+  replicas: 1
+  persistence:
+    enabled: true
+    storageClassName: sales-storageclass   # ✅ FIX
+    accessModes:
+      - ReadWriteMany
+    size: 10Gi
+
+read:
+  enabled: true
+  replicas: 1
+  persistence:
+    enabled: true
+    storageClassName: sales-storageclass   # ✅ FIX
+    accessModes:
+      - ReadWriteMany
+    size: 10Gi
 
 ingester:
   enabled: true
   replicas: 1
   persistence:
     enabled: true
-    storageClass: sales-storageclass
+    storageClassName: sales-storageclass   # ✅ FIX
     accessModes:
       - ReadWriteMany
     size: 20Gi
 
+distributor:
+  enabled: true
+
 querier:
   enabled: true
-  replicas: 1
 
 queryFrontend:
   enabled: true
-  replicas: 1
 
 queryScheduler:
   enabled: true
@@ -68,40 +84,23 @@ compactor:
   enabled: true
   persistence:
     enabled: true
-    storageClass: sales-storageclass
+    storageClassName: sales-storageclass   # ✅ FIX
     accessModes:
       - ReadWriteMany
     size: 10Gi
 
 indexGateway:
   enabled: true
-  replicas: 1
   persistence:
     enabled: true
-    storageClass: sales-storageclass
+    storageClassName: sales-storageclass   # ✅ FIX
     accessModes:
       - ReadWriteMany
     size: 10Gi
 
-# 🔴 Required logical groupings for chart
-
-read:
-  enabled: true
-  replicas: 1
-
-write:
-  enabled: true
-  replicas: 1
-
-backend:
-  enabled: true
-  replicas: 1
-
-# ❌ Disable single binary
 singleBinary:
   enabled: false
 
-# ❌ Disable extras
 gateway:
   enabled: false
 
