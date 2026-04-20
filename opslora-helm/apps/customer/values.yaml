@@ -1,5 +1,8 @@
 replicaCount: 2
 
+
+serviceName: "customer-service"
+
 image:
   repository: ghcr.io/kube-pod404/opslora-customer-service
   tag: "f204706"   
