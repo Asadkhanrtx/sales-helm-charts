@@ -1,64 +1,43 @@
 loki:
+  loki:   
+    auth_enabled: false
+
+    commonConfig:
+      replication_factor: 1
+
+    schemaConfig:
+      configs:
+        - from: "2024-04-01"
+          store: tsdb
+          object_store: filesystem
+          schema: v13
+          index:
+            prefix: loki_index_
+            period: 24h
+
+    storage_config:
+      filesystem:
+        directory: /var/loki/chunks
+
+    compactor:
+      working_directory: /var/loki/compactor
+
+    limits_config:
+      retention_period: 168h
+
   deploymentMode: Distributed
 
   global:
     storageClass: sales-storageclass
 
-  auth_enabled: false
-
-  commonConfig:
-    replication_factor: 1
-
-  ingester:
-    enabled: true
-    replicas: 1
-
-    lifecycler:
-      ring:
-        replication_factor: 1   
-
-    persistence:
-      enabled: true
-      storageClass: sales-storageclass
-      accessModes:
-        - ReadWriteMany
-      size: 20Gi
-
-  schemaConfig:
-    configs:
-      - from: "2024-04-01"
-        store: tsdb
-        object_store: filesystem
-        schema: v13
-        index:
-          prefix: loki_index_
-          period: 24h
-
-  storage_config:
-    filesystem:
-      directory: /var/loki/chunks
-
-  compactor:
-    enabled: true
-    working_directory: /var/loki/compactor
-    persistence:
-      enabled: true
-      storageClass: sales-storageclass
-      accessModes:
-        - ReadWriteMany
-      size: 10Gi
-
-  limits_config:
-    retention_period: 168h
-
+  # components (keep same)
   backend:
     enabled: true
     replicas: 1
     persistence:
       enabled: true
       storageClass: sales-storageclass
-      accessModes:
-        - ReadWriteMany
+      accessModes: [ReadWriteMany]
       size: 10Gi
 
   write:
@@ -67,8 +46,7 @@ loki:
     persistence:
       enabled: true
       storageClass: sales-storageclass
-      accessModes:
-        - ReadWriteMany
+      accessModes: [ReadWriteMany]
       size: 10Gi
 
   read:
@@ -77,8 +55,24 @@ loki:
     persistence:
       enabled: true
       storageClass: sales-storageclass
-      accessModes:
-        - ReadWriteMany
+      accessModes: [ReadWriteMany]
+      size: 10Gi
+
+  ingester:
+    enabled: true
+    replicas: 1
+    persistence:
+      enabled: true
+      storageClass: sales-storageclass
+      accessModes: [ReadWriteMany]
+      size: 20Gi
+
+  compactor:
+    enabled: true
+    persistence:
+      enabled: true
+      storageClass: sales-storageclass
+      accessModes: [ReadWriteMany]
       size: 10Gi
 
   indexGateway:
@@ -86,8 +80,7 @@ loki:
     persistence:
       enabled: true
       storageClass: sales-storageclass
-      accessModes:
-        - ReadWriteMany
+      accessModes: [ReadWriteMany]
       size: 10Gi
 
   distributor:
