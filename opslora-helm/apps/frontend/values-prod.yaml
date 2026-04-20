@@ -1,86 +1,39 @@
+fullname: frontend-service
+
 replicaCount: 3
 
 image:
-  repository: ghcr.io/kube-pod404/opslora-frontend-service
+  tag: "v1.0.0"
 
-  pullPolicy: IfNotPresent
-  tag: "5d1873d"
+route:
+  hostnames:
+    - opslora.com
 
-imagePullSecrets: []
-nameOverride: ""
-fullnameOverride: ""
-
-serviceAccount:
-  create: true
-  automount: true
-  annotations: {}
-  name: ""
-
-podAnnotations: {}
-podLabels: {}
-
-podSecurityContext: {}
-
-securityContext: {}
+resources:
+  requests:
+    cpu: 150m
+    memory: 512Mi
+  limits:
+    cpu: 300m
+    memory: 256Mi
 
 strategy:
-  type: RollingUpdate
   rollingUpdate:
     maxUnavailable: 0
     maxSurge: 1
 
-resources:
-  limits:
-    cpu: "500m"
-    memory: "512Mi"
-    ephemeral-storage: "1Gi"
-  requests:
-    cpu: "200m"
-    memory: "256Mi"
-    ephemeral-storage: "500Mi"
-
-livenessProbe:
-  httpGet:
-    path: /
-    port: http
-readinessProbe:
-  httpGet:
-    path: /
-    port: http
-
-autoscaling:
-  enabled: false
-  minReplicas: 1
-  maxReplicas: 100
-  targetCPUUtilizationPercentage: 80
-
-volumes: []
-
-volumeMounts: []
-
-nodeSelector: {}
-
-tolerations: []
+pod:
+  automountServiceAccountToken: false
 
 affinity:
-  podAntiAffinity:
-    preferredDuringSchedulingIgnoredDuringExecution:
-    - weight: 100
-      podAffinityTerm:
-        topologyKey: kubernetes.io/hostname
-
-
-httpRoute:
   enabled: true
-  annotations: {}
-  parentRefs:
-  - name: opslora-gateway
-    namespace: opslora-gateway-ns
-    sectionName: http
-  hostnames:
-  - opslora.com
-  rules:
-  - matches:
-    - path:
-        type: PathPrefix
-        value: /
+  podAntiAffinity:
+    type: preferredDuringSchedulingIgnoredDuringExecution
+    weight: 100
+    topologyKey: kubernetes.io/hostname
+
+autoscaling:
+  enabled: true
+  minReplicas: 3
+  maxReplicas: 6
+  targetCPUUtilizationPercentage: 70

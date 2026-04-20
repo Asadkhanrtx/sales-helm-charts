@@ -1,38 +1,29 @@
-{{- if .Values.httpRoute.enabled -}}
-{{- $fullName := include "frontend.fullname" . -}}
-{{- $svcPort := .Values.service.port -}}
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: {{ $fullName }}
-  labels:
-    {{- include "frontend.labels" . | nindent 4 }}
-  {{- with .Values.httpRoute.annotations }}
+  name: {{ .Values.fullname }}
+  namespace: {{ .Values.namespace }}
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
-  {{- end }}
+    argocd.argoproj.io/sync-wave: "3"
+  labels:
+    {{- toYaml .Values.labels | nindent 4 }}
+
 spec:
   parentRefs:
-    {{- with .Values.httpRoute.parentRefs }}
-      {{- toYaml . | nindent 4 }}
-    {{- end }}
-  {{- with .Values.httpRoute.hostnames }}
+    - name: {{ .Values.gateway.name }}
+      namespace: {{ .Values.gateway.namespace }}
+
   hostnames:
-    {{- toYaml . | nindent 4 }}
-  {{- end }}
+    {{- range .Values.route.hostnames }}
+    - {{ . | quote }}
+    {{- end }}
+
   rules:
-    {{- range .Values.httpRoute.rules }}
-    {{- with .matches }}
     - matches:
-      {{- toYaml . | nindent 8 }}
-    {{- end }}
-    {{- with .filters }}
-      filters:
-      {{- toYaml . | nindent 8 }}
-    {{- end }}
+        - path:
+            type: {{ .Values.route.path.type }}
+            value: {{ .Values.route.path.value }}
+
       backendRefs:
-        - name: {{ $fullName }}
-          port: {{ $svcPort }}
-          weight: 1
-    {{- end }}
-{{- end }}
+        - name: {{ .Values.service.name }}
+          port: {{ .Values.service.port }}
