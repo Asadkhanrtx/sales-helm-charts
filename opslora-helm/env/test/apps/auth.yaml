@@ -16,7 +16,7 @@ spec:
         - values.yaml
         - values-test.yaml
     
-    destination:
+  destination:
     server: https://kubernetes.default.svc
     namespace: opslora-app-ns
 
