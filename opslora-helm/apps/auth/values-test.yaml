@@ -3,7 +3,7 @@ fullname: auth-service-test
 replicaCount: 1
 
 image:
-  tag: "7616957"
+  tag: "405ca40"
 
 serviceAccount:
   name: auth-sa

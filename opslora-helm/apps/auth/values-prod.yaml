@@ -3,7 +3,7 @@ fullname: auth-service
 replicaCount: 2
 
 image:
-  tag: "1.0.0"
+  tag: "v1.0.0"
 
 serviceAccount:
   name: auth-sa
