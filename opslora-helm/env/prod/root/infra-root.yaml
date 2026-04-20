@@ -1,14 +1,14 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: apps-root-test
+  name: infra-root-test
   namespace: argocd
 spec:
   project: default
   source:
     repoURL: https://github.com/KUBE-POD404/opslora-helm-charts.git
-    targetRevision: test/opslora-helm-test
-    path: opslora-helm/env/test/apps
+    targetRevision: main
+    path: opslora-helm/env/test/infra
     directory:
       recurse: true
   destination:

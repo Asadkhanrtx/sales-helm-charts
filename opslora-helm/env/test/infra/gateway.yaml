@@ -9,7 +9,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/KUBE-POD404/opslora-helm-charts.git
-    targetRevision: refactor/opslora-helm
+    targetRevision: test/opslora-helm-test
     path: opslora-helm/infra/gateway
     helm:
       releaseName: gateway-test

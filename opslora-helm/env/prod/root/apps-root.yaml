@@ -7,7 +7,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/KUBE-POD404/opslora-helm-charts.git
-    targetRevision: test/opslora-helm-test
+    targetRevision: main
     path: opslora-helm/env/test/apps
     directory:
       recurse: true

@@ -8,6 +8,12 @@ headlamp:
   config:
     inCluster: true
     baseURL: "/"
+    oidc:
+      clientID: "headlamp"
+      clientSecret: "SonC3XVKFR28e2ngvJOPIVE20aK3JB53"
+      issuerURL: "https://test-keycloak.opslora.com/realms/opslora-test"
+      scopes: "openid,email,profile"
+      callbackURL: "https://test-k8s-dashboard.opslora.com/oidc-callback"
 
   # Keep RBAC deliberate. Review the upstream chart defaults in your environment.
   serviceAccount:

@@ -9,13 +9,13 @@ spec:
   project: default
   source:
     repoURL: https://github.com/KUBE-POD404/opslora-helm-charts.git
-    targetRevision: test/opslora-helm-test
+    targetRevision: main
     path: opslora-helm/infra/mysql
     helm:
       releaseName: mysql-test
       valueFiles:
         - values.yaml
-        - values-test.yaml
+        - values-prod.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: opslora-app-ns
