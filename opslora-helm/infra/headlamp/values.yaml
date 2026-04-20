@@ -1,0 +1,36 @@
+headlamp:
+  replicaCount: 1
+
+  service:
+    type: ClusterIP
+    port: 80
+
+  config:
+    inCluster: true
+    baseURL: "/"
+
+  # Keep RBAC deliberate. Review the upstream chart defaults in your environment.
+  serviceAccount:
+    create: true
+
+httpRoute:
+  enabled: true
+  name: headlamp-route
+
+  gateway:
+    name: opslora-gateway
+    namespace: opslora-gateway-ns
+
+  hostname: headlamp.opslora.com
+
+  path:
+    type: PathPrefix
+    value: /
+
+  urlRewrite:
+    enabled: false
+    replacePrefixMatch: /
+
+  backend:
+    name: headlamp
+    port: 80
