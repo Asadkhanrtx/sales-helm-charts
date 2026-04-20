@@ -11,7 +11,7 @@ spec:
     targetRevision: main
     path: opslora-helm/apps/customer
     helm:
-      releaseName: customer-service-test
+      releaseName: customer-service
       valueFiles:
         - values.yaml
         - values-prod.yaml
