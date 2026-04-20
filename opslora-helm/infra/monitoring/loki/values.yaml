@@ -1,6 +1,9 @@
-deploymentMode: Distributed
-
 loki:
+  deploymentMode: Distributed
+
+  global:
+    storageClass: sales-storageclass
+
   auth_enabled: false
 
   commonConfig:
@@ -26,86 +29,90 @@ loki:
   limits_config:
     retention_period: 168h
 
-# 🔥 CRITICAL: persistence must be defined PER component
-
-backend:
-  enabled: true
-  replicas: 1
-  persistence:
+  backend:
     enabled: true
-    storageClassName: sales-storageclass   # ✅ FIX
-    accessModes:
-      - ReadWriteMany
-    size: 10Gi
+    replicas: 1
+    persistence:
+      enabled: true
+      storageClass: sales-storageclass
+      storageClassName: sales-storageclass
+      accessModes:
+        - ReadWriteMany
+      size: 10Gi
 
-write:
-  enabled: true
-  replicas: 1
-  persistence:
+  write:
     enabled: true
-    storageClassName: sales-storageclass   # ✅ FIX
-    accessModes:
-      - ReadWriteMany
-    size: 10Gi
+    replicas: 1
+    persistence:
+      enabled: true
+      storageClass: sales-storageclass
+      storageClassName: sales-storageclass
+      accessModes:
+        - ReadWriteMany
+      size: 10Gi
 
-read:
-  enabled: true
-  replicas: 1
-  persistence:
+  read:
     enabled: true
-    storageClassName: sales-storageclass   # ✅ FIX
-    accessModes:
-      - ReadWriteMany
-    size: 10Gi
+    replicas: 1
+    persistence:
+      enabled: true
+      storageClass: sales-storageclass
+      storageClassName: sales-storageclass
+      accessModes:
+        - ReadWriteMany
+      size: 10Gi
 
-ingester:
-  enabled: true
-  replicas: 1
-  persistence:
+  ingester:
     enabled: true
-    storageClassName: sales-storageclass   # ✅ FIX
-    accessModes:
-      - ReadWriteMany
-    size: 20Gi
+    replicas: 1
+    persistence:
+      enabled: true
+      storageClass: sales-storageclass
+      storageClassName: sales-storageclass
+      accessModes:
+        - ReadWriteMany
+      size: 20Gi
 
-distributor:
-  enabled: true
-
-querier:
-  enabled: true
-
-queryFrontend:
-  enabled: true
-
-queryScheduler:
-  enabled: true
-
-compactor:
-  enabled: true
-  persistence:
+  distributor:
     enabled: true
-    storageClassName: sales-storageclass   # ✅ FIX
-    accessModes:
-      - ReadWriteMany
-    size: 10Gi
 
-indexGateway:
-  enabled: true
-  persistence:
+  querier:
     enabled: true
-    storageClassName: sales-storageclass   # ✅ FIX
-    accessModes:
-      - ReadWriteMany
-    size: 10Gi
 
-singleBinary:
-  enabled: false
+  queryFrontend:
+    enabled: true
 
-gateway:
-  enabled: false
+  queryScheduler:
+    enabled: true
 
-lokiCanary:
-  enabled: false
+  compactor:
+    enabled: true
+    persistence:
+      enabled: true
+      storageClass: sales-storageclass
+      storageClassName: sales-storageclass
+      accessModes:
+        - ReadWriteMany
+      size: 10Gi
 
-monitoring:
-  enabled: false
+  indexGateway:
+    enabled: true
+    persistence:
+      enabled: true
+      storageClass: sales-storageclass
+      storageClassName: sales-storageclass
+      accessModes:
+        - ReadWriteMany
+      size: 10Gi
+
+  singleBinary:
+    enabled: false
+
+  gateway:
+    enabled: false
+
+  lokiCanary:
+    enabled: false
+
+  monitoring:
+    enabled: false
