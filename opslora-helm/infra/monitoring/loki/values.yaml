@@ -122,3 +122,6 @@ loki:
 
   monitoring:
     enabled: false
+  
+  grafanaAgent:
+    enabled: false
