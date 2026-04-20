@@ -4,11 +4,26 @@ loki:
   global:
     storageClass: sales-storageclass
 
-  # 🔥 FIX: correct way
+
   auth_enabled: false
 
   commonConfig:
     replication_factor: 1
+
+  ingester:
+    enabled: true
+    replicas: 1
+
+    lifecycler:
+      ring:
+        replication_factor: 
+
+    persistence:
+      enabled: true
+      storageClass: sales-storageclass
+      accessModes:
+        - ReadWriteMany
+      size: 20Gi
 
   schemaConfig:
     configs:
@@ -25,7 +40,14 @@ loki:
       directory: /var/loki/chunks
 
   compactor:
+    enabled: true
     working_directory: /var/loki/compactor
+    persistence:
+      enabled: true
+      storageClass: sales-storageclass
+      accessModes:
+        - ReadWriteMany
+      size: 10Gi
 
   limits_config:
     retention_period: 168h
@@ -64,25 +86,6 @@ loki:
         - ReadWriteMany
       size: 10Gi
 
-  ingester:
-    enabled: true
-    replicas: 1
-    persistence:
-      enabled: true
-      storageClass: sales-storageclass
-      accessModes:
-        - ReadWriteMany
-      size: 20Gi
-
-  compactor:
-    enabled: true
-    persistence:
-      enabled: true
-      storageClass: sales-storageclass
-      accessModes:
-        - ReadWriteMany
-      size: 10Gi
-
   indexGateway:
     enabled: true
     persistence:
@@ -93,7 +96,7 @@ loki:
       size: 10Gi
 
   # =========================
-  # STATELESS
+  # STATELESS COMPONENTS
   # =========================
 
   distributor:
