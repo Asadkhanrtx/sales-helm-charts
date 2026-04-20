@@ -27,6 +27,9 @@ spec:
               replacePrefixMatch: {{ .Values.httpRoute.urlRewrite.replacePrefixMatch | default "/" | quote }}
       {{- end }}
       backendRefs:
-        - name: {{ .Values.httpRoute.backend.name | default .Release.Name }}
+        - group: ""
+          kind: Service
+          name: {{ .Values.httpRoute.backend.name | default .Release.Name }}
           port: {{ .Values.httpRoute.backend.port | default 80 }}
+          weight: 1
 {{- end }}
