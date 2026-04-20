@@ -74,4 +74,3 @@ probes:
     timeoutSeconds: 2
     failureThreshold: 3
 
-serviceName: "customer-service"
