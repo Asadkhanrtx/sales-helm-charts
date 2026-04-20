@@ -26,7 +26,7 @@ httpRoute:
     name: opslora-gateway
     namespace: opslora-gateway-ns
 
-  hostname: test-prometheus.opslora.com
+  hostname: test-grafana.opslora.com
 
   path:
     type: PathPrefix
