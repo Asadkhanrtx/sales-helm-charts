@@ -1,24 +1,24 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: grafana-agent
-  namespace: argocd
-spec:
-  project: default
+# apiVersion: argoproj.io/v1alpha1
+# kind: Application
+# metadata:
+#   name: grafana-agent
+#   namespace: argocd
+# spec:
+#   project: default
 
-  source:
-    repoURL:  https://github.com/KUBE-POD404/opslora-helm-charts.git
-    targetRevision: test/opslora-helm-test
-    path: infra/grafana-agent 
+#   source:
+#     repoURL:  https://github.com/KUBE-POD404/opslora-helm-charts.git
+#     targetRevision: test/opslora-helm-test
+#     path: infra/grafana-agent 
 
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: monitoring
+#   destination:
+#     server: https://kubernetes.default.svc
+#     namespace: monitoring
 
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
+#   syncPolicy:
+#     automated:
+#       prune: true
+#       selfHeal: true
 
-    syncOptions:
-      - CreateNamespace=true
+#     syncOptions:
+#       - CreateNamespace=true
