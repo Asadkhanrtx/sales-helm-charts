@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: argo-rollouts-dashboard
+  namespace: argo-rollouts
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: argo-rollouts-dashboard
+  template:
+    metadata:
+      labels:
+        app: argo-rollouts-dashboard
+    spec:
+      containers:
+        - name: dashboard
+          image: quay.io/argoproj/kubectl-argo-rollouts:latest
+          command: ["kubectl-argo-rollouts"]
+          args:
+            - dashboard
+            - --port=3100
+            - --namespace=argo-rollouts
+          ports:
+            - containerPort: 3100

@@ -2,7 +2,7 @@ replicaCount: 3
 
 image:
   repository: ghcr.io/kube-pod404/opslora-notification-service
-  tag: "1.0.0"
+  tag: "3559058"
   pullPolicy: IfNotPresent
 
 rabbitmq:
