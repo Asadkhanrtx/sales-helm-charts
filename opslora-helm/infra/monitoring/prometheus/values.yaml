@@ -6,7 +6,7 @@ kube-prometheus-stack:
     additionalDataSources:
       - name: Loki
         type: loki
-        url:  http://loki-query-frontend.monitoring.svc.cluster.local:3100
+        url:  http://loki-read.monitoring.svc.cluster.local:3100
 
     service:
       type: ClusterIP
