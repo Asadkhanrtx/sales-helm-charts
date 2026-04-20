@@ -9,7 +9,7 @@ metadata:
     {{- include "frontend.labels" . | nindent 4 }}
   {{- with .Values.httpRoute.annotations }}
   annotations:
-    {{- toYaml . | nindent 4 }}
+    argocd.argoproj.io/sync-wave: "2"
   {{- end }}
 spec:
   parentRefs:
