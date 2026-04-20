@@ -3,7 +3,7 @@ kind: HTTPRoute
 metadata:
   name: {{ include "customer.fullname" . }}
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "3"
   labels:
     {{- include "customer.labels" . | nindent 4 }}
 
