@@ -1,7 +1,7 @@
 replicaCount: 3
 
 image:
-  repository: kubectlandchill/opslora-frontend-service-prod
+  repository: ghcr.io/kube-pod404/opslora-frontend-service
 
   pullPolicy: IfNotPresent
   tag: "1.0.0"
