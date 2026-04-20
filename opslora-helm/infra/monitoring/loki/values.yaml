@@ -3,9 +3,9 @@ loki:
 
   global:
     storageClass: sales-storageclass
-  
-  config:
-    auth_enabled: false
+
+  # 🔥 FIX: correct way
+  auth_enabled: false
 
   commonConfig:
     replication_factor: 1
@@ -123,8 +123,6 @@ loki:
 
   monitoring:
     enabled: false
-  
+
   grafanaAgent:
     enabled: false
-
-  
