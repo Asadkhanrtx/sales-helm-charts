@@ -9,7 +9,7 @@ spec:
   source:
     repoURL: https://github.com/KUBE-POD404/opslora-helm-charts.git  
     targetRevision: main
-    path: argo-rollout-chart   
+    path: opslora-helm/infra/rollout   
 
     helm:
       valueFiles:
