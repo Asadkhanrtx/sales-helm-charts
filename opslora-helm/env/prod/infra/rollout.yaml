@@ -1,28 +1,28 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: argo-rollouts-app
-  namespace: argocd
-spec:
-  project: default
+# apiVersion: argoproj.io/v1alpha1
+# kind: Application
+# metadata:
+#   name: argo-rollouts-app
+#   namespace: argocd
+# spec:
+#   project: default
 
-  source:
-    repoURL: https://github.com/KUBE-POD404/opslora-helm-charts.git  
-    targetRevision: main
-    path: opslora-helm/infra/rollout   
+#   source:
+#     repoURL: https://github.com/KUBE-POD404/opslora-helm-charts.git  
+#     targetRevision: main
+#     path: opslora-helm/infra/rollout   
 
-    # helm:
-    #   valueFiles:
-    #     - values.yaml
+#     # helm:
+#     #   valueFiles:
+#     #     - values.yaml
 
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: argo-rollouts
+#   destination:
+#     server: https://kubernetes.default.svc
+#     namespace: argo-rollouts
 
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
+#   syncPolicy:
+#     automated:
+#       prune: true
+#       selfHeal: true
 
-    syncOptions:
-      - CreateNamespace=true
+#     syncOptions:
+#       - CreateNamespace=true
