@@ -12,6 +12,11 @@ spec:
     repoURL: https://github.com/KUBE-POD404/opslora-helm-charts.git
     targetRevision: main
     path: opslora-helm/infra/monitoring/prometheus
+    helm:
+      releaseName: prometheus
+      valueFiles:
+        - values.yaml
+        - values-prod.yaml
 
   destination:
     server: https://kubernetes.default.svc
