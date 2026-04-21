@@ -26,6 +26,7 @@ pod:
 secretName: order-secret
 
 route:
+  name: order-route
   hostnames:
     - opslora.com
   path:

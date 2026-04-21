@@ -35,7 +35,7 @@ serviceAccount:
   create: true
   name: ""
 config:
-  CUSTOMER_SERVICE_URL: "http://opslora-customer:3000"
+  CUSTOMER_SERVICE_URL: "http://customer-service:3000"
 strategy:
   type: RollingUpdate
   rollingUpdate:
@@ -57,15 +57,7 @@ resources:
     cpu: "100m"
     memory: "150Mi"
     ephemeral-storage: "250Mi"
-route:
-  hostnames:
-    - test-opslora.opslora.com
-  path:
-    type: PathPrefix
-    value: /api/v1/orders
-  backend:
-    name: ""
-    port: 3000
+
 probes:
   startup:
     enabled: false
