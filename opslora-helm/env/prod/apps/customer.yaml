@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: customer-service-test
+  name: customer-service
   namespace: argocd
 spec:
   project: default

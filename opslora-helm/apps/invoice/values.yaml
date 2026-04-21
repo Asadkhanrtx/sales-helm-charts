@@ -45,7 +45,7 @@ secrets:
 
 
 config:
-  ORDER_SERVICE_URL: "http://opslora-order:3000"
+  ORDER_SERVICE_URL: "http://order-service:3000"
 
 serviceAccount:
   create: true
