@@ -27,7 +27,7 @@ spec:
 
     spec:
       automountServiceAccountToken: false
-      serviceAccountName: {{ include "notification.serviceAccountName" . }}
+      serviceAccountName: {{ .Values.fullName }}-sa
 
       affinity:
         podAffinity:

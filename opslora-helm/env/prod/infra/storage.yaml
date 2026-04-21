@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: storage-test
+  name: storage
   namespace: argocd
   annotations:
     argocd.argoproj.io/sync-wave: "-1"
@@ -12,10 +12,10 @@ spec:
     targetRevision: main
     path: opslora-helm/infra/storage
     helm:
-      releaseName: storage-test
+      releaseName: storage
       valueFiles:
         - values.yaml
-        - values-test.yaml
+        - values-prod.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: default

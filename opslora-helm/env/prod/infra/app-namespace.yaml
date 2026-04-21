@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: app-namespace-test
+  name: app-namespace
   namespace: argocd
   annotations:
     argocd.argoproj.io/sync-wave: "-5"
@@ -12,7 +12,7 @@ spec:
     targetRevision: main
     path: opslora-helm/infra/app-namespace
     helm:
-      releaseName: app-namespace-test
+      releaseName: app-namespace
       valueFiles:
         - values.yaml
         - values-prod.yaml

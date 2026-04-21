@@ -27,7 +27,7 @@ spec:
 
     spec:
       automountServiceAccountToken: {{ .Values.pod.automountServiceAccountToken }}
-      serviceAccountName: {{ include "payment.serviceAccountName" . }}
+      serviceAccountName: {{ .Values.name }}-sa
 
       {{- if and .Values.affinity.enabled .Values.affinity.podAntiAffinity.enabled }}
       affinity:

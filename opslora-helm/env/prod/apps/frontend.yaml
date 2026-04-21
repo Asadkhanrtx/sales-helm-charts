@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: frontend-service-test
+  name: frontend-service
   namespace: argocd
 spec:
   project: default
@@ -11,7 +11,7 @@ spec:
     targetRevision: main
     path: opslora-helm/apps/frontend
     helm:
-      releaseName: frontend-service-test
+      releaseName: frontend-service
       valueFiles:
         - values.yaml
         - values-prod.yaml
