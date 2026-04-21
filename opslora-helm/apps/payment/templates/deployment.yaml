@@ -10,14 +10,14 @@ metadata:
 spec:
   replicas: {{ .Values.replicaCount }}
 
-strategy:
-  type: BlueGreen
-  blueGreen:
-    activeService: {{ .Values.fullName }}
-    previewService: {{ .Values.fullName }}-preview
+  strategy:
+    type: BlueGreen
+    blueGreen:
+      activeService: {{ .Values.fullName }}
+      previewService: {{ .Values.fullName }}-preview
 
-    autoPromotionEnabled: false
-    scaleDownDelaySeconds: 30
+      autoPromotionEnabled: false
+      scaleDownDelaySeconds: 30
 
   selector:
     matchLabels:
