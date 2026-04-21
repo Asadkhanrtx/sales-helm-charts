@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "payment.fullname" . }}
+  name: {{ .Values.fullName }}
   annotations:
     argocd.argoproj.io/sync-wave: "1"
   labels:
