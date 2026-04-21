@@ -53,14 +53,14 @@ affinity:
 
 
 resources:
-  limits:
-    cpu: "200m"
-    memory: "300Mi"
-    ephemeral-storage: "500Mi"
   requests:
-    cpu: "100m"
-    memory: "150Mi"
-    ephemeral-storage: "250Mi"
+    cpu: 50m
+    memory: 150Mi
+    ephemeral-storage: 300Mi
+  limits:
+    cpu: 100m     
+    memory: 300Mi
+    ephemeral-storage: 500Mi
 
 probes:
   startup:

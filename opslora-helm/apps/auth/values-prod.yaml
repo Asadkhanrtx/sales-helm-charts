@@ -14,11 +14,11 @@ route:
 
 resources:
   requests:
-    cpu: 100m
+    cpu: 50m
     memory: 150Mi
     ephemeral-storage: 300Mi
   limits:
-    cpu: 200m     
+    cpu: 100m     
     memory: 300Mi
     ephemeral-storage: 500Mi
 
