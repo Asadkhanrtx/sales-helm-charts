@@ -9,11 +9,17 @@ spec:
   parentRefs:
     - name: opslora-gateway
       namespace: opslora-gateway-ns
+      # OPTIONAL but recommended if your gateway has named listeners
+      # sectionName: http
 
   hostnames:
-    - rollouts.opslora.com
+    - rollout.opslora.com
 
   rules:
-    - backendRefs:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
         - name: argo-rollouts-dashboard
           port: 3100
