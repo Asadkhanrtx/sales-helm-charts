@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "payment.fullname" . }}
+  name: {{ .Values.name }}-deployment
   annotations:
     argocd.argoproj.io/sync-wave: "1"
   labels:
@@ -53,7 +53,7 @@ spec:
             - secretRef:
                 name: {{ .Values.secretName }}
             - configMapRef:
-                name: {{ include "payment.fullname" . }}-config
+                name: {{ .Values.name }}-config
 
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
