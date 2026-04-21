@@ -43,7 +43,7 @@ route:
     - opslora.com
   path:
     type: PathPrefix
-    value: /
+    value: /api/v1/auth
   backend:
     name: auth-service
     port: 3000
