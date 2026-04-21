@@ -38,6 +38,7 @@ gateway:
   namespace: opslora-gateway-ns
 
 route:
+  name: auth-route
   hostnames:
     - opslora.com
   path:

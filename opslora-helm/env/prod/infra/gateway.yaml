@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: gateway-test
+  name: gateway
   namespace: argocd
   annotations:
     argocd.argoproj.io/sync-wave: "-2"
@@ -12,7 +12,7 @@ spec:
     targetRevision: main
     path: opslora-helm/infra/gateway
     helm:
-      releaseName: gateway-test
+      releaseName: gateway
       valueFiles:
         - values.yaml
         - values-prod.yaml

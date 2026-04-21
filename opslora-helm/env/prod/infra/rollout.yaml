@@ -7,9 +7,9 @@ spec:
   project: default
 
   source:
-    repoURL: https://github.com/KUBE-POD404/opslora-helm-charts.git  # 🔴 change this
+    repoURL: https://github.com/KUBE-POD404/opslora-helm-charts.git  
     targetRevision: main
-    path: argo-rollout-chart   # 🔴 your helm chart folder
+    path: argo-rollout-chart   
 
     helm:
       valueFiles:

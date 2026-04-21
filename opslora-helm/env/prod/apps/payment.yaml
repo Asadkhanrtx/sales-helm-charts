@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: payment-service-test
+  name: payment-service
   namespace: argocd
 spec:
   project: default
@@ -11,7 +11,7 @@ spec:
     targetRevision: main
     path: opslora-helm/apps/payment
     helm:
-      releaseName: payment-service-test
+      releaseName: payment-service
       valueFiles:
         - values.yaml
         - values-prod.yaml

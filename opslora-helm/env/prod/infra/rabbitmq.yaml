@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: rabbitmq-test
+  name: rabbitmq
   namespace: argocd
   annotations:
     argocd.argoproj.io/sync-wave: "-1"
@@ -12,7 +12,7 @@ spec:
     targetRevision: main
     path: opslora-helm/infra/rabbitmq
     helm:
-      releaseName: rabbitmq-test
+      releaseName: rabbitmq
       valueFiles:
         - values.yaml
         - values-prod.yaml
