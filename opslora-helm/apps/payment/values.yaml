@@ -45,7 +45,7 @@ secrets:
 
 
 config:
-  INVOICE_SERVICE_URL: "http://opslora-invoice:3000"
+  INVOICE_SERVICE_URL: "http://invoice-service:3000"
 
 serviceAccount:
   create: true

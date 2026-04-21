@@ -50,7 +50,7 @@ serviceAccount:
   name: ""
 
 config:
-  CUSTOMER_SERVICE_URL: "http://opslora-customer:3000"
+  CUSTOMER_SERVICE_URL: "http://customer-service:3000"
 
 strategy:
   type: RollingUpdate
