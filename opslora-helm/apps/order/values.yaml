@@ -1,0 +1,99 @@
+name: order 
+fullName: order-service
+
+replicaCount: 2
+
+image:
+  repository: ghcr.io/kube-pod404/opslora-order-service
+  tag: "409a61c"
+  pullPolicy: IfNotPresent
+
+containerPort: 3000
+
+service:
+  port: 3000
+
+gateway:
+  name: opslora-gateway
+  namespace: opslora-gateway-ns
+
+global:
+  host: opslora.com
+
+pod:
+  automountServiceAccountToken: false
+
+secretName: order-secret
+
+route:
+  name: order-route
+  hostnames:
+    - opslora.com
+  path:
+    type: PathPrefix
+    value: /api/v1/orders
+  backend:
+    name: ""
+    port: 3000
+
+secrets:
+  ACCESS_TOKEN_EXPIRE_MINUTES: "AgAPCAXnACYV0VgA5Sc8LXliJbppJbIZ9x1j8jUFvut7LcI4eNTJvx7gvTc9fd7CStf9PGQFw+oPfgPCml1kdkqC/rrUX9GZBnBhXgKMs9SM8tI0VI5aBQctWAVlCqIQlWv8HiBZER0oMnKTMO0FQDTlDTWogQpO10MDnEjG2pqo+qbSN061OsEnwBorPUgH+1oIf5TGE5Pe288ZX4+StteCcedFNPmoIsyJONQ4D1JXmah5mGIWv0/wK6vqcxcKDTk7NaSpLkIxeVbESFAhXnQ6u8O9Whchf9VjKwhUk3cgqGfGkdspM7bKxcQgL7mAeOueFwt9yF0E1ndsLXOZ1mWKRqSbgSm2HGJZyVnLSykks50XFspOjrbJFNQtvc5KlaUMFD9kdaqJrJHa63hxfoiKnAiHQNWzhbS1FgZHFv5DeWrBENQFoVgfJVjsoStBBSmMqGYC/U7+sawyLBN5SloRMfeitMnZSJi+Kkvyn6Ys82s6/eFtqQAID3Yvmr76OoXNNBw5pi95aPdsdhaJJKrOriLqR/8rsrHcfv+aLIYs+z/t1BFfWjxqqCd7J2Iis1IjphuSJixJd9vXkqn4vfL2AhURIS4Pw/JI4kFtxxh4jyeWBaDcRNYNnNaMWak3trT0UwNhCo+GWFF6FobqqkYWhVBjhuKMVrRhw+8ihbijualV5tcoiiTIBt7bhaUu9cDu2l8="
+  API_URL: "AgBhmqC3TjZuga5WIDrQKy8jEzNjptDHaSnbwS0Ze72vEG+ZNs4lzpkw+CCgX7UJTEuHGOAO6nCMOo787nYVidF6Mh07o8Mxp06moPoIuhhEbc4UCcTxqUDFbhlMTmBBh9Dg3siKAhmXLrsAvT8t0KLd0Qfl1FpVdU8tQISKynPdwEVzb9j4rTlQCjQ9QtL/LCSxM5NcUhTzHfipkaMjcYm5de6lWu49XQ01RdhgpDYdXxOhZAApdIQo9YizAzrYbvxHl8MesZqyUU/08nQSWbkWQy4pPThnfcalNT1WUhgFsN0FX3y9bYRacXMRdvUX7L27KzL5KeE13Abg8qF78A29Ycw6Qp5D9eQlYK1HYjEnMKtbVhsxbblOOBKGX0RfUqI7QdtaZNTFp0kY+exe1YWVU3XePVDAHQQhHerVZudQr5XX+577N7kzhbHAO6rY7eH8ES43UVHLYQ4pjWL0xuDf7RbzFITJQiPMwlzvZReDToOuMvgVP8tEr/G3ZnjKwqN6AhJrORFcse43UnGpWU16A0JsEH8dmRMs098291kRZK1zr56ggmgNwF17M5jc2WeFOqC13cWQMBCLWZSxcAY4Xj65TZ+P7SLqzy3lMa3w6PU+KpHDg6hE2QNqGCHsyefO+hNam2l69WM0UUvwo/9aTWPpoaWEsX+9i9lDPfMmh/c3tiHJnyUfXjgBbKtIDzJglg96eAnq"
+  DATABASE_URL: "AgA2l9lOCp6uxoMAbbUgc7NCYXHLEiQzrz7gxx+pqW8y2fDw0B+aKrEjFjW/OO90MWCcHEgNctKZOmmjdvMtuL4h1dJRMTrESrdkzxRCVwy/WnDLdll6gQWrpVIZnpZK3n0HY3JKXfCMx0E5ue3WdkNT+vurIu9LSRaotNNMc+byiuJHi0rIP6mcGeuD3pPGt6G4rcCNAJ+pXcRy6+gPkMWXt+vttRgypv5INzv2noMRpF5RaPS6mMK0tTZtYstEcFnT2VMe1EIqY2MAyov08e6qVDij9b5/xcoxv7RnOxaQtYpJUvpc4BGmsqjYktlP9ttQhqdQxRJIiK79mWLIBAzHj4vwfMHLdj1jiUuhgxLlKKImfGWzJceL3wRyygBjd6tgm+W2gkhee5NvzFbxqShWeJXtn08WA3B/XMqPwyS54OstCnWwyAEtG+/To8AXg+4PkAeD9fDdfze0mCKwn7vSTd3EoJurXezwdDni1bnJVzsBzheXy4+sed7dz+gNtnylSS4IaL+UO8Iv/CAbxz488MlhSIpBz8wJvGbzS3V9BXlSM8YA3TWmULIvJJV/Rmd58j2DTPAxHASk7p83yOAjgHAXvBVAFWOn/2Ih5s5TCSRHgCsctuXP4bv9ZSFLq9QcKes8N2NuCMSBKyu3rB3xNsDfQTsvTnpVARbx6oz+NYUKhSdzger5s/aNGcZd5tMgtaLMNv5yzWgB9zDgZgAdTCD/Ty6eU5JIBd+TtsoHkKTKhT/Dlq8mciC8lr+sTObtUk2OLPF53t1J4GKbfQ=="
+  ENVIRONMENT: "AgA7OESjsGaS4R9VpKI6rv3pX9pOBmAb3XWmjJSEu3+Od+4rpnqueR6JvaMaFt/Tjhv9K+gHW2vT5lryEaUYJMvefzcYHV3BEQrSPBblBJI3EoaE1B5DB41qYLlvhqj+rScs0eUoxPPMeNj15ZhJPJlamdf+MQyrwRjf16kYZ7O9vMpUzV7pOrRVX+WC2Cq0+TlWr4xH91FL8vJTHr89F+Z8ahLkPaz2hR3FknS9UgbqpK8h4jJN5AOg1CeINJRD7/PumDftWlIB0ag1s/D4ClCjl5kN29OEvDiy5KgBOps8alfRaf41XO+Bkh5Tz0arHoA6xMNPkqtr8u6JrMC4reYqTM5NjJA6pRrBRMKadhLRjTeBD+yGziKrXx5FTW0oqemZ8ICJEeGDwZ6BuafBppG8XggVOFNPoik/Xo1Djiaax86tfnC+bgHdlc1U5IY5E/NZnCjZpJszitdFC50IrNNadWj6D8EBP5wdpaUZQpeSWtCfeTGGrb2jS054Y4xytYEz9BEMcBkospznpf3rEmjEdeYM7X+gesSqV48rwDEpqQV5JAiA96TEqFPDqlCcaGiTvbVO+wrJ2wAwjglYgIPSd/XQiBagp60qWvSaiMivMXeb9aQyTC2ZWWZQE1ca7IZah/iZ0iSQUwfxci2R9+yIwrp7mrR7kfB0cKoDGLS6/GfRXc71g2Gov4z6fFkR1SPM2Pa8iDZHchOz"
+  JWT_SECRET_KEY: "AgCIYjfyzbPFmVU5AW1SnNmx19OYuB8PR2BojhnDhMpdXk/oxpcuUAiVy66AWpy5BPMzp9qTGcqfCCQU7Q0NLgCaze3JBXKH92bjPlqWwCsaNWqDfBeBxpdzP4HdlKx8KrAoHO+QEW9eRZ5D3Even+bhI83+LwLi4M6+ZEoJZKXnZ3Z+9ELMAkY5ZA4mw/3xnYYIED4FiBjarctXWLEIxU7CZKL1/fl1bhqf65FMh6Ogsp0u1khaNCWahRZ+N7PtbrIaCH6+mh695rOAbxIwGOjAEWl3GMpe5NdZTDBuTOuYtZRaZ5L8A444et5x7IgIXUil4iSyOlze7Nl4+0IOOVNssR0pB4GzkrGohcKoh/Dphpubm1gjFiUVKvL0UfOOAZE+j/lAkDAroafPvmHmTSkcDJ8bVT9mUlKEJIzSB/T/X9A2ATcOvaeZ6+58smpmgvOaepuiYvll+F2NwqxdhnjvGYN3nTmadxsClJcA7RHVcwp/CLGR6P3qNWlCe/ixlRMVbep9ehSANzeIn8nbFqBgSHyp3vH2C5w8w/wnoHgmncSFk+TbO0HN2a/gQsuRLjihsojdcAaBTX2upZRXUguxRx2eWAdF51TpqqPl2iyZPNjTMv1Z37DsI+DoO/rf39daanqoJ0Jsq+vxTr/v1WIrFAdk7GOoCpB+E9IrKOTs8VkZAcF0ykvWewIf66iyMoO3kX0cK2wdN+dvG1x1C9RWTLWf7j0/Rvk6Kt9jwz1rsjSrYQzWGIwTTtf4k7NnEQDUyQQDm2f3nIouwiAOJex8w7bDVIUzhLlWuf03U180c+HGuLBxXPflinem"
+  RABBITMQ_URL: "AgCT3vFo+jI7otuAC7pPk8alxPKVdSv1DC3RWrLHT9eRGSJIviMEUE+evZ5AH22thXQtic9iNbfcaWihHSqFnJeGjrnC1YecjzXEO7GsNPCcuoVWRoZ+RAV1943onV3maeEzgJGFBbMkX8b0BrD+TyzSL8NpUKiWRk+RJyQD22PvtqvT6n388Wu/IT+kIDOfPrOVfFw3zuWL/xligvySNIzURxavqi9O/97cs0gsFxTdGUNfBA1DSJHd0n/FjbKlOYhnLeKTMYNwXXONDf5kL6DV3ZNtBjKqKZHflzU2Vy4FPI/ecqy+i2kkebOZ/65rrxkHrJPJgOT5Mc3Rl+IWbHTRcTm3pSXmY7m1IQ8oSxxXw1njt3ftX0TtsU/28HOJiJcUgLhLofGnAQv5BFWzkSf8/rH5SEmYs5o9Qx9Z27YsEtcUq+cvrgkDyLoLJng1j197hHLszUpaE8lC1fPAWRP0c/btQH1dDPFULZSTWO86b62RSWejOAkLuHuxpm4VWlz3JajHJyd790me5AMZaxrnsDehHyIYRbywEF8xTdfr6L34mVX2lgB/IJ8RFHrchqN6wmC+xpiNgyeHylR+iN/7o3toh+OFjUZPPXqvJ8Ewp0cpkn7FbmEL2+OEoRBfiF2tH7ZQo4kjb/vJE3KS9SIxMGZMZyU2sX8FP8YRn2MyUUQR0Q5Mvx7l90eMSjrN4GcVTRgVyCLGgNbKRREy+H4f0Q2VgdQQgBxDrPnltslbsbc/TEJ85AaG1XH+mFw="
+
+
+serviceAccount:
+  create: true
+  name: ""
+
+config:
+  CUSTOMER_SERVICE_URL: "http://customer-service:3000"
+
+strategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxUnavailable: 1
+    maxSurge: 1
+
+affinity:
+  enabled: true
+  podAntiAffinity:
+    enabled: true
+    type: preferredDuringSchedulingIgnoredDuringExecution
+    weight: 100
+    topologyKey: kubernetes.io/hostname
+
+resources:
+  limits:
+    cpu: "200m"
+    memory: "300Mi"
+    ephemeral-storage: "500Mi"
+  requests:
+    cpu: "100m"
+    memory: "150Mi"
+    ephemeral-storage: "250Mi"
+
+probes:
+  startup:
+    enabled: false
+    path: /api/v1/orders/health
+    periodSeconds: 5
+    timeoutSeconds: 2
+    failureThreshold: 12
+  readiness:
+    enabled: true
+    path: /api/v1/orders/health
+    periodSeconds: 5
+    timeoutSeconds: 2
+    failureThreshold: 3
+  liveness:
+    enabled: true
+    path: /api/v1/orders/health
+    periodSeconds: 10
+    timeoutSeconds: 2
+    failureThreshold: 3
+
+

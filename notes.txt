@@ -1,0 +1,124 @@
+# GitOps CI/CD Workflow Guide (Trunk-Based Development)
+
+This guide explains how to set up your application repositories (like `opslora-perspective-service`, `opslora-auth-service`, etc.) to automatically deploy to your Test and Prod clusters using ArgoCD and this Helm repository.
+
+## Architecture Overview
+Since you are using a Trunk-Based strategy, all configurations for both environments live in the `main` branch of this `opslora-helm-charts` repository.
+- **ArgoCD Test** monitors `KUBE-POD404/opslora-helm-charts` (`main`) and applies `values-test.yaml`.
+- **ArgoCD Prod** monitors `KUBE-POD404/opslora-helm-charts` (`main`) and applies `values-prod.yaml`.
+
+Your CI pipelines do not deploy images directly. Instead, they **update the image tag in this Helm repository**. ArgoCD detects the change and syncs the clusters.
+
+---
+
+## Step 1: Authentication Setup
+Your application repositories need permission to push changes to this Helm repository automatically.
+
+1. Go to your personal GitHub Settings -> Developer Settings -> **Personal Access Tokens**.
+2. Generate a new token with **Read/Write access to Code & Repositories**.
+3. Copy the token.
+4. Go to your **Application Repository** (e.g., `opslora-auth-service`).
+5. Navigate to **Settings -> Secrets and Variables -> Actions**.
+6. Create a New Repository Secret:
+   - **Name:** `HELM_REPO_PAT`
+   - **Secret:** *(Paste the token from Step 2)*
+
+---
+
+## Step 2: The GitHub Action Pipeline
+Create or update your GitHub Action workflow in your Application repository (e.g., `.github/workflows/deploy.yml`).
+
+This example builds the image, automatically deploys it to Test, pauses for manual approval, and then promotes that exact same image to Prod.
+
+```yaml
+name: CI/CD Pipeline (Build, Test, Promote to Prod)
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  # -------------------------------------------------------------
+  # 1. BUILD THE IMAGE
+  # -------------------------------------------------------------
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Application Code
+        uses: actions/checkout@v3
+
+      - name: Build and Push Image
+        run: |
+          # Build the image using the Git SHA as the tag
+          docker build -t kubectlandchill/opslora-[SERVICE-NAME]-service:${{ github.sha }} .
+          docker push kubectlandchill/opslora-[SERVICE-NAME]-service:${{ github.sha }}
+
+  # -------------------------------------------------------------
+  # 2. DEPLOY TO TEST (Automated)
+  # -------------------------------------------------------------
+  deploy-test:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: test
+    steps:
+      - name: Checkout Helm Repository
+        uses: actions/checkout@v3
+        with:
+          repository: KUBE-POD404/opslora-helm-charts
+          token: ${{ secrets.HELM_REPO_PAT }}
+          path: helm-repo
+
+      - name: Update Test Values in Helm Repo
+        run: |
+          cd helm-repo/opslora-helm/apps/[SERVICE_NAME]
+          
+          # Find and replace the tag specifically in values-test.yaml
+          sed -i 's/tag: .*/tag: "${{ github.sha }}"/' values-test.yaml
+          
+          # Commit the change to the Helm Repo
+          git config user.name "github-actions[bot]"
+          git config user.email "bot@github.actions.com"
+          git add values-test.yaml
+          git commit -m "deploy(test): update [SERVICE_NAME] tag to ${{ github.sha }}"
+          git push origin main
+          
+          echo "ArgoCD will now sync the Test cluster!"
+
+  # -------------------------------------------------------------
+  # 3. PROMOTE TO PROD (Requires Manual Approval in GitHub)
+  # -------------------------------------------------------------
+  deploy-prod:
+    needs: deploy-test
+    runs-on: ubuntu-latest
+    # NOTE: Configure 'prod' in GitHub Repo Settings -> Environments to require manual Reviewers!
+    environment: prod 
+    steps:
+      - name: Checkout Helm Repository
+        uses: actions/checkout@v3
+        with:
+          repository: KUBE-POD404/opslora-helm-charts
+          token: ${{ secrets.HELM_REPO_PAT }}
+          path: helm-repo
+
+      - name: Update Prod Values in Helm Repo
+        run: |
+          cd helm-repo/opslora-helm/apps/[SERVICE_NAME]
+          
+          # Find and replace the tag specifically in values-prod.yaml
+          sed -i 's/tag: .*/tag: "${{ github.sha }}"/' values-prod.yaml
+          
+          # Commit the change to the Helm Repo
+          git config user.name "github-actions[bot]"
+          git config user.email "bot@github.actions.com"
+          git add values-prod.yaml
+          git commit -m "deploy(prod): promote [SERVICE_NAME] tag to ${{ github.sha }}"
+          git push origin main
+          
+          echo "ArgoCD will now sync the Prod cluster!"
+```
+
+## How It Works
+1. `actions/checkout` downloads this `opslora-helm-charts` repository to the CI runner securely using your PAT.
+2. `sed` replaces the hardcoded `tag:` string with the incoming `$GITHUB_SHA`.
+3. `git commit` pushes that file change back to `main`.
+4. Your ArgoCD nodes immediately recognize the file change on `main` and execute the deployments!

@@ -1,0 +1,70 @@
+replicaCount: 2
+image:
+  repository: ghcr.io/kube-pod404/opslora-notification-service
+  tag: "3559058"
+  pullPolicy: IfNotPresent
+containerPort: 3000
+rabbitmq:
+  host: rabbitmq
+  port: 5672
+secretName: notification-secret
+pod:
+  automountServiceAccountToken: false
+secrets:
+  FROM_EMAIL: "AgB0bdv4TyHQuUaD5LXIMOoy/jdUA/q/Q/H2D3/C/LJIDwnoH1mPaT/LIjI1Po6o48PxS/v0c3Cg3RtHpZfSDRcrbyeInvo36CRL3586QQ8cNlen44+OAquvrQifx3hQczuzrdr2+lt8xsQ2HAlO2XodviHo0wKB6wiXc+3VePNmO4llxSgWIyvaV8bPYbg6rnyTXN6perjHt5Aam2/htRstUEEc9FnkxeZYHY00XO9V/FOqzL9gilIbtTpJobk8+Vdw2XfAQjq4Ln6rDLSwzc8BhLUNGTJxnmbhnC8i63PVK6lOsvJkCYNOXM5Gd4WLHDDKv0QoWT1DWW+yhQI8UD/ApIqszBAFTFLyX9E0RqdcJE9OcRQIFuykJkeT2bp6EcYmZp/VuniZhn0FGCx0Guyu3KvB6pWkFBosHj1vA4YvG/U+dsYfCbES7jHlzoXRl+o/L+JVnQuOlvkSuijlund+mCIB1Hg9GG9NVsc8tpOpQ0xWLEySaiS+jnwI3K2jS7oSzw5CKbDBtijYsMwb4Rxpp0oh20/zFHFSGEty0/o70MAxXeJgeC542H6EelZh8O0QaSvDxwihNvO70ruirY4Ep176PdN70yL76WF2bQ743KzpKOpLIrfmvFFiGlusm8R1iPtmx7GLXOxKDnpcJmIiacu1bUM7xfUVV/G4s0KX/Re+2q7DZB+a7buwZMFFvxfm4rOoGctf86IK+I/0Kk9HDp/8eOY4I+Q="
+  FROM_NAME: "AgBn1QYpOVXn+XcF8t32b9g17bhjENhfQGntRRHdvjzjEGsHFiGPtfu0Nc7Svt/BaNf8+8r1gvzHyG4gVWqzKrrFN/Lpk4DHBNs8RKoAV260YQSP4WxBZhZ45Op5PxaChzSvrj4cSWOoQfN6scI7ZkLsJv2RoyVbAf8v+x+iSyNU8zAkAvjYQztzRU3Kvsz76GvBfePzeSeyHCy91jQfBxOcpbDPcKSsIy6ejb2zWSKUf9434fejmFSlIFRh9L4xUchZU5K+19+LnFmvm7K+g0N3rC92qKym2nkvHwdmc71E7lD/JQ1IKJvx+QgZ3yKCnqICZMK4YOT9zhawrpRAyrJyRdkFVKs8TbtGi6uRKooDuKbOuQOl/KKtRt2q0CRsDKyd0JHfKQHzUzVugCsmxx6LH2j30RYrpwHOTMcnDzK3OCUeYqbEd+2hEgIBmGqtZgmXel1rsTMmpYmMumua1mw+ulQuM2qUua/hCF8LyOc9zsFevCtoo3JY649o8ACITTaAT6txtGXqE1P75OWbUoTEbglA8v1BoTJ6Bs/dEYiZ1/uiBKhZoxS9ujqB+984ATsaxy5sLKsQBoaiCFa2vRHdAm/z3ArWUhQRdQYLQpVhlrzhIIlLyXaNFpMXd5PTakErojBm58neziNoT8UhJksaEij0tA1b7k8p8BkQOyl/5D2p3Fku4srawjNntaQkHzYhPBrnY7Fu"
+  RABBITMQ_URL: "AgCoxE0GDQy/fO9ZImY6tmA/ku7tOBhzhlJEVdjkmm5qFY/evvJWlA4fNyyVccEiGa3r76qYDU+72mt3FzLBxwvBzwce+H/Y04PozTtAihPc1s37hnF9VwAHqUNYja63dAv9WbjlzrmbbQOheZBZhcVQmVjKvMkDJ3/ZZM/R/oR/bfTL8GDaqpj7WTAOOzf1FEXfhOtMSBLklEvVgBrjwW+UHCjex3I8ywS/Fp7WbQD/lBQ1hJs0o0w2TgecLD39HtPWIZUeSEjmo3lLLyYE7ZkM6F2JxLTnwzUyqnXT6p5bhV/G5qnCa6tFKMpMl/7tZByNRLo49xI0cazuhksQb209VLTQa/R1IP3g6bxXMjOvJHWnwmtIh52zcMuZXj45Fps5YEJWiFMMYb1F/FwVUVhxY4erHyaLUyoP9TmJBg7btU1Zi1HtaucnRK8BFelvHIH2BmC0MCThDPxsnMOBYpP28bF9YXCPOqwG/PGeb/QyMiVVVIBZQUokVQi+oeDOdkZwjL4GkVf1xzz2LR5VzcvxVHJcOr0IKb58hNtNR/woEOcZbom/9AnXAJWDXwyTdduWStABv8DpCzxVFcLsI950TfA2CDdgCboa2GktYnOuV0T7ZgwU8ruyrqN+UygWeVMqGzG4Q6TVlrxn57FFltvw2B8dz4khjN7AnPx6N+vTPmC9Acb/PtiQJjZnudJqInhcdXMGlgZGtCKzXXIGzbFT8DxbISABUHC5kS1lQ2zi21z3/RnDUeEHlD+py7Q="
+  SMTP_HOST: "AgANdZcm6P78W3/qGvtEqGxHoABwjWrZVsTS8lKtTOjOLJBwB9GJHRqCWnoU1P5et2bPEY9WfsItImWwnVDkiie3NrfpfNNH4CF2Gb/oNmyYsyP3KQu5nqOTI+orTDqkzqXfp1eTlfgnKWQPUn9Gt8o7tnRJvFRwD9KQYGalHKhcr0sv+fhKEvXcZCqmHtOvG2x5sjDaLfC5m/zMFJ/Lm2flqBmnxc1MQso2otO65vcyHURxNlpWBb9QTHlFLBCwFnia2cB/7Y/uXGfk4xKbDxl4hT3XIgeeqVisKbZYiBhxqXCm9qW6xRuctlxzDV7xv1Nr7RbwhU9qdZSZDRd4HlKXQYZU29TSX/evwbbOlQPzsfkI/GjxXp60ZIK+6R4IphWz6n9wbi+tTMxsZEcaDhhuOPKF0NoULu3ZsOYP/3GxEe85QAbnRy5qSNUk+WGUyWeenpsOWO3sd8N9jyfrOFbS/dZFJ4E2opnYxhTfHu9/UFIilwuiMKM5//EiSqrQLRJ9ErYJ0+qvTSTmwgxWSmKgRVeooUCXfP+IJN6jWYh9RVVvinnG0mI402ayG8vVHv8RwPdpSS27Ij3R9Klvy2t9TlHhjFz+/vZS7crGFi9S613jk71nTHb1idaSkMkD21PrTOJKWSpexQLPhDMkyxwdAcOpKjIfoC6btTi3IpdGbAu6oA+I++QDFC+YMhSHWpuuB7WqfAhzSXZqZOhp3yF5vDk="
+  SMTP_PASS: "AgB0A3jY1Aqg10HiXEVfOTXvEnFe/wQP3svQx9EW2Xv7BBUwBMV+LqsIkUKFrnEWnY065whjLAv6AC5jMjUf+aK1dKP/xkQ1HxZV6HqKxEe5LaWY37rOH2qssfffHndwYqQJN1o/mdmLFL76erMvye+0QVpN2z9E4Vx/zBv0KYQ7yPms73Fd7wgJAAmaDjx8AYNzLHbCMNdqo2Ml3U0X/jj9N4paLduBEvZgoqbBR4Q2WoTIK/6g3h9JwNViyWmXmcFg1YaWUvHKQ/flKFnlHths59vZtb2qSYoHZ/WeLIpE8heCzuZtWpQDWSgyEdYVxyqkgTUh9sjYnobfIkycyhaLZaCLmvpp9t6Jhdq4Uv7h7Gxk9TquO7nDYUPsuK5uIpRQLrvO2cY3VU4vvcV4MreOZEwaexERXWsE2CCKefoEjUxFnvCFSQOKsbTZKkbdTHMR5mZ+bcAwDGtbdkoBsJHAFixJEEvvHMyJx7J4eJoLWVyCEFdaV4/hvvvr9HBhiJ2xGogLajwjewCHdqde0bWl5qcVNcZcYGlcoNVH6i2IkuX/aZ9NbpK1m8HprRRSpLhyzL/IeyoNgUd3DENbWNFXesZYfIk/uBSB/9axYqY0Q+yk+CiWWoInbe3eJgQJk7r+noZxmwNtmVXaEk7+xCyK1BjoMMyF+r6Vj7lruCpdP16wTU2IxsNCACOEjtsC+dEuwbo3KYRojQ=="
+  SMTP_PORT: "AgAO+SHIsPfzlIKUMrAG1J/91LeDTD4jv8cxXQgRn6/4uBInb6+9mBKO+52yhXO0OAae60bWtxNwrF+7BYY+1HXaaaaqAUlMfPmGZQQAm55tzKP+p8uWQuSKzSkFSVnkieiZEKqNM90+p54bnfFbvmUljAIGzfSJrf9+5jFSOGg+gb/z2WKW1NStCrkC3RR84TPLXVkVKyYecr0OmzAz64mN+BPTDnyTkXDvT7bZDGd2AbrhptvV0sAMJM4hNKElYpjP6nwjBeAWTmXzbRCQvn157iQsDx3g1aAd6r7C0iAC+2HK7I1riC9iONxmzIde9P0HLQlAXfAOy2dUquXNBYhL3SwCzsibxcYkNQTxykkIIXT4vKYPDI2TxHPpmEa+ooyRMt4zSBUU+NO9laGDFTIIL/xYURy66szUr3XXKpQqyKYOe4aj2sGww6NyVGh35ECx04bVwS47Id308VALYHBgu7sdkbUvYWCL4Mwjr9TaJcoCjOjS5SYNCullNts9xQEKa3X7edKQ1kqfzE4kUTcthINvB3s2z8d4CrN+TNVkmXq2neCbX6up2dyV5c/Bh4xZVlLfuDGaZZ1KHoZx+FSOWL3kdBYnVpilHNmb40imvzkOVSpDNXd3eSB7WycZOunb7cRm4i7N3R1yJ+P8Nf6/s4PDa7UtuyeC2r67FnOfwapwDn+xCXNOZF86P90pUTFoiZI="
+  SMTP_USER: "AgB2QB+UOmm10fUrmaJfPHjUz7H0SMX6xdScow8N49+o7CpZHMfkzEBjQxpXlmWCAwY05bTAvpqWc8GoDrVx1fUUZnTR16mJIsAHRHeI5AoSQM8SGLxAnxQHYn//MVhUz4e41wL1TX6Wcj7jGtky8lmGsQm8a0iN2LLvJyIXLHJp4VF6jZwa/uu3+FJ5ajrrjqy5nZFGN2DSn3CylFdBcfJYOw0ssG92PL5KnrSwh8QT/flmXzAB51DvNnWLweu7verQFUnpVNb20eUyAvVz2I9+8R290ylgXxyt0GE23e4ikQz/NGNs++wfw3A+mbDzPPNE4hZIgftnbpA2k92tBm+l73PJtpn4ptNbUnt6nr3ze9yq5e8Jnic7fisqH7ahHtm6DgmEjqr6u4Vh/eOLd3QUXz6Cf8L0xrO3QW4D1nJKtXRWj1cslAVS/Tgct5mJ1EsxePKCYjC7OX+a9woNyzyGUiMSLVSB765c122gFy+OmlHq3cGZHPIT55ale4kEm2g6jqJmA/MTElVAAuNo7pFCySRL1ock44bJTIeZ4i/yOktmqejlz7UA7+uLt26fScbPDJuu82J6pDsvZPKRVyUUpEk10Nr88/jv2dA2DcMUJsK8zI+qFRjQzRIwiP3hCSqmVjPiO04ahY+LUKwjM8WYjvwTITWpqyqWpjcZRKLPqEIrpsY+WKWfqHevZAP7bS29OgZ7z3VyAZoL07zeYymvVUI/OOfBre4="
+serviceAccount:
+  create: true
+  name: ""
+strategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxUnavailable: 1
+    maxSurge: 1
+affinity:
+  enabled: true
+  rabbitmqPodAffinity:
+    enabled: true
+    weight: 50
+    topologyKey: kubernetes.io/hostname
+    labelKey: app
+    labelValues:
+      - rabbitmq
+  podAntiAffinity:
+    enabled: true
+    type: preferredDuringSchedulingIgnoredDuringExecution
+    weight: 100
+    topologyKey: kubernetes.io/hostname
+resources:
+  limits:
+    cpu: "200m"
+    memory: "300Mi"
+    ephemeral-storage: "500Mi"
+  requests:
+    cpu: "100m"
+    memory: "150Mi"
+    ephemeral-storage: "250Mi"
+probes:
+  startup:
+    enabled: false
+    path: /health
+    periodSeconds: 5
+    timeoutSeconds: 2
+    failureThreshold: 12
+  readiness:
+    enabled: false
+    path: /health
+    periodSeconds: 5
+    timeoutSeconds: 2
+    failureThreshold: 3
+  liveness:
+    enabled: false
+    path: /health
+    periodSeconds: 10
+    timeoutSeconds: 2
+    failureThreshold: 3

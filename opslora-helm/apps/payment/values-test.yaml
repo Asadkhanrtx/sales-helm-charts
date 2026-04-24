@@ -1,0 +1,83 @@
+fullName: payment-service
+replicaCount: 2
+image:
+  repository: ghcr.io/kube-pod404/opslora-payment-service
+  tag: "565c043"
+  pullPolicy: IfNotPresent
+containerPort: 3000
+service:
+  port: 3000
+gateway:
+  name: opslora-gateway
+  namespace: opslora-gateway-ns
+global:
+  host: test-opslora.opslora.com
+route:
+  hostnames:
+    - test-opslora.opslora.com
+  path:
+    type: PathPrefix
+    value: /api/v1/payments
+  backend:
+    name: ""
+    port: 3000
+pod:
+  automountServiceAccountToken: false
+secretName: payment-secret
+secrets:
+  ACCESS_TOKEN_EXPIRE_MINUTES: "AgBurs+E6q9eV7X5vr4GrrWynnJH9ab8xo4ieDfp7rYhSJZQJEXObYYM9gxk42kRzAtivJXWlSS/QCDeaMOcQ8kvetS3nt2HT3IuPgc6r4VG9YxlX3U0Rxu52hOe+CeDTDpmuLMHoZI+MFQvqOxZD8mBU8kdDfTqajNu2KG9zYRzV7mCnUWQKthBZIx5yGJhufDNVtQav71UOMrtwL/IKx+K3ws8ah623Yau5FF64PkP/tXSXd5IEJqiagBHy07em8DxAH8zWxXlopJbIeKyFoTojXepYAuP+pWs8ySfBvkHafa2KFX2uxqL1X+/Ey1QZbam1wutj9HxvdjBKzcz+oGp1dGEwGBnCofYk6Xis8DYeKj7yi0IR1ADD2FQmtGC/P7JtQ4zlRunuNgwOA8QHynuVmnCAA+G6XFvdaZdS4YkAA72/isfpq9OsbOYlbbhJkAQvg7gSKERVv1r2QIL3tvOK1zPUqHysKaDSmL736ycWmRO6G6q8KaWn6TQDvB2lv6bOldix/RcyNUmwDILViEAVCO2b9ZCuP165UyWUpFjYWkk7EslWqtWnBEcvMNxBcHhsgP0QELvJLRmcaCWgtvP7PFmlMJcuB1QqknUBC/NvaKB25533D19U6zLSz6vPc19AWY0t1kGxrnkcHpimdx2+zCHPZDdpnXGj9ND7zQtnX16bm+Vv7KwqQqyhS3K3EmuuzI="
+  API_URL: "AgBJOAqhWaC3QS5DuXiKjZ9+TVtZ2wZaKcF9kzyyoWU4BOn9cl44zyt0i14u87/ur78YzJLZk3y8vo/TvXB3gsnD2rIjK761jeRMdKvhKyZXHCuKPws65tr2eVmV4c6HotDeVun2Dfttqf60KCsehrHEhSFfZtJPH31Ao14YL9TK35C3f8ujaRUg4dFyFuIsGcD8uiwCeDhYhSex3nMBQS1SFlnWhjENV/YDJPXwGJJw9wQvJYuaxmpUTHavzhA2yA453EP/3h6d8xssy5harQkkvNgeBPAPjBJ9F4vJFxMqHWdgVY/1h3cYkey+Jc2FGK+F0DPDE2AmEQN7zKZQPLzZqJ8inJoZwT1i8aEYLR6ZnLMx43fXiOWEQBcsRC1nN8c1sfh+2VT+/as77LKOgZSicaYBmIB4/h3r6XwkHPZf1KKtILrRKm7yHe1flnro12xlPfeLLoPFqBZqjv9BYdkDEkIdnNxERjkcu5pjk+wDKrEUzWYX1gfZVyOyeMQeUohSBNK+n0l6ORvNf1Z8q/ENDwRNpyeA3+DPW74OgBBNyb8z9pM55w3a06Zs6KJaaAndD89chSg27AkZt6ZLeFa+6S787YI3sG0CLYP51l13fVcSJvy1DTLgW0TkMCuOVXDALnIYGxs4Xrn/SvE4nmY7lIf1D86oWrkP1UMddFRpMyMZk1igloj64tgcV3s37wY48UsQN00b"
+  DATABASE_URL: "AgAQhE/9FC3WRRStHB7cPApa60NspiiGJYtXhioQfikxswXw43BTA6aqaj3a4ySaTjhY9xv5DcOEFLK0GY9XmNaD6lMN4GbiOwP/DGQHssLpLQvCd+CicMmgi7+/7y6HGtXoN8IRlfAEycsmb1LpzEVVHOal/EDvG0k12RJjKU43lQsn9lp4InCnaxwze9GUk/9MLw4eTQDvkb9pLv71ZI0JwUSxr3rU1bbyDtk/AZeaHoqWdDFTnWnoiO+E1MesCxq8II4mnYyw/yYhX3Y1RvSIjBDsg6Vgy6HzF58n9VkIWBcpyKwOE9A+b8K1IrMk1gnle6FZM8c3K7Dcejg78CDBmTIym4nfGpk4MW7b2hRWJubP/HGebu22yXCH1x/jkhLkfD+1YGUDeIi3m5aeMZjqEEkGVl0ZMlegkNYGmkBkXzRPBIP3RGXjKaxnpuyhAlDfHXoPDCVnMyKpIhKw/Sg4T9MKcXUFcCPlivYCTGqt3HXOinO6hZSLVwCn+s2/B1aH7BR9KbnkGPcsBw9SI+Fnwn0McDHBRfg1206Utpj1NI272v5B67t402veqoxeGdiAU1xQhBGYoNXbhAXSudV+yjOp2S0rH7U0rFYe9FfQg6vgsSDYQXdVCZUnzALitD41fjvM7jjURZusubCoEeu3cwtsdMbY8FPvmVpJ1ybbBIfKq9kGS9d+nl2qyuGFzui3bd4r84kin70tGrYpyPxYZNKcH+0k144EB/qv5VD6qyv5UO1ftc5CEGwcfNZ/zfrWOqVa24GI004ifhiP5Q=="
+  ENVIRONMENT: "AgAf+ea4X36PWvNiJi+ooYWtj35hJz2aipJ94swohC15XB4HrUyO3E09UaPDXNTCwaTGUxj+FJ1U8rvY5hhVYLIIERlwClFunhebo41G4wZLZ4pBAonTBBe5lJGC7VCh/WmvD2SwQQuKR02my2lRRVgrmtVFIZ+4txmn1nlF/qUuXVvhFQ8VL4z6jByL8vAGedRRtVg53mkMFw5TulE79M8gL8nbbF4S2tIusd5z7Op7GqOIEnocJ8UIv732TDD0ttCPU0dbqF2QSBjjZVLIsx7uhYXKx3Le30Ih7CZ34+8TYtq2T+75JdASeisNvtUN1Ipt0MO9+ZUKdRrEkvCTasH8T759v8wwCAVRmlVtI5fO9lt5TVlrJSVdDmZW3y0V8RWaAeDVD5v1uKJU6qQms5RJbsR/LxwDVnTfMOIzN8W0FKfonFgumDDGSpEagp2ZziZLWRpAmZU8GB7x97O+JwilfMEkx8+QzBrmcezu07E4MlIg/eiOggS28sN33cafFuspB/DvfTe6/udoWpdgkxBTQS5vgc+5/vv3Ej0/fd88bLveRpOfoKLGVRUAxUOtBiRL+7oDGR9+maZJZGUaalTpX+aCUVNwLFMVTO0rFZTfAreIUVXvItCtgDipoABgDo3BYsMn9yGpNrXEXc6tEpxxSRLFpkHDdSL+j/534asLRUciXkhaYwem/TslqJ7yh2XRxL6h0U+T5oq5"
+  JWT_SECRET_KEY: "AgBYBEOIUUAQSV2/KQ889ADjyS32ytyMDVdkIu//ino/OqOXfZNLu++Kam9qWf+VSxRiww+YK1ggHgHtfPVYQOrgbwPzcNa+zKJAkBu0h8hgU7kpAOBQVHUX6cadolWTsgV8oFn4VQAzvfflM4fCz5Y2tnu1i8kiyxLqRMsnMI56HCPKCEZJd65Jrki0lRZJ8kPod+D4hLlo57mYVXil9VD/z9Wo8QqQO4kcxC0IV4pIvlEHbeI8loouz9C+zQC2mvKx4XLCcjLv7zqPbffB+qgMt6SzYzRQz8A5XlK+gdIRuY/WanOQ9hZqsKddNjdGOF62IoJEQ76fLdzVEPj3VSNv5xf2eKeQd6a/fSve4BYMB1Xv+bfKDll3fVcnttGjCC0w3KO1CPIVMPIcyyL0+Er87/WjPnwl0TtP0yDetIqMZREaOJ76aQL0JtTkQD58y4fcclvihtOnfjI1MzYnvyGo8jw814r4/9xF+lemLTQzA/45f2ZrJznbENLo5defFqXK7hT9sEhZpGblVEOsqhCj2f2AoB2SJMR9bfRZBMibuf+eFM6emsYWd+ZxBKbVyA88Pxn6rNgnWPYS71OVZ8koWMs/V4xxxaAU2BiR7VEsWMYn0Z1cUczi0QtkzkPCuzM+qlyIz7JFOyIhduzgGCJRku02UJsjun+XS8ZLdts1T5GDx5tGWvnCJAM3hW7enZhn0I00fNOdXA+2HRUKNYYD0d5U7bJPcd2yynOLAqmEiUH+JvBT+/vuuvKhipmwEPqCvBIeZ4CVH8CFQrTjN9vjo+Zd3POGK/U88EW43v2SmsLyOplasDKITObH"
+  RABBITMQ_URL: "AgCNd0ZMd26tO1iRrA8c8DrEOze1JhX2QQT8woR4wmskHVCq+mpZ6uij72JV4OaCBFgCbaa6Q1o2H937GfK5UnlBKOnq1mPYySCCIp0QEEN7iDOzLdhKjxi1SbgW9RHcv8PLVO2m+mZRSB2SrhyLPdr+4FzKlgdcZmoG66XGFmgOiXjFCgAqdEyWYgqihX7RzQhlDN7SZGzz0RpmoBWafYOwsmX9oZMHXG36vEmp78X0kmYXwLfo/hJEPz+q/CbIsofavrTzYYj6nucNXaedUis2pQrnMe05MdtoOoLnfbdT80qlX08F/c6Xj+OC6Ca92w9pJpQYuzKhiTV+hBpqejM4jz7M8H9yRYELE5rNsALcNLrt/0ZdJjhOrAh2HeEb1tJcg6QnIVB4rfq19voFPwUYriDJP2tqk17ozLCk4IyfX9nihLTSDttnNstKHf5/yhOQ6kZ56Jc1tanhsABVCeY10poBmisVoHgYUrVJrmPehhMNQwJC5+cDcacqoWzmSsgLyjB3PG0fTwRIxW8vvJRAeuaz9kM7PpEFCSoV5vcw/hNv6/dmfUzmzZjfNT3KUvR8NDkE0jSz6piMa55CtzmJMxwPQ+QDpFPcENldl0qk35O4/HFJEB4T73tdX6bJUb3IeQ/UPl3R0js1eeLJEz56uWR4N5o2tYKuvJSOefftqsdKlBbmxtG8FmwcnWPaM7/yKfnp9IVU28vPfbvduLRjVVz9QN8pwlAW26JBomrCeHY3W6yDu7HJAvFrJHw="
+config:
+  INVOICE_SERVICE_URL: "http://invoice-service:3000"
+serviceAccount:
+  create: true
+  name: ""
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 80
+strategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxUnavailable: 1
+    maxSurge: 1
+affinity:
+  enabled: true
+  podAntiAffinity:
+    enabled: true
+    type: preferredDuringSchedulingIgnoredDuringExecution
+    weight: 100
+    topologyKey: kubernetes.io/hostname
+resources:
+  limits:
+    cpu: "200m"
+    memory: "300Mi"
+    ephemeral-storage: "500Mi"
+  requests:
+    cpu: "100m"
+    memory: "150Mi"
+    ephemeral-storage: "250Mi"
+probes:
+  startup:
+    enabled: false
+    path: /api/v1/payments/health
+    periodSeconds: 5
+    timeoutSeconds: 2
+    failureThreshold: 12
+  readiness:
+    enabled: true
+    path: /api/v1/payments/health
+    periodSeconds: 5
+    timeoutSeconds: 2
+    failureThreshold: 3
+  liveness:
+    enabled: true
+    path: /api/v1/payments/health
+    periodSeconds: 10
+    timeoutSeconds: 2
+    failureThreshold: 3

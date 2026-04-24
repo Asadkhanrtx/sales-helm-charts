@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.fullname }}
+  namespace: {{ .Values.namespace }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+  labels:
+    {{- toYaml .Values.labels | nindent 4 }}
+
+spec:
+  replicas: {{ .Values.replicaCount }}
+
+  strategy:
+    type: {{ .Values.strategy.type }}
+    rollingUpdate:
+      maxUnavailable: {{ .Values.strategy.rollingUpdate.maxUnavailable }}
+      maxSurge: {{ .Values.strategy.rollingUpdate.maxSurge }}
+
+  selector:
+    matchLabels:
+      {{- toYaml .Values.selectorLabels | nindent 6 }}
+
+  template:
+    metadata:
+      labels:
+        {{- toYaml .Values.selectorLabels | nindent 8 }}
+
+    spec:
+      automountServiceAccountToken: {{ .Values.pod.automountServiceAccountToken }}
+      serviceAccountName: {{ .Values.serviceAccount.name }}
+
+      {{- if and .Values.affinity.enabled .Values.affinity.podAntiAffinity }}
+      affinity:
+        podAntiAffinity:
+          {{ .Values.affinity.podAntiAffinity.type }}:
+            - weight: {{ .Values.affinity.podAntiAffinity.weight }}
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    {{- toYaml .Values.selectorLabels | nindent 16 }}
+                topologyKey: {{ .Values.affinity.podAntiAffinity.topologyKey }}
+      {{- end }}
+
+      containers:
+        - name: frontend-container
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+
+          ports:
+            - containerPort: {{ .Values.containerPort }}
+
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}

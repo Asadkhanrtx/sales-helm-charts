@@ -1,0 +1,42 @@
+headlamp:
+  replicaCount: 1
+
+  service:
+    type: ClusterIP
+    port: 80
+
+  config:
+    inCluster: true
+    baseURL: "/"
+    oidc:
+      clientID: "headlamp"
+      clientSecret: "SonC3XVKFR28e2ngvJOPIVE20aK3JB53"
+      issuerURL: "https://test-keycloak.opslora.com/realms/opslora-test"
+      scopes: "openid,email,profile"
+      callbackURL: "https://test-k8s-dashboard.opslora.com/oidc-callback"
+
+  # Keep RBAC deliberate. Review the upstream chart defaults in your environment.
+  serviceAccount:
+    create: true
+
+httpRoute:
+  enabled: true
+  name: headlamp-route
+
+  gateway:
+    name: opslora-gateway
+    namespace: opslora-gateway-ns
+
+  hostname: test-k8s-dashboard.opslora.com
+
+  path:
+    type: PathPrefix
+    value: /
+
+  urlRewrite:
+    enabled: false
+    replacePrefixMatch: /
+
+  backend:
+    name: headlamp
+    port: 80

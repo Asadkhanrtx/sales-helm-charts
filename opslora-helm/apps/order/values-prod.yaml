@@ -1,0 +1,84 @@
+fullName: order-service
+replicaCount: 3
+
+image:
+  repository: ghcr.io/kube-pod404/opslora-order-service
+  tag: "9e536c5"
+  pullPolicy: IfNotPresent
+
+global:
+  host: opslora.com
+
+secretName: order-secret
+
+config:
+  CUSTOMER_SERVICE_URL: "http://customer-service:3000"
+
+serviceAccount:
+  create: true
+  name: ""
+
+pod:
+  automountServiceAccountToken: false
+
+strategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxUnavailable: 0
+    maxSurge: 1
+
+route:
+  hostnames:
+    - opslora.com
+  path:
+    type: PathPrefix
+    value: /api/v1/orders
+  backend:
+    name: ""
+    port: 3000
+
+affinity:
+  enabled: true
+  podAntiAffinity:
+    enabled: true
+    type: preferredDuringSchedulingIgnoredDuringExecution
+    weight: 100
+    topologyKey: kubernetes.io/hostname
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 150Mi
+    ephemeral-storage: 300Mi
+  limits:
+    cpu: 100m     
+    memory: 300Mi
+    ephemeral-storage: 500Mi
+
+probes:
+  startup:
+    enabled: false
+    path: /api/v1/orders/health
+    periodSeconds: 5
+    timeoutSeconds: 2
+    failureThreshold: 12
+  readiness:
+    enabled: true
+    path: /api/v1/orders/health
+    periodSeconds: 5
+    timeoutSeconds: 2
+    failureThreshold: 3
+  liveness:
+    enabled: true
+    path: /api/v1/orders/health
+    periodSeconds: 10
+    timeoutSeconds: 2
+    failureThreshold: 3
+
+secrets:
+  ACCESS_TOKEN_EXPIRE_MINUTES: "AgDERRaPNIBy0uxNCQyrIvOdOGOH/ayFRQ+b9CfiaqEbFZz2STi+AEB6t+T4mSdNtnR+0EaIZbjz4A70Z2Yu+MOSu4t/HipYD3CgAMoviBebQLfRM5jJq6GE9w9XCC/QEeZXil/0peDUKczVONfD92nYoplDlDlD84aKa8iYF65zsqXlyFsF0nGSikff78QNsZupG443FORewM9Ynh3S8fjDXJB8k0smhoCN3nHNINh7p9AU9BT+fkpBkSFB/X6G3IzR0QzlLbqGxE7Ij9oaUTX2y3dIEFigtQhaM2NwTzGclqDdNwcg/KAAh5C+q3g9zHcPiTVirEMIBYeD7xh481AFjDl5+Z5cIpRrW//NQT3hhxYI88F4bDiTxo8Hz+HLUTxq1VvKJDlhAjYlAXSvu1+fSkEbwgxKCpLNINngumiKw+h18ZR3QdgOCr5OPA3v1cgYqM+izkn4gkGKnewAWHBLrdy96F1H44xJquQvqqcYVNoHtIXPYO/B+YINoZmqnsXSvNRJRPwMlgdHpZ3er0UaTgep/K6LEk4W0S0k5QFsLHq9kvyjdYdtSHT7dqQDm0HIESAZBrl7jcRPEbaZyKZif75IyszAcxt20+7W7kJkZgZplvB6Zko5lI4/rMFh/1I0Ur5Xkm+rYRBY+K4KY9z9zOwBCCSCJFNWYaRIKfoN8RdK6E/Nvd4ob/VMeuoWnFpl5/Q="
+  API_URL: "AgCqgaItSUVbxwhhETpoAMwJfrRXT6Kwvp61IhWsH6OpmSXjAe45BQ/p9S/8N2dtRwqfZSDWAMQxbMEGj0aDKgWYywE22OHfSQ2rYHTb2XxxTWcSkN2xGLhim7u2pKNNPVhpcMSEkR3zYKIlv8nVye/BPqD3zSEKXiA84VquvQ7TIyDFga8k9u2T3I1/LfJhPdpptEP2mNHhOmozXmVkkktx0q1pfEKvy5KofVDwDtB41C+wl6Hm50l1uwMXebY6vlnNSF2kB9IrgKUgQhN9VmcZofUBZkIujrqqHdpBILgBFcW0n75tJOa5ZEEteZmxQp52ykrBIYfBP5AAopvXCnfNip1RDL3HWkb/zlbsFZaJzf3hoyYguV79HkxVZJ7vKq141hEYGvvLFEpQ2CZcpLNgVUmOQn8SqGjlto97XjMtrrBzAE6A19/lLHjosnch9rayAdo9kBh/5Ouzbs188RfMbA9BbXIa6xLcgSlJ3KIkhM/7gWyCvsg/ZZBR3iaR6+kzX9yiTKxlPyweQYoaNQONCxtMo+qtYYhkzQ3VyyR8MjRmzrKeQlrS7PNOWc4WyDumhhGpB86z9iQm42UGG2A1IhD3w+BSX31sjDBPjq+9ejXaglJwSCjvOkgG3cYsodO1ciREue9pTzDEiuRgx9gKoUgIllnfIx8aoCJ7CnSleeU8fXfutzk+VNDne4pEYbqQaroBgdvO"
+  DATABASE_URL: "AgDOHUBoSdwSUJIaVKIl8I1f9WdoEXgD2jg+u1XFCbxlRg8rY+wEOXvbJSYY2yBVXExuWPufyQ3NRUc77k2dXhT+l82pRzDjzHXmJiSuI7eRuy7IMd0lyF6oidhqJkTBhmuas1reR+xMtvUF6gRT+1DVeVcOAaM9iqNWC6b+C8uSsnAeNgsKcFRBOuNyRunCQG3oG8Q3hWXDSpl37r5Y/P0bpMadfwXNOoiOWQyTZ/hE1en8VkSSVLnb10Xs+RudpqqrQv2WDF5XYwQ6Tuc+QxRhvT/B4Qg7FF6dck/BvRNNJJSU3VcbCWvnxPrtP6fopHU/PX7YJTaxn0cAfWjQVs/3E0mFjhPQB4+ymvhmrFNGzEmILJd2BBs2LghSBspLEfyT+oZjLVM0O3jpEljvacqDocvF/DIPgFjEyOTlRkGkHX8fsMXTG0OkvzbC5SZJ+F1EIp4fRKrLmh5ZgU8SZ1lHjsloCpomXZPMuI9t+6+bwIZz1OwCzyBKnrS/ElhZicgMsJpaqnwrhCjkAhSGjMUKh4DLWvoEd3ItyFcwPYWHObuHp4bXH9g4gVdpprEH/XBEJcKlQpqL/yiteoMe7fuXY26OPW/OdavZDZt6Xrj4isEkqTXzggk+3kwSnFCHbQXYOBHu/Lq1LRnqx5mwbG81Si9+10/o+FPk5THZY7WCi1Z0MCUzJYrrmQax3uFzQ5VpoZqQKW7sT773iVE6d5cyQ1rneOc3qjgy71COCKdeVdqBa1Lpxuh6GW/VKxxqbSdN51bZZqoZVGc2cGcZdpagpmvC"
+  ENVIRONMENT: "AgCDDxHC8QbB9sXLcbUIfsjy2az+dB/YP8hZYVzRZwIOrnYy6xHWKAE20+C+zx1nu4DPNGX5kEHV4gamwMN5kPrWTB9ZDsJvd723mHFr3fzFQWyLxe+3td4JWDDw5gZk5K6tgXRTSCQaV6kCNMFo+wj+IojXkIL2HKa5JWm5zZAsbfUxuBSPaHgSSCSv8cfNE+J4ykfelOalN5Flx5mYYwKjuHkta7Y1GEZmZVuueqgoHEIzvCwMcI4XheyDJ/SVKEunGRYx61VhjCB8SZpayCXMGNyCaoWxy4B9S5lMmzrpJSXuGJemQ640fDuKJWXqXGnxJyl5XB/KpX4AYXLf5hkQcxEtPj048iVBc1iL4dtI3X3hbpjpP1WvFOWolTHzzDWNL95zEQXyHMpR+bfA3OJc8kj7zcAWt3b5BNHkNe7UhfiQHPDoQGkEpc2fk5+gcSOUrMedMgOCIdV2OW2DGpuEYSSQ2u35zlwO7kAkhpLxFCAE3hiwCR6rEtYJ/Brq3OIsOjCejmbEmB9EtcRW+4Y+YQiY7eyeAZwECCZJ1gREiYaBlf3YTW470FStM0Igj1QqR623DOJgVR+IqsKekn65VwfAnSI1Yu3G7IUbcMnRPXbmlK+lwDYHbp1/hpohCcdWhzq8Mw+9hQ92HG7MuUEdTUuohc3sHuYMTdpGn9AfWPVtFNaBCTI4xjcmoCLHjLC8WE4iG1uTdknW"
+  JWT_SECRET_KEY: "AgCRDOpL0MKfWwaB+DuJwGTx+W9szFUPEq8h89XSx3m/c5qyh78ZOZ/YUEv2TPSd5GkNykneFMVaH44i4JLpttDDviL0v9btyvRNsmXHuf6HG+SWyzvUmVZLykdWN7hQiwnokB93cBL4NOHClwz1yK3hbkjaKRQS++MpzghZwE2oUqI154JfEmA0jZTqcn4C6PCa11JXPQvHZKdfJ8xet0qPVqfuRs3ZPbjhLznEXmLWlEalaBZvcA20brqQLsMoSOpaxsMF0AA83aR4A4JAfFDZyg3s4lx+HfgHiSWTlGjb7XrGsdzCXNBe/2x4YAFfLiBbD3Bj3y6XZ+cbX+WAdBzI4beKnLAKkd7nKNTcSZlb3GJNJkcMQbOPqJ0FNMbGFw4izeg/WwXFBzRG72jVEeocy++yUbqvZvZl4sgKaV3BE9Gkrj6opIsJ5UcubB0LEPB3UsInWMLdm1psjEO0VZpaduq8lGv/JbUGzYG+AxDgioD5hjwriumPukjggMK0pUDslBxHox5cqQGiCzBDU1ISPrpTfdjINduur/ZMlxZYZ37y4oeJt45XhK1Bupws0Piv5bLbQxUd1GnhTBG7+WH2E5hMxff+1yrZ5Y5Wx2ksx4qRv8jmMLt9UdTdfLZN9fVsAcqfneDQLMpWvf7wNvIVFsmI5ZrWm//UUA/maCqAfLGxJIbFnRSOW6SFSB/TOAPi/1pCxfJLLOpoUEloRDx5VM5goETd9/vGOm1gwU2e2O3bx1fIkhZCPPHztZxDPRPjbLmUx1UHn5HpiN5o4uo5K8qPr3dIdgY/WZ21Nyk9SbSMEZARd/OyoVk0nL/aFz0Thx9KpcmRUHgLuWCAGBl2aw6tfMPvX6u2sdJU1n2ADqncxhV41FXi6Le33Hm5JytMBWIXdPziCdOTcUoYMGTqUt4pB0bKRpKCNcdSONgArbX87/wLrxjv1gFCSxPPDMeVwn7ZOTdlRq5cYWwbFq5a/G3QmHhoKBzgtelWQp9sxzG7IfXuS+0npigj3EpfNKeINQNVmZ7BhgNhYSSwm01nBvHh2++2EaCTUeYOtHtfvJApW8pDRrRRT309tVq+pubsoJzCXA50Pz49sUvSwbnwo6++Ubm5lUMw8V0uxMLysbXhmIE5kByCMgEexu2TObEpGbhJeHY="
+  RABBITMQ_URL: "AgDDAX0Vrq15JeUlEyV+lpk6h+sTGhbf13WqoXPCsLD6OHLwjF2hnkbGRFr6QqH+9/pkATZxqLyT8ZL5fxsMhzBndj6T7Th27NKG8zIZPIa+LPzuAu0ygcDNlrXnilMJvyqpy7+7L3ff9VHX+IYDC3OO55iqjEAjSdZvxXMuEY5+nIlS5b0GpomjNW1dt/KXxKw4B2XZojLdEcYSKpFNaPl3qeOAD3ac/YW3td9jF7YKppcnaGfC+tfOj3JykoLALZDkGXkpkja2pFFhyYeTAO63xN5UTVU1sK+XZeOsxvWp4V4QV8tjqhBIwAbmMzAeqJ+5phhCLenGIYmqfyZ37gLeoYpJ+PNhEDZqy0eyZiNYPA81mUzBNLmzVDQanDbRztX8nxLXc8oxwCvD+KomrUM67gxD4bcjULT8d2sFwBCif5QMq8pdxyH1ws2r4km39s3/+qbRDHa6ZC3Bm8ZTRdFwGHdi76IELJsCVMvArg9vkaTKtU3o/HzuxTSwOY1UkwXhUHnirhumryebwu341RCuaOL5GR3wJCS0Ulrj3Et4rVTymZmi6qBEsogJjGUnOT8QVgllJ0lL9Q4aff7r6dyp+FmBeKI7c9TOndqw0hKrEaZLeS9OwPMOxyMcq+UBc9uYpgVr2FFueKncV9xe23fE4s9r07hl8+pv27XIEFIUWCNEaPv5lf7iDIZ7VL9uq8F4l4L80dEcGne9w4h4Z/aJbySh1A7CkQ3TtvebqJF8A+1JlCKYhYxEBPDbbEZiQjU="

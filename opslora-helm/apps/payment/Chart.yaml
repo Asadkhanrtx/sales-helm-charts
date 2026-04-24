@@ -1,0 +1,10 @@
+apiVersion: v2
+name: payment
+description: payments microservice for Opslora
+type: application
+version: 0.1.0
+appVersion: "1.2.2"
+
+annotations:
+  artifacthub.io/description: "payments service"
+  artifacthub.io/license: Apache-2.0

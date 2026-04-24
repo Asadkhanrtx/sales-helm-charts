@@ -1,0 +1,10 @@
+apiVersion: v2
+name: app-namespace
+description: Namespace for Opslora applications with gateway access
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
+
+annotations:
+  artifacthub.io/description: "Application namespace with shared gateway access"
+  artifacthub.io/license: Apache-2.0

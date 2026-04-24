@@ -1,0 +1,4 @@
+apiVersion: v2
+name: grafana-agent
+version: 0.1.0
+description: Grafana Agent for log collection

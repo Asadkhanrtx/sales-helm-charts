@@ -1,0 +1,10 @@
+apiVersion: v2
+name: order
+description: Order microservice for Opslora
+type: application
+version: 0.1.0
+appVersion: "1.2.2"
+
+annotations:
+  artifacthub.io/description: "Order service"
+  artifacthub.io/license: Apache-2.0

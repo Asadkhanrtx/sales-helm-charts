@@ -1,0 +1,40 @@
+fullname: frontend-service
+
+replicaCount: 3
+
+image:
+  tag: "v1.0.0"
+
+route:
+  name: frontend-route
+  hostnames:
+    - opslora.com
+
+resources:
+  requests:
+    cpu: 150m
+    memory: 256Mi
+  limits:
+    cpu: 300m
+    memory: 512Mi
+
+strategy:
+  rollingUpdate:
+    maxUnavailable: 0
+    maxSurge: 1
+
+pod:
+  automountServiceAccountToken: false
+
+affinity:
+  enabled: true
+  podAntiAffinity:
+    type: preferredDuringSchedulingIgnoredDuringExecution
+    weight: 100
+    topologyKey: kubernetes.io/hostname
+
+autoscaling:
+  enabled: true
+  minReplicas: 3
+  maxReplicas: 6
+  targetCPUUtilizationPercentage: 70

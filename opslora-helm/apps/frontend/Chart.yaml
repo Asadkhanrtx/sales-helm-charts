@@ -1,0 +1,10 @@
+apiVersion: v2
+name: frontend
+description: Frontend service for Opslora
+type: application
+version: 0.1.0
+appVersion: "v1.0.0"
+
+annotations:
+  artifacthub.io/description: "Frontend web service"
+  artifacthub.io/license: Apache-2.0

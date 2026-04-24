@@ -1,0 +1,10 @@
+apiVersion: v2
+name: storage
+description: StorageClass for Opslora platform
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
+
+annotations:
+  artifacthub.io/description: "NFS CSI StorageClass for persistent workloads"
+  artifacthub.io/license: Apache-2.0

@@ -1,0 +1,52 @@
+kube-prometheus-stack:
+  grafana:
+    enabled: true
+    adminPassword: admin
+
+    additionalDataSources:
+      - name: Loki
+        type: loki
+        access: proxy
+        url: http://loki-read.monitoring.svc.cluster.local:3100
+        isDefault: false
+        jsonData:
+          maxLines: 1000
+          timeout: 60
+        editable: true
+
+    service:
+      type: ClusterIP
+
+  prometheus:
+    prometheusSpec:
+      serviceMonitorSelectorNilUsesHelmValues: false
+
+  alertmanager:
+    enabled: true
+
+
+# =========================
+# GATEWAY CONFIG (UNCHANGED)
+# =========================
+
+httpRoute:
+  enabled: true
+  name: prometheus-grafana-route
+
+  gateway:
+    name: opslora-gateway
+    namespace: opslora-gateway-ns
+
+  hostname: test-grafana.opslora.com
+
+  path:
+    type: PathPrefix
+    value: /
+
+  urlRewrite:
+    enabled: false
+    replacePrefixMatch: /
+
+  backend:
+    name: prometheus-stack-grafana
+    port: 80

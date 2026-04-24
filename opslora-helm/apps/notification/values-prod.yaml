@@ -1,0 +1,79 @@
+replicaCount: 3
+
+image:
+  repository: ghcr.io/kube-pod404/opslora-notification-service
+  tag: "3559058"
+  pullPolicy: IfNotPresent
+
+rabbitmq:
+  host: rabbitmq
+  port: 5672
+
+secretName: notification-secret
+
+pod:
+  automountServiceAccountToken: false
+
+serviceAccount:
+  create: true
+  name: ""
+
+strategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxUnavailable: 0
+    maxSurge: 1
+
+affinity:
+  enabled: true
+  rabbitmqPodAffinity:
+    enabled: true
+    weight: 50
+    topologyKey: kubernetes.io/hostname
+    labelKey: app
+    labelValues:
+      - rabbitmq
+  podAntiAffinity:
+    enabled: true
+    type: preferredDuringSchedulingIgnoredDuringExecution
+    weight: 100
+    topologyKey: kubernetes.io/hostname
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 150Mi
+    ephemeral-storage: 300Mi
+  limits:
+    cpu: 100m     
+    memory: 300Mi
+    ephemeral-storage: 500Mi
+
+probes:
+  startup:
+    enabled: false
+    path: /health
+    periodSeconds: 5
+    timeoutSeconds: 2
+    failureThreshold: 12
+  readiness:
+    enabled: false
+    path: /health
+    periodSeconds: 5
+    timeoutSeconds: 2
+    failureThreshold: 3
+  liveness:
+    enabled: false
+    path: /health
+    periodSeconds: 10
+    timeoutSeconds: 2
+    failureThreshold: 3
+
+secrets:
+  FROM_EMAIL: "AgCO+om5jrWGExF8ORiYVWD81Q4o1f2zzxSTdsG+MWrVfULu5g3GWGj8cLMqQrZ0YWJuwzI2GXS/UBsQF6xos1m8Dl+E10RDgXam9+27GJzR6ySCGF2h07IAbMR1i7Iyg6wTZFK3mY/gkcS7bwHKouW+Y0DKKWGT0G5o9P/IRxN665W9BvsrDjrvLy7d+T12ufHKgad3ALJ+cPP+4HYRZReOepfF6L10LTSPJ6rH7TRYJsjXU9nAJLxTNKmEDZ5+Ezz2LgBJTsd9f9fypliaNUk7t6SwRuXKQrVxz3bcpoJBTWuFK7vlt3J5a79IgpChCkt7Oxq58/gbdS9ODh9/0/aWgxWn/ZwXaAuiVcY1rCcHz4o2i/glUPgt4M/r/1mmseU/Gt21frvEmdwxtKc7QSySsbXqIXeBNsnNuWT2iqYK89B5tNvjTn1XcfbGf0PlhqVofwLMy47RBZBi3c0Dav6J6c6lW+WHW9bzV3HMM5SWl8ht/r/1RAPZBOiQGEi2N5Elldae9PfLLxJnz9/v9DI/qIOZUWRrh/FkQWvJpqT+oK+9oOAQva4j1imqY9Guuk5xyPhy9nRWzI+JuhdFP7SQAyZJFDLoZLQx5hqxqMYew9DOecgv90ep6PHko6PIRx9QGk9Z6sEtQ94Pbje0KzKbxdI/08YvSMTbBC3o3xgnyBdgFhCT+1rRoqXfAD/Ds+RnBoSS4mwb0NsEHErIwv6b+9rBaGVIbJQ="
+  FROM_NAME: "AgCarCkcpxDB9ck9ZlFA7qeeJhSeW57+PSrWVeta4TDcqfDW/c+FxgSAm4rqeGzxT+62KndJvr5Md1PAWynhbCcAPkzUEAJmDQ20tgWYo2ydaCwGFJCSu915KBQgIsffTDmdewAtS5uiCBE4ujHr8VkvGviiH+IPgMLKUj0K4MCubud08vtU7yTaI26BXAMQE8REbR5wjeVvQBYwYTal5KuexkhYnHDSZrl5vXU3jr8cP/Rp/zbICnen1BXFF17yu4sWkHwm1mqqSy0LoyH4oNaggh71OMelaeGF00SbcpOewYChc26zNmp71SXNDd/HsGS1HGqIkTie6753M4g5RhWhuVnNoOLKRlbjleN1aBaRh5SEI2l6sPZcr8LzyeUNtJE8ELzEhA8seS0rJrXZbBcx1T3Vwdltiu7vdBHwuj88+ibS+fTwWR4HOk/qFba3PkaHKu/yL7U4H8ColrYz0EJ0JUpfaotlaIoqtOl3Fj24vVr3bsYyqkl+yGS1qMWqVrcO1Sahl3ECmQvUdtl84iYZkCBu/vH2GbuxD3caeSopv/9L+UTF++Yi1tCfqkfilCqT38iY5eSoD/eE7zHUvOTeMpW1VaFWfBiD/7MCKEiRN6zZ3ugIi6fqGxjtfeUuPfVzPHpd3BBGRzKDXSCBUjI0Wiuv0t5MMs0tix66lDD1w3MnidwqNVYVVVmdkMZ8ac1Y+lyrzLSz"
+  RABBITMQ_URL: "AgChDEHnn3ZqUofQrNi3GmHqGKA7Jxf8sAQMHkgHLvoz5KjhnUGyEkurBTuCV+zO57ubM9ADrRtxS0RD41+dCmp1b38saJY6vuXcaTAYfr2EYl5Yf8wgwflF6l6AeuqZ8AwzG69R2e/CzrW6OGUq6SDTNCrfQRRfRobVgukwZSlowxuwyVWh/cGTKyIgcyvMpTSalwtsFCejnu0rcmTQDQEm5XVPu8evY4f5334YhJTgXjM3Mw+bx5BoiaVhzK6wWHWnWSckIrYriainu+vc/8NcFQLIoAkBOCOKL51EQFJ/udhioPAqRQwFB2SYzv0oxwyM59viqAS+iJreNI35URfdg2Couxjl6+FQl/6WvX2ffMzf7V45HyUGziLnZJ0a4b0wBO/qDxfnkZ0dt0GeGIa3El8PIAeIxgOohyZi555h4P31h1oU+3fGQDz3uGTVH5OrmeJwqsl87ajsBQYsNBw6qI+cxo57QdZZ4F4tvMjH3k2UTRFFGAMGjINknayyOuV4soamPIj8JgdIcsMryO/hAnTmilS/gblo56kFDGV26f+02b1nvN4yeLX8jWspIBulJfpn26dCnVncklGIP0x7xW+W8vKk2K9md2/pbNXoC7qLdg1j1+0Od9tX1h2U1WkWEMmoM9nQSrM/GU6yw3+8XK3yxj2lqQWnlvGwvHDAvXgXYgjVkhXsJ7kIhi3oYEtNP1mQprSjfdTyx4dHMWfwunPgY8awISkHhY2NpRydhJMRpvjGC2eZa6tbBt6nckM="
+  SMTP_HOST: "AgABuj2SlhnN6LudAIY57LOsMlCiDTzGGCzXgXx3YITc6AueE36n1e/ku+zPb7/FnPayO6ncyhIWcQM+NycGyt4kNpykdz9OtCwfk9zreYSXmLxIts5wA8w4VDd4Odjr0uEl0w0HiBerwNcaVOpXGa/4HYcKh8tBAjQz6y85z7nR/IFmaZ98qLmk7e8OYGOFDuBMPuhmKX5oV4NUj222/ItdSa1/FJvjYLwQebg1r8d6xmg184vKgBEf1R+yQ45Z9pBhncN0V/SAdUoAWR605RdkJnH8TfTZCalCSJxvIwa/q23/C/bRgkk98gM37+/gMiRdfeDZerbHKZJQjkgVo2lcrN6gCECKlIqXqwi2TzCkLgq+G/obldTOD5wO5wbyaSqBDnBVPnsdvVGDTlBaIhmEm5Oj1Y7hC2iRtf54Ih8wrJu1Cs6HBpM/4XEBoJTkF+jeAkoV61PMFkaV8FvWf/J/XF1s6ktUW2f1zdFUXSP4qKox50aKygCnV0KCLK8Ru1F0Re82chKbHgmKUwsiMMx8QlLYgrt9+YhWbp63JOAKpequ6354YESunBJtAfCvxyx4Q4x0sa6KQFp5YF1SAxeOVtZ5EugF06WdIiEvBTSrjqpx7QOi2YxdGDnJ3ujTDDkB7qiyjEuFzvVX89gy7i3p3pY++/qVPEWSOZG/WHrXYYWoXmoHj8A5P98QXyTnZ2+wKqny8cZr81oSDLDJC5Ubv18="
+  SMTP_PASS: "AgAQV65tHxr5fVH7+tKzUqxME/BOUCWJvbK8sh22Q6wloTiRpWsqth6efKdMjNmbHhFByclIu6YonERuM6FWv99cX7iihD0MEvbUGiQ7TAVGtjt0o5slrgk/QTX6eqOCbq2JzQ1+PM2Z5oxYKxRp2nybRWta+03rD58SBUdYpF6ttOUEWZ+V5KlGt/7OiCU9W3ET90eIKh6M+SWQ4/gYHqtNM2ZMJoL/CTZUsORg/LbKy50VUDkAs6jSbDoUxXjKwh6kZdHjE3dAE53H9WMUZpvJJ8Ml/zjmXASUOozB/rzbm3efSdVQoemBG1G7LzkEm/23f+CEl+dXSnaoYjAJaC1dupTipfbc3oPX+g6T73VQ6fH7li0UAuxpRqzuVtX1t2db0YSlivK1zrO05cB6ICgxSIsejxx7Zy5cUCxR3X9yQhU+AMNw63MDCDMLm+BgKjubi4dmJ1b09E69P5+MUG+IIXnUJ6sYmIqkLVgRc/V0zwNp8j+XMljofhHLbe5VNKsyuLzLdxxNlz1ZMdyChGocvEabKoglzcErhHKUgYDWqDCkwS02iHCU/HhpUEaQXWtpKPgGPY4+NNigjyJa/9nbiQ9/AtGk4Mc7S8znvJp2/3UDi1S6gmh/NHQKSw5sjq/Dx7SnRN/2S5h7EPZ4OUEIbltW92SftSrHgQpVIV71nYDWsuu3hdS9hGfFY/I5RdwwMvNsoFumXaj4fSIhSMc="
+  SMTP_PORT: "AgCQX/B5VMUh+OriAJ9gPPKKCqO9zIHmH/284i+1Q4dfxdHGRWFO8K3TUPWLmVvBnfuYfAi49rOL8lCeUPQa+MbGo5yQO718ggszLGlHI6S0AR5kO6UrFRFAMQfwxwnKh9O2vKvXJ25rBNH4LPxfWd8qk00k4LTg+lMwAXuV5rNWGlzgJIrJqhoUhk0FRo8bQ4h5OTcz7H3DeJqtBCgPZX9sxtPun87ZEPJI0SWeIbLMyE5+1Nkbz+f5ZkO3R4Gr3a/qRwopPmKhJJmEwjhcMNl2/yhGOGjAxP9mCa16nHiwMs2+UujVhWYwZIbBF97lnsdpdcGHR9TvMVgK7PxMoC/Uv6PNynAXhv8uhNLp4ioFVi+kEt/uCHNFmT4F0X5ZhQi1+jB7QiATSqb0dRdJ8HZX7JHeIUztrTs8XRUh5JOz9ri5CNUm3nk5/hK5RhQvYPuE3hmgxNi764ABlab6eaJGRjuOzLWZr39NP0hHXD1IIWAo5kTt962TF7UxB10pkx+FV3Ep+4bo7OIW7wQKr8iTwVH/5omZFo/98qfPR+juFXpYbUzOCclXtR/kidXRh4aKK3DWGCmjI39Ctt3C33aJ9L5rPWqaSAm6hCPY/eh1gqcSCuDJSss32t9dXeQbVudkctsoLeZMjnFClHZ2XZC7aTq7ZeW+wf+wHNToznFsg7AN3/BXg09bYn3U6pffgB/LGNo="
+  SMTP_USER: "AgARC/eSSpIxuOtejSto+En0s/qu5YNTCMzsQV6iDMTX8Cp4Z0QolVJeKdznBsywrrJ4kiN35glkwqF8Rfy2+uteRgXx2EfmbVHyIKRVwuu0oPjXp39CeDZ3dwxWj+Ap88KMt85m3yXZV1ZKUhXdX02fpRy8XJdB3KWE8tZQ1/Gq4KQ1CqUmUTS3ThgKZsTGqa7GhSj3keYe6OPlOtTfoNAOVf0XfIc8uqIT9henOX9DJ0kff9MtNCaCalZXaRo5NyPNBU06EW/aSdHsu+lPPD3uzb90SYDwOOT6HC1AoWRT4vNxeyMwg2bW+/1WqSvoNzrL6vgqdDPJX8WWLhYrVtG6cOmpObtK55WOwQbrc5xmGOwbpLFcmdBu6OAGi6TjtCMH28+2QPqUzr/imimDEhp4oUhogd83l9au0ZzJI6dNm6U9ifY9MACjDsX+fSh96+ZgfaltrPxjA7gkOwAmc8drmU0xFbFp3PPOhkkXXl+DXfTPZNpXrMVBMU29uAliYWeSYSLBx67QidT6jWzO6gOvxAPfQuilDa0CH+P1P0EFFnn9y5Ug2DANSPi0ESmgYGBqouAk3vZ1dSAftnv+sZzdr1fC2yTJcmNMs6ozCLeNB8oxZvyYNvZV8YIwrZvN5quByXLEUbvnsXZQvz0ZI8/uYoECHkHcaXNqUbkzXHBwv6CJlOPGzT6n1Ss+OFBhM5mrTKPxYFtPEE3OdKkMjOa7HGK2CBAVkP8="

@@ -1,0 +1,29 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: {{ .Values.route.name}}
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+  labels:
+    {{- include "order.labels" . | nindent 4 }}
+
+spec:
+  parentRefs:
+    - name: {{ .Values.gateway.name }}
+      namespace: {{ .Values.gateway.namespace }}
+
+  {{- $defaultHost := .Values.global.host }}
+  {{- $hostnames := .Values.route.hostnames | default (list $defaultHost) }}
+  hostnames:
+    {{- range $hostnames }}
+    - {{ . | quote }}
+    {{- end }}
+  rules:
+    - matches:
+        - path:
+            type: {{ .Values.route.path.type }}
+            value: {{ .Values.route.path.value }}
+
+      backendRefs:
+        - name: {{ .Values.fullName }}
+          port: {{ .Values.route.backend.port | default .Values.service.port }}

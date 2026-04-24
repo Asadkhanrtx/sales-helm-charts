@@ -1,0 +1,10 @@
+apiVersion: v2
+name: mysql
+description: MySQL database for Opslora platform
+type: application
+version: 0.1.0
+appVersion: "8.4"
+
+annotations:
+  artifacthub.io/description: "MySQL StatefulSet with persistent storage"
+  artifacthub.io/license: Apache-2.0
